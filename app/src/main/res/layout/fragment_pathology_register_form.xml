@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/loginViewsMargin">
+
+        <TextView
+            style="@style/headerTextPrimary"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="@string/register" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/inputTextPathologyCenterName"
+                style="@style/modifiedEditText"
+                android:hint="Pathology Center Name"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/inputTextPathologyCenterPhoneNumber"
+                style="@style/modifiedEditText"
+                android:hint="Mobile Number"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/bodyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"
+
+                    android:text="@string/pathology_center_district_label" />
+
+                <Spinner
+                    android:id="@+id/pathologyCenterDistrictSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/bodyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"
+
+                    android:text="@string/pathology_center_subdistrict_label" />
+
+                <Spinner
+                    android:id="@+id/PathologyCenterSubDistrictSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/inputTextPathologyCenterDesignation"
+                style="@style/modifiedEditText"
+                android:hint="@string/pathology_center_register_signup_address_hint"
+                android:inputType="textPassword"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+
+            <EditText
+                android:id="@+id/inputTextPathologyCenterPassword"
+                style="@style/modifiedEditText"
+                android:hint="@string/login_password_hint"
+                android:inputType="textPassword"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <ButtonChamber
+            android:id="@+id/pathologyCenterSignUpButton"
+            style="@style/loginButton"
+            android:layout_gravity="center"
+            android:text="Register" />
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

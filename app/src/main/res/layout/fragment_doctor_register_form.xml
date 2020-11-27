@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/headerTextPrimary"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="@string/register" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/inputTextDoctorName"
+                style="@style/modifiedEditText"
+                android:inputType="text"
+                android:maxLines="1"
+                android:hint="Name"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/inputTextDoctorPhoneNumber"
+                style="@style/modifiedEditText"
+                android:inputType="text"
+                android:maxLines="1"
+                android:hint="Mobile Number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/inputTextDoctorBmdcId"
+                style="@style/modifiedEditText"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:hint="@string/register_doctor_bmdcId_hint"/>
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_gravity="center"-->
+
+<!--            android:layout_marginTop="20dp"-->
+<!--            >-->
+<!--            <TextView-->
+<!--                android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/bodyTextView"-->
+<!--                android:text="@string/gender_label"-->
+<!--                android:layout_gravity="center"-->
+<!--                />-->
+<!--            <RadioGroup-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                style="@style/parent"-->
+<!--                android:layout_marginLeft="20dp"-->
+
+<!--                >-->
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radioDoctorGenderMale"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="@string/gender_male"-->
+<!--                    style="@style/radioButton"-->
+<!--                    />-->
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radioDoctorGenderFemale"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="@string/gender_female"-->
+<!--                    style="@style/radioButton"-->
+<!--                    />-->
+<!--                <RadioButton-->
+<!--                    android:id="@+id/radioDoctorGenderOthers"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="@string/gender_others"-->
+<!--                    style="@style/radioButton"-->
+<!--                    />-->
+
+
+<!--            </RadioGroup>-->
+<!--        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/bodyTextView"
+                android:text="@string/doctor_specialized_area_label"
+
+                android:layout_gravity="center"
+                />
+            <Spinner
+                android:id="@+id/DoctorSpecializedAreaSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+
+                android:id="@+id/inputTextDoctorDesignation"
+                style="@style/modifiedEditText"
+                android:hint="@string/doctor_register_signup_designation_hint"
+                android:maxLines="1"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/parent"
+
+            android:layout_marginTop="@dimen/signup_text_margin_top">
+            <EditText
+                android:id="@+id/inputTextDoctorPassword"
+                style="@style/modifiedEditText"
+                android:hint="@string/login_password_hint"
+                android:maxLines="1"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/DoctorSignUpButton"
+            style="@style/loginButton"
+            android:layout_gravity="center"
+            android:text="Register" />
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

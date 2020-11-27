@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".registration.fragment.SelectUserFragment"
+    android:layout_height="333dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/modifiedEditText"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:text="Sign Up As"
+            android:gravity="center"
+            />
+        <LinearLayout
+            style="@style/parent"
+            android:padding="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            >
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                >
+                <RadioButton
+                    android:id="@+id/radioPatient"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/patient"
+                    style="@style/radioButton"
+                    />
+                <RadioButton
+                    android:id="@+id/radioDoctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/doctor"
+                    style="@style/radioButton"
+                    />
+                <RadioButton
+                    android:id="@+id/radioChamber"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/chamber"
+                    style="@style/radioButton"
+                    />
+                <RadioButton
+                    android:id="@+id/radioPathology"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/pathology"
+                    style="@style/radioButton"
+                    />
+
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

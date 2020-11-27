@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    style="@style/loginParent"
+    tools:context=".registration.RegisterActivity">
+    <ScrollView
+        style="@style/parent">
+
+        <RelativeLayout
+            style="@style/parent"
+            android:id="@+id/relative"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:weightSum="12">
+
+                <LinearLayout
+                    style="@style/parent"
+                    android:background="@drawable/login_shape_bk"
+                    android:orientation="vertical"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        style="@style/parent"
+                        android:background="@drawable/ic_login_bk"
+                        android:contentDescription="login background" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/formContainerLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp">
+
+
+                <TextView
+                    style="@style/headerText"
+                    android:layout_gravity="center"
+                    android:text="@string/app_name"
+                    android:layout_marginTop="40dp"/>
+                
+<!--                <include-->
+<!--                    android:id="@+id/regCard"-->
+<!--                    layout="@layout/fragment_select_user"-->
+<!--                    />-->
+                <FrameLayout
+                    android:id="@+id/formContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/closeRegisterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel" />
+            <LinearLayout
+
+                android:id="@+id/signInHint"
+                android:layout_marginTop="662dp"
+                style="@style/parent"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/signInOptionTextView"
+                    style="@style/parent"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryTextColor"
+                    android:text="@string/signup_login_hint"
+                    />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_alignTop="@+id/signInHint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                style="@style/parent"
+                android:padding="20dp"
+               >
+                <TextView
+                    android:id="@+id/previousPageTextView"
+                    style="@style/parent"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryTextColor"
+                    android:text="Previous"
+                    android:layout_alignParentLeft="true"
+                    />
+                <TextView
+                    android:id="@+id/nextPageTextView"
+                    style="@style/parent"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryTextColor"
+                    android:text="Next"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
+
+
