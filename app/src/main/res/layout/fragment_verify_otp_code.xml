@@ -19,6 +19,7 @@
 
         <TextView
             style="@style/parent"
+            android:id="@+id/showPhoneNumberTextView"
             android:paddingLeft="3dp"
             android:textStyle="bold"
             android:textSize="30sp"
@@ -45,15 +46,39 @@
                 android:maxLines="1"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Didn't receive code?"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            >
 
-            style="@style/parent"
-            android:paddingLeft="3dp"
+            <TextView
+                android:id="@+id/resendOtpCode"
+                style="@style/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            />
+                android:clickable="true"
+                android:gravity="left"
+                android:paddingLeft="3dp"
+
+                android:text="Didn't receive code? Resend"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/codeStatus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:clickable="true"
+                android:id="@+id/codeStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                style="@style/parent"
+                android:layout_alignParentRight="true"
+                android:paddingEnd="1dp"
+                />
+        </RelativeLayout>
+
 
 
 

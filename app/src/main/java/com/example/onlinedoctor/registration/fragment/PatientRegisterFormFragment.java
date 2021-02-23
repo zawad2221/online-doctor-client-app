@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.service.autofill.RegexValidator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import com.example.onlinedoctor.R;
@@ -32,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 
 public class PatientRegisterFormFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+    private String DEBUGING_TAG="DEBUGING_TAG";
 
     private String verifyOptTag="VERIFY_OTP_FORM";
 
@@ -46,6 +48,7 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
     private EditText mNameEditText, mPhoneEditText, mNidNumberEditText, mPasswordEditText;
     private RadioButton mGenderMaleRadioButton, mGenderFemaleRadioButton, mGenderOthersRadioButton;
     private Button mRegisterButton;
+    private TextView mDateTextView;
 
     private String name, phoneNumber, nidNumber, password;
 
@@ -68,6 +71,7 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
         mPhoneEditText = view.findViewById(R.id.inputTextPatientPhoneNumber);
         mNidNumberEditText = view.findViewById(R.id.inputTextPatientNid);
         mPasswordEditText = view.findViewById(R.id.inputTextPatientPassword);
+        mDateTextView = view.findViewById(R.id.date_text_view);
 
         mGenderMaleRadioButton = view.findViewById(R.id.radioPatientGenderMale);
         mGenderFemaleRadioButton = view.findViewById(R.id.radioPatientGenderFemale);
@@ -83,6 +87,8 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
 
         initBloodGroupSpinner();
         datePickerAction();
+        initViewModel();
+        setPreviousDataInForm();
 
 
 
@@ -96,14 +102,22 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
             public void onClick(View v) {
                 getDataFromView();
                 if(isValidateInput()){
+                    saveDataInViewModel();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.formContainer,new VerifyOtpCodeFragment(),verifyOptTag)
                             .commit();
-                    mRegisterViewModel.setCurrentSelectedFragment(verifyOptTag);
+                    mRegisterViewModel.setCurrentSelectedFragment(RegisterViewModel.AllRegisterFragment.VERIFY_OTP_FORM);
                 }
             }
         });
+    }
+    private void saveDataInViewModel(){
+        mRegisterViewModel.setPatientName(name);
+        mRegisterViewModel.setPatientPhoneNumber(phoneNumber);
+        mRegisterViewModel.setPatientNidNumber(nidNumber);
+        mRegisterViewModel.setPatientPassword(password);
+        mRegisterViewModel.setPatientBloodGroup(bloodGroup[bloodGroupSpinner.getSelectedItemPosition()]);
     }
 
     private void genderMaleRadioButtonOnClick(){
@@ -132,16 +146,47 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
     }
 
     private void setGender(String gender){
-        mRegisterViewModel.setGender(gender);
+        mRegisterViewModel.setPatientGender(gender);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initViewModel();
 
-        mRegisterViewModel = new ViewModelProvider(this.getActivity(),
-                new RegisterViewModelFactory(this.getActivity().getApplication(),"test"))
-                .get(RegisterViewModel.class);
+    }
+
+    private void initViewModel(){
+        if(mRegisterViewModel==null)
+            mRegisterViewModel = new ViewModelProvider(this.getActivity(),
+                    new RegisterViewModelFactory(this.getActivity().getApplication(),"test"))
+                    .get(RegisterViewModel.class);
+    }
+
+    private void setPreviousDataInForm(){
+        Log.d(DEBUGING_TAG,"set previous data1");
+        if (mRegisterViewModel.getPatientName()!=null){
+            Log.d(DEBUGING_TAG,"set previous data2");
+            mNameEditText.setText(mRegisterViewModel.getPatientName());
+            mPhoneEditText.setText(mRegisterViewModel.getPatientPhoneNumber());
+            mNidNumberEditText.setText(mRegisterViewModel.getPatientNidNumber());
+            if (mRegisterViewModel.getPatientGender().equals("male")){
+                mGenderMaleRadioButton.setChecked(true);
+            }
+            else if (mRegisterViewModel.getPatientGender().equals("female")){
+                mGenderFemaleRadioButton.setChecked(true);
+            }
+            else if (mRegisterViewModel.getPatientGender().equals("others")){
+                mGenderOthersRadioButton.setChecked(true);
+            }
+            setDateOnDateTextView(
+                    mRegisterViewModel.getDateOfBirthYear(),
+                    mRegisterViewModel.getDateOfBirthMonth(),
+                    mRegisterViewModel.getDateOfBirthDay()
+            );
+
+        }
+
     }
 
     private void getDataFromView(){
@@ -177,7 +222,7 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
             Snackbar.make(this.getView(),"select birth date",Snackbar.LENGTH_LONG).show();
             return false;
         }
-        if(mRegisterViewModel.getGender().isEmpty()){
+        if(mRegisterViewModel.getPatientGender()==null){
             Snackbar.make(this.getView(),"select gender",Snackbar.LENGTH_LONG).show();
             return false;
         }
@@ -187,11 +232,24 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
 
     }
 
+    private void setDateOnDateTextView(int year, int month, int day){
+        mDateTextView.setText(year+"-"+month+"-"+day);
+    }
+
     private void datePickerAction(){
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newFragment = new DatePickerFragment();
+                newFragment = new DatePickerFragment(new DatePickerFragment.OnDateSelectListener(){
+
+                    @Override
+                    public void onDateSelect(int year, int month, int day) {
+                        setDateOnDateTextView(year, month, day);
+                        mRegisterViewModel.setDateOfBirthDay(day);
+                        mRegisterViewModel.setDateOfBirthMonth(month);
+                        mRegisterViewModel.setDateOfBirthYear(year);
+                    }
+                });
 
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
 
@@ -221,8 +279,17 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
+        public static OnDateSelectListener mOnDateSelectListener;
 
-        private RegisterViewModel mRegisterViewModel;
+        public static interface OnDateSelectListener{
+            public void onDateSelect(int year, int month, int day);
+        }
+
+        public DatePickerFragment(OnDateSelectListener mOnDateSelectListener) {
+            this.mOnDateSelectListener = mOnDateSelectListener;
+        }
+
+//        private RegisterViewModel mRegisterViewModel;
         private int year, month, day;
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -246,18 +313,19 @@ public class PatientRegisterFormFragment extends Fragment implements AdapterView
             this.day = day;
             this.month = month;
             this.year = year;
+            mOnDateSelectListener.onDateSelect(year, month, day);
 
-            mRegisterViewModel.setDateOfBirthDay(day);
-            mRegisterViewModel.setDateOfBirthMonth(month);
-            mRegisterViewModel.setDateOfBirthYear(year);
+//            mRegisterViewModel.setDateOfBirthDay(day);
+//            mRegisterViewModel.setDateOfBirthMonth(month);
+//            mRegisterViewModel.setDateOfBirthYear(year);
         }
 
         @Override
         public void onActivityCreated(@Nullable Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            mRegisterViewModel = new ViewModelProvider(this.getActivity(),
-                    new RegisterViewModelFactory(this.getActivity().getApplication(),"test"))
-                    .get(RegisterViewModel.class);
+//            mRegisterViewModel = new ViewModelProvider(this.getActivity(),
+//                    new RegisterViewModelFactory(this.getActivity().getApplication(),"test"))
+//                    .get(RegisterViewModel.class);
 
         }
 

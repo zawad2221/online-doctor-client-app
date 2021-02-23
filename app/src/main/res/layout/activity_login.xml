@@ -49,6 +49,7 @@ tools:context=".login.LoginActivity">
                 android:text="App Snipp"
                 android:layout_marginTop="40dp"/>
             <include
+                android:id="@+id/loginForm"
                 layout="@layout/layout_login"/>
 
         </LinearLayout>

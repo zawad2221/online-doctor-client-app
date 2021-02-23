@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Online Doctor</string>
     <string name="register">REGISTER</string>
-    <string name="login_email_hint">Email</string>
+    <string name="access_token">pk.eyJ1IjoicmlmYXQyMjIxIiwiYSI6ImNrOWMybXVvbjAwdGgzdHBmMnFzZWR6eXQifQ.mR1wwf0eO3DZSxlzId-0cA</string>
+    <string name="login_phone_number_hint">Phone Number</string>
     <string name="login_password_hint">Password</string>
     <string name="signup_login_hint">Already have an account? Sign In</string>
     <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
@@ -21,6 +22,11 @@
     <string name="blood_group_label">Blood Group</string>
     <string name="pick_date">Select Date Of Birth</string>
     <string name="register_doctor_bmdcId_hint">BMDC Reg</string>
+
+    <string name="map_key">"AIzaSyA7vacsW9bch9OJHKLuMgP2hasTRMOn-bw"</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA7vacsW9bch9OJHKLuMgP2hasTRMOn-bw</string>
+
+
     <string name="doctor_specialized_area_label">Specialized Area</string>
     <string name="doctor_register_signup_designation_hint">Designaion</string>
     <string name="chamber_register_signup_address_hint">Chabmer Adderss</string>

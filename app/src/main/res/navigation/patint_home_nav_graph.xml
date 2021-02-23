@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/patint_home_nav_graph"
+    app:startDestination="@id/patientHomeFragment">
+    <fragment
+        android:id="@+id/patientHomeFragment"
+        android:name="com.example.onlinedoctor.patient.fragment.PatientHomeFragment"
+        android:label="Patient Home"
+        tools:layout="@layout/fragment_patient_home" />
+</navigation>

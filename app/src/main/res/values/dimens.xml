@@ -9,5 +9,7 @@
     <dimen name="loginViewsMargin">20dp</dimen>
 
     <dimen name="signup_text_margin_top">10dp</dimen>
+    <dimen name="drop_down_item_height">59dp</dimen>
+    <dimen name="register_login_hint_top_margin">630dp</dimen>
 
 </resources>

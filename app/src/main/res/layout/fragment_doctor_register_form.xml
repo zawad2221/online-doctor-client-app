@@ -39,7 +39,7 @@
             <EditText
                 android:id="@+id/inputTextDoctorPhoneNumber"
                 style="@style/modifiedEditText"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:hint="Mobile Number"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -50,7 +50,7 @@
             <EditText
                 android:id="@+id/inputTextDoctorBmdcId"
                 style="@style/modifiedEditText"
-                android:inputType="textEmailAddress"
+                android:inputType="number"
                 android:maxLines="1"
                 android:hint="@string/register_doctor_bmdcId_hint"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -121,7 +121,7 @@
                 android:layout_gravity="center"
                 />
             <Spinner
-                android:id="@+id/DoctorSpecializedAreaSpinner"
+                android:id="@+id/doctorSpecializedAreaSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -140,7 +140,7 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/doctor_register_signup_designation_hint"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

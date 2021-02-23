@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/place_type_option_recycler_view_item"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="9dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    android:background="@drawable/patient_home_specialization_list_item_style"
+
+    >
+    <TextView
+
+        android:id="@+id/specialization_search_recycler_item"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="Rifat"
+        android:textSize="22dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
+
+</LinearLayout>

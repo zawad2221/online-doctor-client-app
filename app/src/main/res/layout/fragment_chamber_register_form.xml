@@ -42,66 +42,66 @@
                 android:id="@+id/inputTextChamberPhoneNumber"
                 style="@style/modifiedEditText"
                 android:hint="Mobile Number"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:orientation="horizontal">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal">-->
 
-                <TextView
-                    style="@style/bodyTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+<!--                <TextView-->
+<!--                    style="@style/bodyTextView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
 
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"-->
 
-                    android:text="@string/chamber_district_label" />
+<!--                    android:text="@string/chamber_district_label" />-->
 
-                <Spinner
-                    android:id="@+id/chamberDistrictSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="30dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+<!--                <Spinner-->
+<!--                    android:id="@+id/chamberDistrictSpinner"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="30dp" />-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal">-->
 
-                <TextView
-                    style="@style/bodyTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"
+<!--                <TextView-->
+<!--                    style="@style/bodyTextView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="@dimen/bodyTextViewLeftMargin"-->
 
-                    android:text="@string/chamber_subdistrict_label" />
+<!--                    android:text="@string/chamber_subdistrict_label" />-->
 
-                <Spinner
-                    android:id="@+id/chamberSubDistrictSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="30dp" />
-            </LinearLayout>
+<!--                <Spinner-->
+<!--                    android:id="@+id/chamberSubDistrictSpinner"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="30dp" />-->
+<!--            </LinearLayout>-->
 
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/parent"
@@ -109,10 +109,10 @@
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
             <EditText
-                android:id="@+id/inputTextChamberDesignation"
+                android:id="@+id/inputTextChamberAddress"
                 style="@style/modifiedEditText"
                 android:hint="@string/chamber_register_signup_address_hint"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

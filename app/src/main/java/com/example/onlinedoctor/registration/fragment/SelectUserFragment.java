@@ -52,13 +52,15 @@ public class SelectUserFragment extends Fragment {
         patientRadioButtonOnClick();
         doctorRadioButtonOnClick();
         chamberRadioButtonOnClick();
+        initViewModel();
+        checkedRadioIfPreviouslyChecked();
         return view;
     }
     private void patientRadioButtonOnClick(){
         mPatientRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSelectedUser("patient");
+                setSelectedUser(RegisterViewModel.AllUserType.PATIENT);
             }
         });
     }
@@ -66,7 +68,7 @@ public class SelectUserFragment extends Fragment {
         mDoctorRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSelectedUser("doctor");
+                setSelectedUser(RegisterViewModel.AllUserType.DOCTOR);
             }
         });
     }
@@ -74,7 +76,7 @@ public class SelectUserFragment extends Fragment {
         mChamberRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSelectedUser("chamber");
+                setSelectedUser(RegisterViewModel.AllUserType.CHAMBER);
             }
         });
     }
@@ -82,12 +84,12 @@ public class SelectUserFragment extends Fragment {
         mPathologyRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSelectedUser("pathology");
+                setSelectedUser(RegisterViewModel.AllUserType.PATHOLOGY);
             }
         });
     }
 
-    private void setSelectedUser(String user){
+    private void setSelectedUser(RegisterViewModel.AllUserType user){
         mRegisterViewModel.setSelectedUser(user);
         Log.d(DEBUGING_TAG, "selected user from selectedUser: "+mRegisterViewModel.getSelectedUser());
     }
@@ -95,11 +97,30 @@ public class SelectUserFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initViewModel();
+    }
 
+    private void initViewModel(){
+        if(mRegisterViewModel==null)
         mRegisterViewModel = new ViewModelProvider(getActivity(),
                 new RegisterViewModelFactory(this.getActivity().getApplication(),
-                "test"))
+                        "test"))
                 .get(RegisterViewModel.class);
-
     }
+
+    private void checkedRadioIfPreviouslyChecked(){
+        if(mRegisterViewModel.getSelectedUser()==(RegisterViewModel.AllUserType.PATIENT)){
+            mPatientRadioButton.setChecked(true);
+        }
+        else if(mRegisterViewModel.getSelectedUser()==(RegisterViewModel.AllUserType.DOCTOR)){
+            mDoctorRadioButton.setChecked(true);
+        }
+        else if(mRegisterViewModel.getSelectedUser()==(RegisterViewModel.AllUserType.CHAMBER)){
+            mChamberRadioButton.setChecked(true);
+        }
+        else if(mRegisterViewModel.getSelectedUser()==(RegisterViewModel.AllUserType.PATHOLOGY)){
+            mPathologyRadioButton.setChecked(true);
+        }
+    }
+
 }

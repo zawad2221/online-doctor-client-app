@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "708618343184",
+    "project_id": "online-doctor-78525",
+    "storage_bucket": "online-doctor-78525.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708618343184:android:60200ad3c9541b11140b95",
+        "android_client_info": {
+          "package_name": "com.example.onlinedoctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708618343184-vnvv64139vie52ccfgv7ehdefl5uqpub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.onlinedoctor",
+            "certificate_hash": "be5bbee8bb4f0ac01cd2154b231ba5f10770be9e"
+          }
+        },
+        {
+          "client_id": "708618343184-puoknh0jq32egt7opuf769oquj1jkheu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2wyh9BX-a9p6-pMDYTKPXu_lJQMYN0MA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708618343184-puoknh0jq32egt7opuf769oquj1jkheu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
