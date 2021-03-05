@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.onlinedoctor.R;
+import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.registration.RegisterActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -38,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private final String LOCATION_PERMISSION_PREFERENCE_FILE_NAME = "location_permission";
     private final String LOCATION_PERMISSION_PREFERENCE_KEY = "show_location_permission_dialog";
 
+    private final String LAST_KNOWN_LOCATION_FILE_NAME = "last_location";
+    private final String LAST_KNOWN_LOCATION_LATITUDE_PREFERENCE_KEY = "last_known_location_latitude";
+    private final String LAST_KNOWN_LOCATION_LONGITUDE_PREFERENCE_KEY = "last_known_location_longitude";
+
     private FusedLocationProviderClient fusedLocationClient;
 
 
@@ -48,18 +55,41 @@ public class MainActivity extends AppCompatActivity {
 //        Doctor doctor= new Doctor();
 //        RegistrationRepository.registration(doctor);
 
-//        initFusedLocationClient();
-//        fineLocationPermission();
-//        Log.d(DEBUGING_TAG,"latest location: "+getLatestLocation());
-        //startActivity(new Intent(this, RegisterActivity.class));
+        initFusedLocationClient();
+        fineLocationPermission();
+        Log.d(DEBUGING_TAG, "latest location: " + getLatestLocation());
+
+
+        startActivity(new Intent(this, ChamberVisitingScheduleForPatientActivity.class));
+        finish();
+
+
+        getLoginUser();
+        if(User.loginUser!=null){
+            if(User.loginUser.getUserRole()!=null){
+                if(User.loginUser.getUserRole().equals("patient")){
+
+                }
+                else if(User.loginUser.getUserRole().equals("doctor")){
+
+                }
+                else if(User.loginUser.getUserRole().equals("pathology")){
+
+                }
+                else if(User.loginUser.getUserRole().equals("chamber")){
+
+                }
+            }
+        }
+
 
     }
 
-    private void initFusedLocationClient(){
+    private void initFusedLocationClient() {
         fusedLocationClient = getFusedLocationClient();
     }
 
-    private FusedLocationProviderClient getFusedLocationClient(){
+    private FusedLocationProviderClient getFusedLocationClient() {
         return LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -72,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
 
 
     //should show the dialog why permission needed
@@ -142,25 +171,24 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 FINE_LOCATION_REQUEST_CODE);
-        Log.d(DEBUGING_TAG,"show location permission dialog");
+        Log.d(DEBUGING_TAG, "show location permission dialog");
     }
 
     private void fineLocationPermission() {
         if (isFineLocationPermissionGranted()) {
             //permission is already granted
-            Log.d(DEBUGING_TAG,"permission already granted");
+            Log.d(DEBUGING_TAG, "permission already granted");
             checkLocationSetting();
 
         } else {
-            Log.d(DEBUGING_TAG,"permission wasn't granted");
+            Log.d(DEBUGING_TAG, "permission wasn't granted");
             //permission wasn't granted
 
             if (getLocationPermissionSharedPreferenceValue()) {
-                Log.d(DEBUGING_TAG,"shouldShowLocationPermissionRequestEducationalDialog: "+shouldShowLocationPermissionRequestEducationalDialog());
-                if(shouldShowLocationPermissionRequestEducationalDialog()) {
+                Log.d(DEBUGING_TAG, "shouldShowLocationPermissionRequestEducationalDialog: " + shouldShowLocationPermissionRequestEducationalDialog());
+                if (shouldShowLocationPermissionRequestEducationalDialog()) {
                     showLocationPermissionRequestEducationalDialog();
-                }
-                else {
+                } else {
                     showLocationPermissionRequestDialog();
                 }
 
@@ -170,18 +198,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private LatLng getLatestLocation() {
         final LatLng[] latestLocation = new LatLng[1];
-        if (!isFineLocationPermissionGranted() && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(DEBUGING_TAG,"get last location permission is not granted");
             return null;
         }
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        latestLocation[0] = new LatLng(location.getLatitude(),location.getLongitude());
+                        Log.d(DEBUGING_TAG,"get last location success locatoin: "+location);
+                        if (location == null)
+                            return;
+                        latestLocation[0] = new LatLng(location.getLatitude(), location.getLongitude());
+                        saveLastKnownLocation(
+                                String.valueOf(location.getLatitude()),
+                                String.valueOf(location.getLongitude())
+                        );
                     }
                 });
         return latestLocation[0];
@@ -205,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 //get location
 
-                Log.d(DEBUGING_TAG,"check location setting success : "+getLatestLocation().toString());
+                Log.d(DEBUGING_TAG,"check location setting success : "+getLatestLocation());
             }
         });
         task.addOnFailureListener(this, new OnFailureListener() {
@@ -231,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case FINE_LOCATION_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
@@ -239,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     // Permission is granted. Continue the action or workflow
                     checkLocationSetting();
 
-                }  else {
+                } else {
                     // Explain to the user that the feature is unavailable because
                     // the features requires a permission that the user has denied.
                     // At the same time, respect the user's decision. Don't link to
@@ -257,9 +293,80 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CHECK_LOCATION_SETTINGS_CODE:
-                Log.d(DEBUGING_TAG,"onActivityResult :"+resultCode+" "+data.getDataString());
+                Log.d(DEBUGING_TAG,"onActivityResult :"+resultCode+" "+getLatestLocation());
         }
     }
+
+    private void saveLastKnownLocation(String latitude, String longitude){
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                LAST_KNOWN_LOCATION_FILE_NAME,
+                MODE_PRIVATE
+        );
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(LAST_KNOWN_LOCATION_LATITUDE_PREFERENCE_KEY,latitude);
+        editor.putString(LAST_KNOWN_LOCATION_LONGITUDE_PREFERENCE_KEY,longitude);
+        editor.apply();
+    }
+    private LatLng getLastKnownLocation(){
+        try{
+            SharedPreferences sharedPreferences = getSharedPreferences(
+                    LAST_KNOWN_LOCATION_FILE_NAME,
+                    MODE_PRIVATE
+            );
+            String latitude = sharedPreferences.getString(LAST_KNOWN_LOCATION_LATITUDE_PREFERENCE_KEY,"null");
+            String longitude = sharedPreferences.getString(LAST_KNOWN_LOCATION_LONGITUDE_PREFERENCE_KEY,"null");
+            LatLng lastKnownLocation = new LatLng(
+                    Double.parseDouble(latitude),
+                    Double.parseDouble(longitude)
+            );
+            return lastKnownLocation;
+        }
+        catch (Exception e){
+            return null;
+        }
+
+    }
+
+    private void getLoginUser(){
+        try{
+            SharedPreferences sharedPreferences = getSharedPreferences(
+                    getString(R.string.LOGIN_USER_FILE_NAME),
+                    MODE_PRIVATE
+            );
+            String userPhoneNumber = sharedPreferences.getString(
+                    getString(R.string.LOGIN_USER_PHONE_NUMBER_PREFERENCE_KEY),
+                    null
+            );
+            String userName = sharedPreferences.getString(
+                    getString(R.string.LOGIN_USER_NAME_PREFERENCE_KEY),
+                    null
+            );
+            String userRole = sharedPreferences.getString(
+                    getString(R.string.LOGIN_USER_ROLE_PREFERENCE_KEY),
+                    null
+            );
+            String userId = sharedPreferences.getString(
+                    getString(R.string.LOGIN_USER_ID_PREFERENCE_KEY),
+                    null
+            );
+            User.loginUser.setUserPhoneNumber(userPhoneNumber);
+            User.loginUser.setUserName(userName);
+            User.loginUser.setUserRole(userRole);
+            User.loginUser.setUserId(Integer.parseInt(userId));
+
+        }
+        catch (Exception e){
+            User.loginUser=null;
+            Log.d(DEBUGING_TAG,"no login user: "+e.getMessage());
+        }
+
+
+
+
+    }
+
+
+
 }
 
 

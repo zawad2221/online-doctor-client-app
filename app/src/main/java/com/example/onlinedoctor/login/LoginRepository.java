@@ -1,10 +1,14 @@
 package com.example.onlinedoctor.login;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
-
+import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.google.android.gms.common.util.RetainForClient;
 
 import retrofit2.Call;
@@ -27,7 +31,7 @@ public class LoginRepository {
         return instance;
     }
 
-    public MutableLiveData<Boolean> login(User user){
+    public MutableLiveData<Boolean> login(User user, Context context){
         MutableLiveData<Boolean> result = new MutableLiveData<>();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8000/user/")
@@ -40,7 +44,9 @@ public class LoginRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()&&response.code()==LOGIN_SUCCESS_CODE){
                     result.setValue(true);
-                    Log.d(DEBUGING_TAG,"login success");
+                    Log.d(DEBUGING_TAG,"login success: ");
+                    saveLoginUser(response.body(),context);
+                    redirectToUserPage(context, response.body());
                 }
                 else {
                     result.setValue(false);
@@ -55,5 +61,42 @@ public class LoginRepository {
             }
         });
         return result;
+    }
+
+    private void redirectToUserPage(Context context, User user){
+        Log.d(DEBUGING_TAG,"redirecting....User: "+user.getUserRole());
+        if(user.getUserRole().equals("patient")){
+            context.startActivity(new Intent(context, MainActivity.class));
+
+
+        }
+
+    }
+
+    private void saveLoginUser(User user, Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.LOGIN_USER_FILE_NAME),
+                Context.MODE_PRIVATE
+        );
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(
+                context.getString(R.string.LOGIN_USER_PHONE_NUMBER_PREFERENCE_KEY),
+                        user.getUserPhoneNumber()
+        );
+        editor.putString(
+                context.getString(R.string.LOGIN_USER_NAME_PREFERENCE_KEY),
+                user.getUserName()
+        );
+        editor.putString(
+                context.getString(R.string.LOGIN_USER_ROLE_PREFERENCE_KEY),
+                user.getUserRole()
+        );
+        editor.putString(
+                context.getString(R.string.LOGIN_USER_ID_PREFERENCE_KEY),
+                user.getUserId().toString()
+        );
+        editor.apply();
+
     }
 }

@@ -45,7 +45,6 @@ public class SpecializationSearchRecyclerViewAdapter extends RecyclerView.Adapte
         final Specialization specialization = specializationList.get(position);
         holder.patientHomeSpecializaionRecyclerViewItemBinding.specializationSearchRecyclerItem.setText(specialization.getSpecializationName());
 
-
     }
 
     @Override

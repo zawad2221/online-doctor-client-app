@@ -1,43 +1,68 @@
 package com.example.onlinedoctor.patient.fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPatientHomeBinding;
+import com.example.onlinedoctor.login.LoginActivity;
+import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Specialization;
+import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.patient.ChamberVisitingScheduleForPatientActivity;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModelFactory;
-import com.example.onlinedoctor.registration.view_model.RegisterViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PatientHomeFragment extends Fragment {
     private String DEBUGING_TAG="DEBUGING_TAG";
@@ -45,10 +70,13 @@ public class PatientHomeFragment extends Fragment {
     private PatientHomeViewModel mPatientHomeViewModel;
     private SpecializationSearchRecyclerViewAdapter mSpecializationSearchRecyclerViewAdapter;
     FragmentPatientHomeBinding mFragmentPatientHomeBinding;
-    private GoogleMap gMap;
+
     private SupportMapFragment supportMapFragment;
 
     private GoogleMap mMap;
+
+    private NavController mNavController;
+    private ProgressDialog progressDialog;
 
 
 
@@ -60,21 +88,46 @@ public class PatientHomeFragment extends Fragment {
             // Add a marker in Sydney and move the camera
             LatLng sydney = new LatLng(-34, 151);
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-            googleMap.setOnCameraIdleListener(cameraIdleListener);
-            googleMap.setOnCameraMoveListener(cameraMoveListener);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(getLastKnownLocation()));
+            googleMap.setOnMarkerClickListener(onMarkerClickListener);
+            //googleMap.setOnCameraIdleListener(cameraIdleListener);
+            //googleMap.setOnCameraMoveListener(cameraMoveListener);
 
             mMap = googleMap;
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    Log.d(DEBUGING_TAG,"location: "+latLng);
+
+                }
+            });
+
+
 
 
         }
     };
+
+    private GoogleMap.OnMarkerClickListener onMarkerClickListener = new GoogleMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            String chamberId = marker.getTag().toString();
+            Log.d(DEBUGING_TAG,"chamber id: "+chamberId);
+
+            mPatientHomeViewModel.selectedChamberId = Integer.parseInt(chamberId);
+            startActivity(new Intent(getActivity(), ChamberVisitingScheduleForPatientActivity.class));
+            return false;
+        }
+    };
+
+
+
     private GoogleMap.OnCameraMoveListener cameraMoveListener = new GoogleMap.OnCameraMoveListener() {
         @Override
         public void onCameraMove() {
-            mMap.clear();
+            //mMap.clear();
 //            mImageViewMarker.setVisibility(View.VISIBLE);
-            Log.d(DEBUGING_TAG,"camera moving");
+            //Log.d(DEBUGING_TAG,"camera moving");
 
         }
     };
@@ -109,11 +162,42 @@ public class PatientHomeFragment extends Fragment {
     };
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void handleOnBackPressed() {
+                Log.d(DEBUGING_TAG,"back button click");
+                Log.d(DEBUGING_TAG,"back button click event :"+mFragmentPatientHomeBinding.searchView.isFocused());
+                if(!mFragmentPatientHomeBinding.searchView.isIconified()){
+                    mFragmentPatientHomeBinding.searchView.clearFocus();
+                    setQueryOnSearchView(null,false);
+                    setSearchViewIconifiedState(true);
+                    changeSpecializationRecyclerViewVisibility(View.VISIBLE);
+                    clearMap();
+                }
+                else {
+                    closeFragment();
+                }
+
+
+
+
+            }
+            private void closeFragment() {
+                // Disable to close fragment
+                this.setEnabled(false);
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,39 +206,104 @@ public class PatientHomeFragment extends Fragment {
         mFragmentPatientHomeBinding = FragmentPatientHomeBinding.inflate(inflater, container, false);
         View view = mFragmentPatientHomeBinding.getRoot();
         initViewModel();
+        mPatientHomeViewModel.initSpecialization();
         initRecyclerView();
+        specializationLiveDataObserver();
+        searchViewOnClick();
+        searchViewOnClose();
 
 
         return view;
 
     }
 
+    private void searchViewOnClick(){
+        mFragmentPatientHomeBinding.searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(DEBUGING_TAG,"search view click");
+                setSearchViewIconifiedState(false);
+            }
+        });
+    }
+
+
+
+    private void searchViewOnClose(){
+        mFragmentPatientHomeBinding.searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                changeSpecializationRecyclerViewVisibility(View.VISIBLE);
+
+                Log.d(DEBUGING_TAG,"search view close");
+                clearMap();
+                return false;
+            }
+        });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initMap();
+        searchViewOnQueryTextListener();
+        mNavController = Navigation.findNavController(this.getView());
+        onProfileClick();
+
     }
+
+    private void specializationLiveDataObserver(){
+        mPatientHomeViewModel.getSpecializationList().observe(this.getActivity(), new Observer<List<Specialization>>() {
+            @Override
+            public void onChanged(List<Specialization> specializations) {
+                initRecyclerView();
+
+                Log.d(DEBUGING_TAG,"data from change: "+specializations.size());
+                Log.d(DEBUGING_TAG,"data from change view model: "+mPatientHomeViewModel.getSpecializationList().getValue().size());
+
+            }
+        });
+    }
+
+    private void chamberLiveDataObserver(){
+        mPatientHomeViewModel.getChamberList().observe(this.getActivity(), new Observer<List<Chamber>>() {
+            @Override
+            public void onChanged(List<Chamber> chambers) {
+                Log.d(DEBUGING_TAG,"loaded chamber data: "+ chambers.get(0).getChamberUser().getUserName());
+                addChamberMarkerInMap();
+
+//                MarkerOptions markerOption = new MarkerOptions()
+//                        .position(new LatLng(-34, 151))
+//                        .icon(bitmapDescriptorFromVector(getActivity(),R.drawable.location_picker));
+//                mMap.addMarker(markerOption);
+            }
+        });
+    }
+
+
 
     private void initRecyclerView() {
         
-        List<Specialization> specializationArrayList = new ArrayList<>();
-        Specialization specialization=new Specialization(1,"Medicine");
-        Specialization specialization1=new Specialization(1,"Cardiologist");
-        Specialization specialization2=new Specialization(1,"Neuro");
-        Specialization specialization3=new Specialization(1,"Pharmacy");
-        Specialization specialization4=new Specialization(1,"Pharmacy");
-        Specialization specialization5=new Specialization(1,"Pharmacy");
-
-        specializationArrayList.add(specialization);
-        specializationArrayList.add(specialization1);
-        specializationArrayList.add(specialization2);
-        specializationArrayList.add(specialization3);
-        specializationArrayList.add(specialization4);
-        specializationArrayList.add(specialization5);
-        mSpecializationSearchRecyclerViewAdapter=new SpecializationSearchRecyclerViewAdapter(specializationArrayList, new SpecializationSearchRecyclerViewAdapter.OnItemClickListener() {
+//        List<Specialization> specializationArrayList = new ArrayList<>();
+//        Specialization specialization=new Specialization(1,"Medicine");
+//        Specialization specialization1=new Specialization(1,"Cardiologist");
+//        Specialization specialization2=new Specialization(1,"Neuro");
+//        Specialization specialization3=new Specialization(1,"Pharmacy");
+//        Specialization specialization4=new Specialization(1,"Pharmacy");
+//        Specialization specialization5=new Specialization(1,"Pharmacy");
+//
+//        specializationArrayList.add(specialization);
+//        specializationArrayList.add(specialization1);
+//        specializationArrayList.add(specialization2);
+//        specializationArrayList.add(specialization3);
+//        specializationArrayList.add(specialization4);
+//        specializationArrayList.add(specialization5);
+        mSpecializationSearchRecyclerViewAdapter=new SpecializationSearchRecyclerViewAdapter(mPatientHomeViewModel.getSpecializationList().getValue(), new SpecializationSearchRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Log.d(DEBUGING_TAG,"tap: "+position);
+                specializationOnItemClick(position);
+                //mFragmentPatientHomeBinding.searchView.clearFocus();
             }
 
         });
@@ -162,6 +311,152 @@ public class PatientHomeFragment extends Fragment {
         mFragmentPatientHomeBinding.specializationSearchRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity(),LinearLayoutManager.HORIZONTAL,false));
         mFragmentPatientHomeBinding.specializationSearchRecyclerView.setAdapter(mSpecializationSearchRecyclerViewAdapter);
 
+    }
+
+    private void setQueryOnSearchView(String text, boolean submit){
+        mFragmentPatientHomeBinding.searchView.setQuery(
+                text,
+                submit
+        );
+    }
+
+    private void specializationOnItemClick(int position){
+        String selectedSpecialization = mPatientHomeViewModel
+                .getSpecializationList()
+                .getValue()
+                .get(position)
+                .getSpecializationName();
+        int selectedSpecializationId = mPatientHomeViewModel
+                .getSpecializationList()
+                .getValue()
+                .get(position)
+                .getSpecializationId();
+        setQueryOnSearchView(
+                selectedSpecialization,
+                true
+        );
+        changeSpecializationRecyclerViewVisibility(View.GONE);
+        setSearchViewIconifiedState(false);
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(12),2000,null);
+        showLoginProgressDialog();
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getLastKnownLocation(),12.0f));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Double[][] cameraLocation = getCameraPositionLocation();//double 2d array, 0 contain latitude range(0 low, 1 upper), 1 contain longitude range(0 low, 1 upper)
+                Log.d(DEBUGING_TAG,"camera position: "+cameraLocation);
+
+                getAndObserveChamberList(selectedSpecializationId, cameraLocation);
+                progressDialog.dismiss();
+            }
+        }, 3000);
+
+
+
+
+    }
+
+    private void showLoginProgressDialog(){
+        progressDialog = new ProgressDialog(getContext(),R.style.Theme_AppCompat_Light_Dialog);
+        progressDialog.setCancelable(true);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading.....");
+        progressDialog.show();
+    }
+
+    private void getAndObserveChamberList(int specializationId, Double[][] locationRange){
+        mPatientHomeViewModel.initChamber(specializationId, locationRange);
+        chamberLiveDataObserver();
+    }
+
+    private void clearMap(){
+        mMap.clear();
+    }
+
+    private void addChamberMarkerInMap(){
+        mMap.clear();
+        for(Chamber chamber : mPatientHomeViewModel.getChamberList().getValue()){
+            LatLng location = new LatLng(
+                    Double.parseDouble(chamber.getChamberLocation().getLocationLatitude()),
+                    Double.parseDouble(chamber.getChamberLocation().getLocationLongitude())
+            );
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(location)
+                    .title(chamber.getChamberUser().getUserName());
+            markerOptions.icon(
+                    BitmapDescriptorFactory
+                    .fromBitmap(createCustomMarker(getActivity(), chamber.getChamberUser().getUserName()))
+            );
+
+
+
+
+            Marker marker = mMap.addMarker(markerOptions);
+            marker.setTag(chamber.getChamberId());
+            Log.d(DEBUGING_TAG,"marker: "+marker.getPosition());
+
+        }
+    }
+
+    //return double 2d array, 0 contain latitude range(0 low, 1 upper), 1 contain longitude range(0 low, 1 upper)
+    private Double[][] getCameraPositionLocation(){
+        //get camera position location
+        CameraPosition cameraPosition=mMap.getCameraPosition();
+        float zoomLevel = cameraPosition.zoom;
+        VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
+        LatLng nearLeft = visibleRegion.nearLeft;
+        LatLng nearRight = visibleRegion.nearRight;
+        LatLng farLeft = visibleRegion.farLeft;
+        LatLng farRight = visibleRegion.farRight;
+        Log.d(DEBUGING_TAG,"camera move, \nnearLeft:"+nearLeft+" \nnearRigth: "+nearRight+" \nfarLeft: "
+                +farLeft+" \nfarRight: "+farRight);
+        LatLng latLng = new LatLng(nearLeft.latitude,farRight.longitude);
+
+        Double[][] locationRange = new Double[2][];
+        Double[] latRange = new Double[]{
+                nearLeft.latitude,
+                farLeft.latitude
+        };
+        Arrays.sort(latRange);
+        Double[] lonRange = new Double[]{
+                nearRight.longitude,
+                farLeft.longitude
+        };
+        Arrays.sort(lonRange);
+        locationRange[0] = latRange;
+        locationRange[1] = lonRange;
+        Log.d(DEBUGING_TAG,"range "+locationRange[0][1]);
+
+        return locationRange;
+    }
+
+    private void setSearchViewIconifiedState(boolean state){
+        mFragmentPatientHomeBinding.searchView.setIconified(state);
+    }
+
+    private void changeSpecializationRecyclerViewVisibility(int visibility){
+        mFragmentPatientHomeBinding.specializationSearchRecyclerView.setVisibility(visibility);
+    }
+
+    private void searchViewOnQueryTextListener(){
+
+
+        mFragmentPatientHomeBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(DEBUGING_TAG,"onQueryTextListener text submit");
+
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d(DEBUGING_TAG,"onQueryTextListener text change");
+                return false;
+            }
+        });
     }
 
     private void initMap(){
@@ -177,6 +472,76 @@ public class PatientHomeFragment extends Fragment {
                 new PatientHomeViewModelFactory(this.getActivity().getApplication(), "test")
         )
                 .get(PatientHomeViewModel.class);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int locationPickerId) {
+        Drawable background = ContextCompat.getDrawable(context, locationPickerId);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        //Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        //vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        //vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    public static Bitmap createCustomMarker(Context context,  String _name) {
+
+        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.marker_view_bubble, null);
+
+//        ImageView markerImage = (ImageView) marker.findViewById(R.id.marker_icon);
+//
+//        markerImage.setImageResource(resource);
+        TextView txt_name = (TextView)marker.findViewById(R.id.marker_title);
+        txt_name.setText(_name);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        marker.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        marker.draw(canvas);
+
+        return bitmap;
+    }
+
+    private LatLng getLastKnownLocation(){
+        try{
+            SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(
+                    getString(R.string.LAST_KNOWN_LOCATION_FILE_NAME),
+                    MODE_PRIVATE
+            );
+            String latitude = sharedPreferences.getString(getString(R.string.LAST_KNOWN_LOCATION_LATITUDE_PREFERENCE_KEY),"null");
+            String longitude = sharedPreferences.getString(getString(R.string.LAST_KNOWN_LOCATION_LONGITUDE_PREFERENCE_KEY),"null");
+            LatLng lastKnownLocation = new LatLng(
+                    Double.parseDouble(latitude),
+                    Double.parseDouble(longitude)
+            );
+            return lastKnownLocation;
+        }
+        catch (Exception e){
+            Log.d(DEBUGING_TAG,"patient home frag get location exception: "+e.getMessage());
+            return new LatLng(-34, 151);
+        }
+
+    }
+
+    private void onProfileClick(){
+        mFragmentPatientHomeBinding.profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(User.loginUser!=null && User.loginUser.getUserId()!=null){
+
+                }
+                else {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
+            }
+        });
     }
 
 

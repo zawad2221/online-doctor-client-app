@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
+
+    public static User loginUser = new User();
+
     @JsonProperty("userId")
     private Integer userId;
     @JsonProperty("userPhoneNumber")
@@ -18,6 +21,8 @@ public class User {
     private String userRole;
     @JsonProperty("password")
     private String password;
+
+
 
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();

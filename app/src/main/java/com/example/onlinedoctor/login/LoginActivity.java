@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             User user  = new User();
             user.setUserPhoneNumber(getPhoneNumber());
             user.setPassword(getPassword());
-            mLoginViewModel.login(user);
+            mLoginViewModel.login(user, this);
             loginResponseObserver();
         }
     }
@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if(response){
                             //login success
+
                         }
                         else {
                             //login failed
