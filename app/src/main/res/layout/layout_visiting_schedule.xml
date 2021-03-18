@@ -21,7 +21,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="@dimen/layout_schedule_left_margin"
-
+            android:textColor="@color/black"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="26dp"
@@ -31,8 +31,9 @@
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/doctorVisitingSchedule"
+            android:layout_height="wrap_content"
+            android:id="@+id/doctorVisitingScheduleRecyclerView"
+            android:layout_below="@+id/specializationFilterRecyclerView"
             />
     </RelativeLayout>
 

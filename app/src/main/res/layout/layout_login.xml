@@ -25,9 +25,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputEmail"
             style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
+            android:layout_marginTop="@dimen/loginViewsMargin"
 
+            >
+            <EditText
                 android:id="@+id/editTextPhoneNumber"
                 style="@style/modifiedEditText"
                 android:inputType="number"

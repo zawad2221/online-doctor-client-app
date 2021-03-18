@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.onlinedoctor.R;
+import com.example.onlinedoctor.databinding.ActivityMainBinding;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.registration.RegisterActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
+    ActivityMainBinding mActivityMainBinding;
     private static final int FINE_LOCATION_REQUEST_CODE = 1234;
     private static final String DEBUGING_TAG = "DEBUGING_TAG";
     private static final int REQUEST_CHECK_LOCATION_SETTINGS_CODE = 1111;
@@ -51,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mActivityMainBinding = ActivityMainBinding
+                .inflate(getLayoutInflater());
+        setContentView(mActivityMainBinding.getRoot());
 //        Doctor doctor= new Doctor();
 //        RegistrationRepository.registration(doctor);
 
@@ -60,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(DEBUGING_TAG, "latest location: " + getLatestLocation());
 
 
-        startActivity(new Intent(this, ChamberVisitingScheduleForPatientActivity.class));
-        finish();
+//        startActivity(new Intent(this, ChamberVisitingScheduleForPatientActivity.class));
+//        finish();
 
 
         getLoginUser();

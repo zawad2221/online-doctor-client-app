@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chamber_visiting_schedule_for_patient"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/chamberVisitingScheduleForPatient"
+    >
+
+    <fragment
+        android:id="@+id/chamberVisitingScheduleForPatient"
+        android:name="com.example.onlinedoctor.patient.fragment.VisitingScheduleForPatientFragment"
+        android:label="Visiting Schedule"
+        tools:layout="@layout/fragment_visiting_schedule_for_patient" >
+        <action
+            android:id="@+id/action_chamberVisitingScheduleForPatient_to_patientMakeAppointment"
+            app:destination="@id/patientMakeAppointment" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientMakeAppointment"
+        android:name="com.example.onlinedoctor.patient.fragment.PatientMakeAppointmentFragment"
+        android:label="Patient Make Appointment"
+        tools:layout="@layout/fragment_patient_make_appointment"
+        />
+
+</navigation>

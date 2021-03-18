@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -69,6 +69,7 @@
     <style name="datePickerButton" parent="parent">
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:textSize">@dimen/newsMoreTextSize</item>
+
     </style>
 
     <style name="dropDown" parent="parent">
@@ -91,6 +92,9 @@
         <item name="android:textColor">@color/whiteTextColor</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+
+
 
 
 

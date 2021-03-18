@@ -111,11 +111,24 @@ public class PatientHomeFragment extends Fragment {
     private GoogleMap.OnMarkerClickListener onMarkerClickListener = new GoogleMap.OnMarkerClickListener() {
         @Override
         public boolean onMarkerClick(Marker marker) {
-            String chamberId = marker.getTag().toString();
-            Log.d(DEBUGING_TAG,"chamber id: "+chamberId);
+            int chamberIndex = Integer.parseInt(marker.getTag().toString());
+            Log.d(DEBUGING_TAG,"chamber index: "+chamberIndex);
 
-            mPatientHomeViewModel.selectedChamberId = Integer.parseInt(chamberId);
-            startActivity(new Intent(getActivity(), ChamberVisitingScheduleForPatientActivity.class));
+            //mPatientHomeViewModel.selectedChamberId.setValue(Integer.parseInt(chamberId));
+            Intent visitingScheduleIntent = new Intent(getActivity(), ChamberVisitingScheduleForPatientActivity.class);
+            visitingScheduleIntent.putExtra(
+                    getActivity().getString(R.string.chamber_visiting_schedule_activity_chamber_id_extra_value),
+                    mPatientHomeViewModel.getChamberList().getValue().get(chamberIndex).getChamberId().toString()
+            );
+            visitingScheduleIntent.putExtra(
+                    getActivity().getString(R.string.chamber_visiting_schedule_activity_chamber_name_extra_value),
+                    mPatientHomeViewModel.getChamberList().getValue().get(chamberIndex).getChamberUser().getUserName()
+            );
+            visitingScheduleIntent.putExtra(
+                    getActivity().getString(R.string.chamber_visiting_schedule_activity_chamber_address_extra_value),
+                    mPatientHomeViewModel.getChamberList().getValue().get(chamberIndex).getChamberLocation().getLocationAdderssDetail()
+            );
+            startActivity(visitingScheduleIntent);
             return false;
         }
     };
@@ -237,6 +250,7 @@ public class PatientHomeFragment extends Fragment {
 
                 Log.d(DEBUGING_TAG,"search view close");
                 clearMap();
+                initRecyclerView();
                 return false;
             }
         });
@@ -375,6 +389,7 @@ public class PatientHomeFragment extends Fragment {
 
     private void addChamberMarkerInMap(){
         mMap.clear();
+        int index=0;
         for(Chamber chamber : mPatientHomeViewModel.getChamberList().getValue()){
             LatLng location = new LatLng(
                     Double.parseDouble(chamber.getChamberLocation().getLocationLatitude()),
@@ -392,8 +407,9 @@ public class PatientHomeFragment extends Fragment {
 
 
             Marker marker = mMap.addMarker(markerOptions);
-            marker.setTag(chamber.getChamberId());
+            marker.setTag(index);
             Log.d(DEBUGING_TAG,"marker: "+marker.getPosition());
+            index++;
 
         }
     }
@@ -467,10 +483,11 @@ public class PatientHomeFragment extends Fragment {
         }
     }
     private void initViewModel() {
-        mPatientHomeViewModel = new ViewModelProvider(
-                this.getActivity(),
-                new PatientHomeViewModelFactory(this.getActivity().getApplication(), "test")
-        )
+        mPatientHomeViewModel = new ViewModelProvider
+                (
+                        this.getActivity(),
+                        new PatientHomeViewModelFactory(this.getActivity().getApplication(), "test")
+                )
                 .get(PatientHomeViewModel.class);
     }
 
@@ -538,7 +555,7 @@ public class PatientHomeFragment extends Fragment {
                 }
                 else {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
+
                 }
             }
         });

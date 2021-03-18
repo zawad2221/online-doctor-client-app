@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Location;
+import com.example.onlinedoctor.model.VisitingSchedule;
 
 import java.util.List;
 
@@ -64,4 +65,6 @@ public class PatientRepository {
         return chamberListLiveData;
 
     }
+
+
 }

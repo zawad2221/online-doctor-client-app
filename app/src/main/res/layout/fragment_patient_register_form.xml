@@ -138,12 +138,13 @@
             <Button
                 android:layout_marginTop="20dp"
                 style="@style/datePickerButton"
-                android:background="@android:color/transparent"
+                android:backgroundTint="@color/white"
                 android:layout_width="wrap_content"
-                android:layout_height="29dp"
+                android:layout_height="wrap_content"
                 android:text="@string/pick_date"
                 android:id="@+id/patientBirthDatePickerButton"
                 android:paddingLeft="3dp"
+
                 />
             <TextView
                 android:layout_marginLeft="20dp"

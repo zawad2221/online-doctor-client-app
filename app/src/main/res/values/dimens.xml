@@ -15,5 +15,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="layout_schedule_left_margin">14dp</dimen>
+    <dimen name="appointment_info_left_margin">11dp</dimen>
+    <dimen name="appointment_info_top_margin">22dp</dimen>
+    <dimen name="appointment_info_text_size">16sp</dimen>
+    <dimen name="appointment_info_fee_top_margin">11dp</dimen>
 
 </resources>

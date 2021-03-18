@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context=".patient.fragment.VisitingScheduleForPatientFragment">
+
+<com.google.android.material.appbar.AppBarLayout
+    android:id="@+id/app_bar"
+    android:layout_width="match_parent"
+    android:layout_height="212dp"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/chamber_info_for_patient_top_shape"
+    >
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:toolbarId="@+id/toolbar"
+        >
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_login_bk"
+            android:contentDescription="login background"
+            android:rotation="180"
+            />
+        <ImageView
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doctor's Visiting Schedule"
+            android:textStyle="bold"
+            android:textSize="21sp"
+            android:textColor="@color/white"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="59dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="136dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chamberName"
+                android:text="Chamber Name"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chamberAddress"
+                android:text="Chamber Address Chamber Address"
+                android:textSize="15dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="11dp"
+                />
+        </LinearLayout>
+
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>
+
+
+
+<include layout="@layout/layout_visiting_schedule"
+    android:id="@+id/scheduleLayout"
+    />
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
