@@ -1,12 +1,13 @@
 package com.example.onlinedoctor.patient;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.onlinedoctor.R;
+import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.Chamber;
-import com.example.onlinedoctor.model.Location;
-import com.example.onlinedoctor.model.VisitingSchedule;
 
 import java.util.List;
 
@@ -65,6 +66,59 @@ public class PatientRepository {
         return chamberListLiveData;
 
     }
+
+    public MutableLiveData<Appointment> makeAppointment(Context context, Appointment appointment){
+        MutableLiveData<Appointment> appointmentMutableLiveData = new MutableLiveData<>();
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.base_url)+"appointment/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        PatientApi patientApi = retrofit.create(PatientApi.class);
+        Call<Appointment> call = patientApi.makeAppointment(appointment);
+        call.enqueue(new Callback<Appointment>() {
+            @Override
+            public void onResponse(Call<Appointment> call, Response<Appointment> response) {
+                if(response.isSuccessful()){
+                    if(response.code()==201){
+                        Log.d(context.getString(R.string.DEBUGING_TAG),"make appoint success repo");
+                        appointmentMutableLiveData.setValue(response.body());
+                    }
+                    else if(response.code()==200){
+                        appointmentMutableLiveData.setValue(response.body());
+                    }
+
+                }
+
+                else {
+                    Log.d(context.getString(R.string.DEBUGING_TAG),"make appoint unsuccessful repo");
+                    Appointment appointmentFailed = getFiledAppointment();
+                    appointmentMutableLiveData.setValue(appointmentFailed);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Appointment> call, Throwable t) {
+                Log.d(context.getString(R.string.DEBUGING_TAG),"make appoint failed repo");
+                Appointment appointmentFailed = getFiledAppointment();
+                appointmentMutableLiveData.setValue(appointmentFailed);
+            }
+            private Appointment getFiledAppointment(){
+                Appointment appointmentFailed = new Appointment();
+                appointmentFailed.setAdditionalProperty(
+                        context.getString(R.string.DATA_FETCH_FAILDED_STATUS_KEY),
+                        context.getString(R.string.DATA_FETCH_FAILED_STATUS_VALUE));
+                return appointmentFailed;
+            }
+        });
+        return appointmentMutableLiveData;
+    }
+
+
+
+
+
+
 
 
 }

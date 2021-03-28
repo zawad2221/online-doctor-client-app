@@ -1,43 +1,28 @@
 package com.example.onlinedoctor.patient;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.onlinedoctor.databinding.ActivityChamberVisitingScheduleForPatientBinding;
 
-import com.example.onlinedoctor.databinding.VisitingScheduleForPatientBottomSheetBinding;
-import com.example.onlinedoctor.model.Specialization;
-import com.example.onlinedoctor.model.VisitingSchedule;
+import com.example.onlinedoctor.databinding.MakeAppointmentLayoutBinding;
 import com.example.onlinedoctor.patient.adapter.ChamberVisitingScheduleRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
-import com.example.onlinedoctor.patient.fragment.PatientMakeAppointmentFragment;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
-import com.example.onlinedoctor.patient.view_model.PatientHomeViewModelFactory;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import com.example.onlinedoctor.R;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.util.List;
 
 public class ChamberVisitingScheduleForPatientActivity extends AppCompatActivity {
     private PatientHomeViewModel mPatientHomeViewModel;
     private SpecializationSearchRecyclerViewAdapter mSpecializationSearchRecyclerViewAdapter;
     private ActivityChamberVisitingScheduleForPatientBinding mActivityChamberVisitingScheduleForPatientBinding;
     private ChamberVisitingScheduleRecyclerViewAdapter mChamberVisitingScheduleRecyclerViewAdapter;
-    private VisitingScheduleForPatientBottomSheetBinding mVisitingScheduleForPatientBottomSheetBinding;
+    private MakeAppointmentLayoutBinding mMakeAppointmentLayoutBinding;
 
 
 
@@ -49,7 +34,7 @@ public class ChamberVisitingScheduleForPatientActivity extends AppCompatActivity
         mActivityChamberVisitingScheduleForPatientBinding = ActivityChamberVisitingScheduleForPatientBinding
                 .inflate(getLayoutInflater());
         setContentView(mActivityChamberVisitingScheduleForPatientBinding.getRoot());
-        mVisitingScheduleForPatientBottomSheetBinding = VisitingScheduleForPatientBottomSheetBinding
+        mMakeAppointmentLayoutBinding = MakeAppointmentLayoutBinding
                 .inflate(getLayoutInflater());
 
         initViewModel();

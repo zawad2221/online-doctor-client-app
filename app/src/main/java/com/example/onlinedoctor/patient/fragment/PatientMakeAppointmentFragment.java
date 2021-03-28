@@ -1,30 +1,62 @@
 package com.example.onlinedoctor.patient.fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.example.onlinedoctor.DateAndTime;
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPatientMakeAppointmentBinding;
+import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.Patient;
+import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.model.VisitingSchedule;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
+
+import java.util.List;
 
 
 public class PatientMakeAppointmentFragment extends Fragment {
-    private PatientHomeViewModel patientHomeViewModel;
+    private PatientHomeViewModel mPatientHomeViewModel;
     private FragmentPatientMakeAppointmentBinding mFragmentPatientMakeAppointmentBinding;
-
+    private ProgressDialog progressDialog;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void handleOnBackPressed() {
+                closeFragment();
+            }
+            private void closeFragment() {
+                // Disable to close fragment
+                this.setEnabled(false);
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
     }
 
@@ -40,6 +72,80 @@ public class PatientMakeAppointmentFragment extends Fragment {
         return mFragmentPatientMakeAppointmentBinding.getRoot();
     }
 
+    private void getBookedPatientNumber(){
+        mPatientHomeViewModel.getBookedPatientNumberOnScheduleIdAndDate(
+                getContext(),
+                getCurrentSelectedVisitingSchedule().getVisitingScheduleId(),
+                getAppointmentDate()
+        );
+    }
+    private void bookedPatientNumberObserver(){
+        mPatientHomeViewModel.getBookedPatientNumber().observe(getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(integer!=-1){
+                    setBookedPatientNumberInView(integer);
+                    dismissProgressDialog();
+                    if(isBookedPatientIsEqualOrGreaterThanMaxPatient()){
+                        setMakeAppointmentButtonEnableStatus(false);
+                    }
+                }
+            }
+        });
+    }
+
+    private boolean isBookedPatientIsEqualOrGreaterThanMaxPatient(){
+        return mPatientHomeViewModel.getBookedPatientNumber().getValue()>=getCurrentSelectedVisitingSchedule().getMaxPatient();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFragmentPatientMakeAppointmentBinding
+                .makeAppointmentLayout
+                .makeAppointmentButton
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        makeAppointmentButtonOnClick();
+                    }
+                });
+        mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout.closeFragment
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                    }
+                });
+        getBookedPatientNumber();
+        showProgressDialog("Loading Data......");
+        bookedPatientNumberObserver();
+        checkForAlreadyMadeAppointment();
+        alreadyMadeAppointmentObserver();
+    }
+
+    private void checkForAlreadyMadeAppointment(){
+        mPatientHomeViewModel.getAppointmentByPatientIdVisitingScheduleIdAndDate(
+                getContext(),
+                User.loginUser.getUserId(),
+                getCurrentSelectedVisitingSchedule().getVisitingScheduleId(),
+                getAppointmentDate()
+        );
+
+
+    }
+    private void alreadyMadeAppointmentObserver(){
+        mPatientHomeViewModel.getPatientOldAppointment().observe(getActivity(), new Observer<List<Appointment>>() {
+            @Override
+            public void onChanged(List<Appointment> appointment) {
+                Log.d(getString(R.string.DEBUGING_TAG),"on change already");
+                if(appointment.size()!=0){
+                    setMakeAppointmentButtonEnableStatus(false);
+                }
+            }
+        });
+    }
+
     private void setVisitingScheduleDataOnView(){
         if(isScheduleCanceled()){
             setIsCanceledTextVisibility(View.VISIBLE);
@@ -52,22 +158,13 @@ public class PatientMakeAppointmentFragment extends Fragment {
 
         setAppointmentDateInView();
         setFeeData(
-                patientHomeViewModel
-                        .getVisitingScheduleList()
-                        .getValue()
-                        .get(patientHomeViewModel.selectedVisitingSchedule)
+                getCurrentSelectedVisitingSchedule()
                         .getVisitingScheduleFee()
                         .getNewFee().toString(),
-                patientHomeViewModel
-                        .getVisitingScheduleList()
-                        .getValue()
-                        .get(patientHomeViewModel.selectedVisitingSchedule)
+                getCurrentSelectedVisitingSchedule()
                         .getVisitingScheduleFee()
                         .getOldFee().toString(),
-                patientHomeViewModel
-                        .getVisitingScheduleList()
-                        .getValue()
-                        .get(patientHomeViewModel.selectedVisitingSchedule)
+                getCurrentSelectedVisitingSchedule()
                         .getVisitingScheduleFee()
                         .getReportFee().toString()
         );
@@ -76,22 +173,22 @@ public class PatientMakeAppointmentFragment extends Fragment {
 
 
     }
+    private VisitingSchedule getCurrentSelectedVisitingSchedule(){
+        return mPatientHomeViewModel
+                .getVisitingScheduleList()
+                .getValue()
+                .get(mPatientHomeViewModel.selectedVisitingSchedule);
+    }
 
     private void setAppointmentDateInView() {
         mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout.scheduleDate.setText(
-                patientHomeViewModel
-                        .getVisitingScheduleList()
-                        .getValue()
-                        .get(patientHomeViewModel.selectedVisitingSchedule)
+                getCurrentSelectedVisitingSchedule()
                         .getAppointmentDate()
         );
     }
 
     private void saveAppointmentDate() {
-        patientHomeViewModel
-                .getVisitingScheduleList()
-                .getValue()
-                .get(patientHomeViewModel.selectedVisitingSchedule)
+        getCurrentSelectedVisitingSchedule()
                 .setAppointmentDate(getAppointmentDate());
         Log.d(getString(R.string.DEBUGING_TAG),"appointment date"+getAppointmentDate());
     }
@@ -102,74 +199,72 @@ public class PatientMakeAppointmentFragment extends Fragment {
         );
     }
 
+    private void setBookedPatientNumberInView(int number){
+        mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout
+                .bookedPatientNumberTextView
+                .setText(String.valueOf(number));
+    }
+
     private String getScheduleTime() {
         return DateAndTime.convert24to12(
-                patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                        patientHomeViewModel.selectedVisitingSchedule
-                ).getStartAt()
+                getCurrentSelectedVisitingSchedule().getStartAt()
         )
                 +"-"
                 +DateAndTime.convert24to12(
-                patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                        patientHomeViewModel.selectedVisitingSchedule
-                ).getEndAt()
+                getCurrentSelectedVisitingSchedule().getEndAt()
         );
     }
 
     private void setDoctorSpecializationInView() {
         mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout.specialization.setText(
-                patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                        patientHomeViewModel.selectedVisitingSchedule
-                ).getVisitingScheduleDoctor().getDoctorSpecialization().getSpecializationName()
+                getCurrentSelectedVisitingSchedule()
+                        .getVisitingScheduleDoctor()
+                        .getDoctorSpecialization()
+                        .getSpecializationName()
         );
     }
 
     private void setDoctorNameInView() {
         mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout.doctorName.setText(
-                patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                        patientHomeViewModel.selectedVisitingSchedule
-                ).getVisitingScheduleDoctor().getDoctorUser().getUserName()
+                getCurrentSelectedVisitingSchedule()
+                        .getVisitingScheduleDoctor()
+                        .getDoctorUser().getUserName()
         );
     }
 
     private void setDayOfWeedDataInView(){
         mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout
                 .scheduleDayOfWeek.setText(
-                        patientHomeViewModel.getVisitingScheduleList().getValue()
-                .get(
-                        patientHomeViewModel.selectedVisitingSchedule
-                )
-                .getVisitingScheduleDaysOfWeek().getDay().toUpperCase()
+                getCurrentSelectedVisitingSchedule()
+                .getVisitingScheduleDaysOfWeek()
+                        .getDay()
+                        .toUpperCase()
         );
     }
     private void setMaxPatientNumberInView(){
         mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout
                 .maxPatientNumberTextView.setText(
-                patientHomeViewModel.getVisitingScheduleList().getValue()
-                        .get(
-                                patientHomeViewModel.selectedVisitingSchedule
-                        ).getMaxPatient().toString()
+                getCurrentSelectedVisitingSchedule()
+                        .getMaxPatient().toString()
         );
     }
 
     private String getAppointmentDate(){
         if(DateAndTime.isDaysOfWeekIsToday(
                 getDayOfWeek(
-                        patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                                patientHomeViewModel.selectedVisitingSchedule
-                        ).getVisitingScheduleDaysOfWeek().getDay()
+                        getCurrentSelectedVisitingSchedule()
+                                .getVisitingScheduleDaysOfWeek()
+                                .getDay()
                 )
         )){
             if(!DateAndTime.isTimeOneGreaterThanTimeTwo(
                     DateAndTime.getLocalTime(),
-                    patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                            patientHomeViewModel.selectedVisitingSchedule
-                    ).getStartAt()
+                    getCurrentSelectedVisitingSchedule()
+                            .getStartAt()
             )){
                 return getDateOfNextDayOfWeek(getDayOfWeek(
-                        patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                                patientHomeViewModel.selectedVisitingSchedule
-                        ).getVisitingScheduleDaysOfWeek().getDay()
+                        getCurrentSelectedVisitingSchedule()
+                                .getVisitingScheduleDaysOfWeek().getDay()
                 ));
             }
             else {
@@ -178,9 +273,9 @@ public class PatientMakeAppointmentFragment extends Fragment {
         }
         else {
             return getDateOfNextDayOfWeek(getDayOfWeek(
-                    patientHomeViewModel.getVisitingScheduleList().getValue().get(
-                            patientHomeViewModel.selectedVisitingSchedule
-                    ).getVisitingScheduleDaysOfWeek().getDay()
+                    getCurrentSelectedVisitingSchedule()
+                            .getVisitingScheduleDaysOfWeek()
+                            .getDay()
             ));
         }
     }
@@ -193,9 +288,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
     }
 
     private boolean isScheduleCanceled(){
-        return patientHomeViewModel.getVisitingScheduleList()
-                .getValue()
-                .get(patientHomeViewModel.selectedVisitingSchedule)
+        return getCurrentSelectedVisitingSchedule()
                 .getIsCanceled();
     }
 
@@ -226,7 +319,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
     }
 
     private void initViewModel(){
-        patientHomeViewModel = new ViewModelProvider(getActivity()).get(PatientHomeViewModel.class);
+        mPatientHomeViewModel = new ViewModelProvider(getActivity()).get(PatientHomeViewModel.class);
     }
     private DateAndTime.DAYS_OF_WEEK getDayOfWeek(String day){
         switch (day){
@@ -248,4 +341,163 @@ public class PatientMakeAppointmentFragment extends Fragment {
 
         }
     }
+
+    private void makeAppointmentButtonOnClick(){
+        showProgressDialog("Making Appointment...");
+        makeAppointment(getContext(),getAppointmentData());
+        makeAppointmentResponseObserver();
+    }
+
+    private Appointment getAppointmentData(){
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentDate(
+                getCurrentSelectedVisitingSchedule()
+                .getAppointmentDate()
+        );
+        Patient appointmentPatient = new Patient();
+        appointmentPatient.setPatientUser(User.loginUser);
+        appointment.setAppointmentPatient(appointmentPatient);
+        appointment.setPatientSymptomNote(getPatientSymptomData());
+        appointment.setAppointmentPaymentCredential(getPaymentCredentialData());
+        appointment.setAppointmentVisitingSchedule(
+                getCurrentSelectedVisitingSchedule()
+        );
+        Log.d(getString(R.string.DEBUGING_TAG), "login user: "+User.loginUser.getUserId());
+
+        return appointment;
+
+    }
+
+    private void makeAppointment(Context context, Appointment appointment){
+        mPatientHomeViewModel.makeAppointment(context,appointment);
+    }
+
+    private void makeAppointmentResponseObserver(){
+        mPatientHomeViewModel.getNewMadeAppointment().observe(getActivity(), new Observer<Appointment>() {
+            @Override
+            public void onChanged(Appointment appointment) {
+                Log.d(getString(R.string.DEBUGING_TAG),"onChange make: "+appointment);
+                String dialogMessage="";
+                if(!isMakeAppointmentFailed(appointment)){
+
+                    if(isMakeAppointmentSlotFull(appointment)){
+                        dialogMessage = "No slot available to make appointment";
+                        setMakeAppointmentButtonEnableStatus(false);
+                    }
+                    else {
+                        dialogMessage= getMakeAppointmentSuccessResponseMessage(appointment);
+                        mPatientHomeViewModel.getBookedPatientNumber().setValue(
+                                mPatientHomeViewModel.getBookedPatientNumber().getValue()+1
+                        );
+                        mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout.bookedPatientNumberTextView
+                                .setText(
+                                        mPatientHomeViewModel.getBookedPatientNumber().getValue().toString()
+                                );
+                        if(isBookedPatientIsEqualOrGreaterThanMaxPatient()){
+                            setMakeAppointmentButtonEnableStatus(false);
+                        }
+                    }
+                }
+
+                else {
+                    dialogMessage = "Failed to Make Appointment";
+                }
+                dismissProgressDialog();
+                showMakeAppointmentResponseInfoDialog(dialogMessage);
+            }
+        });
+    }
+
+    private boolean isMakeAppointmentFailed(Appointment appointment){
+        boolean isFailed=false;
+        try {
+            isFailed=(appointment.getAdditionalProperties().get(getString(R.string.DATA_FETCH_FAILDED_STATUS_KEY))
+            .equals(getString(R.string.DATA_FETCH_FAILED_STATUS_VALUE))
+            );
+        }
+        catch (Exception e){
+
+        }
+        return isFailed;
+    }
+    private boolean isMakeAppointmentSlotFull(Appointment appointment){
+        boolean isFull=false;
+        try {
+            isFull=(appointment.getAdditionalProperties().get(getString(R.string.DATA_FETCH_FAILDED_STATUS_KEY))
+                    .equals(getString(R.string.DATA_FETCH_FULL_STATUS_VALUE))
+            );
+        }
+        catch (Exception e){
+
+        }
+        return isFull;
+    }
+    private String getMakeAppointmentSuccessResponseMessage(Appointment appointment){
+        return "Successfully made appointment\nSerial #"+
+                appointment.getAppointmentSerialNumber()+
+                " Time "+DateAndTime.convert24to12(appointment.getAppointmentTime());
+    }
+
+    private void showMakeAppointmentResponseInfoDialog(String message){
+        Log.d(getString(R.string.DEBUGING_TAG),"show dialog");
+        AlertDialog dialog = new AlertDialog.Builder(getContext(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
+                .setTitle(message)
+                .setCancelable(true)
+                .setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        dialog.show();
+
+        //set positive button in center
+        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        LinearLayout parent = (LinearLayout) positiveButton.getParent();
+        parent.setGravity(Gravity.CENTER_HORIZONTAL);
+        View leftSpacer = parent.getChildAt(1);
+        leftSpacer.setVisibility(View.GONE);
+
+
+    }
+
+
+    private String getPaymentCredentialData(){
+        return getPaymentCredentialTextFromTextView();
+    }
+    private String getPaymentCredentialTextFromTextView(){
+        return mFragmentPatientMakeAppointmentBinding
+                .makeAppointmentLayout
+                .paymentEditTextInput
+                .getText()
+                .toString();
+    }
+    private boolean isPaymentCredentialInputIsValid(){
+        return !getPaymentCredentialTextFromTextView().isEmpty();
+    }
+
+    private String getPatientSymptomData(){
+        return getPatientSymptomTextFromTextView();
+    }
+    private String getPatientSymptomTextFromTextView(){
+        return mFragmentPatientMakeAppointmentBinding
+                .makeAppointmentLayout
+                .symptomNoteDetailEditTextInput
+                .getText()
+                .toString();
+    }
+
+    private void showProgressDialog(String message){
+        progressDialog = new ProgressDialog(getContext(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+    }
+    private void dismissProgressDialog(){
+        progressDialog.dismiss();
+    }
+
 }

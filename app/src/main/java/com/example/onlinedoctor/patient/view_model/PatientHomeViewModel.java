@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.onlinedoctor.appointment.AppointmentRepository;
+import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Specialization;
 import com.example.onlinedoctor.model.VisitingSchedule;
@@ -18,6 +20,7 @@ public class PatientHomeViewModel extends ViewModel {
     private PatientRepository mPatientRepository;
     private RegistrationRepository mRegistrationRepository;
     private VisitingScheduleRepository mVisitingScheduleRepository;
+    private AppointmentRepository mAppointmentRepository;
 
     private MutableLiveData<List<Specialization>> specializationList;
     private MutableLiveData<List<Chamber>> chamberList;
@@ -28,12 +31,38 @@ public class PatientHomeViewModel extends ViewModel {
 
     public int visitingScheduleRecyclerViewSelectedItem = -2;
 
+    private MutableLiveData<Appointment> newMadeAppointment = new MutableLiveData<>();
+    private MutableLiveData<Integer> bookedPatientNumber;
+    private MutableLiveData<List<Appointment>> patientOldAppointment;
+
 
 
 
     public void initSpecialization(){
         initRegistrationRepository();
         specializationList = mRegistrationRepository.getSpecialization();
+    }
+    public void getAppointmentByPatientIdVisitingScheduleIdAndDate(
+            Context context,
+            int patientId,
+            int visitingScheduleId,
+            String date
+    ){
+        initAppointmentRepository();
+        patientOldAppointment = mAppointmentRepository.getAppointmentByPatientIdVisitingScheduleIdAndDate(
+                context,
+                patientId,
+                visitingScheduleId,
+                date);
+    }
+
+    public void getBookedPatientNumberOnScheduleIdAndDate(Context context,
+                                                          int visitingScheduleId,
+                                                          String date){
+        initAppointmentRepository();
+        bookedPatientNumber =mAppointmentRepository.getBookedPatientNumberOnScheduleIdAndDate(context,
+                visitingScheduleId,
+                date);
     }
 
     //get chamber list on specialization and location
@@ -68,6 +97,11 @@ public class PatientHomeViewModel extends ViewModel {
         );
     }
 
+    public void makeAppointment(Context context, Appointment appointment){
+        initPatientRepository();
+        newMadeAppointment=mPatientRepository.makeAppointment(context,appointment);
+    }
+
     private void initPatientRepository(){
         if(mPatientRepository==null){
             mPatientRepository = PatientRepository.getInstance();
@@ -83,6 +117,11 @@ public class PatientHomeViewModel extends ViewModel {
             mRegistrationRepository = RegistrationRepository.getInstance();
         }
     }
+    private void initAppointmentRepository(){
+        if(mAppointmentRepository==null){
+            mAppointmentRepository = AppointmentRepository.getInstance();
+        }
+    }
 
     public MutableLiveData<List<Specialization>> getSpecializationList() {
         return specializationList;
@@ -95,4 +134,18 @@ public class PatientHomeViewModel extends ViewModel {
     public MutableLiveData<List<VisitingSchedule>> getVisitingScheduleList() {
         return visitingScheduleList;
     }
+
+    public MutableLiveData<Appointment> getNewMadeAppointment() {
+        return newMadeAppointment;
+    }
+
+    public MutableLiveData<List<Appointment>> getPatientOldAppointment() {
+        return patientOldAppointment;
+    }
+
+    public MutableLiveData<Integer> getBookedPatientNumber() {
+        return bookedPatientNumber;
+    }
+
+
 }

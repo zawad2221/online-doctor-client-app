@@ -1,13 +1,19 @@
 package com.example.onlinedoctor.patient.adapter;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlinedoctor.DateAndTime;
+import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.VisitingScheduleItemBinding;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
@@ -37,6 +43,7 @@ public class ChamberVisitingScheduleRecyclerViewAdapter extends RecyclerView.Ada
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final VisitingSchedule visitingSchedule = visitingScheduleList.get(position);
+
         holder.visitingScheduleItemBinding.doctorName.setText(
                 visitingSchedule
                 .getVisitingScheduleDoctor()
@@ -63,6 +70,11 @@ public class ChamberVisitingScheduleRecyclerViewAdapter extends RecyclerView.Ada
 
             }
         });
+        holder.visitingScheduleItemBinding.scheduleDayOfWeek.setText(visitingSchedule.getVisitingScheduleDaysOfWeek().getDay());
+        if(!visitingSchedule.getIsCanceled())
+            holder.visitingScheduleItemBinding.clockImage.setImageTintList(ColorStateList.valueOf(Color.GREEN));
+        else
+            holder.visitingScheduleItemBinding.dayOfWeekImage.setImageTintList(ColorStateList.valueOf(Color.RED));
 
 
 

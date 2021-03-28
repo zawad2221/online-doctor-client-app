@@ -1,5 +1,6 @@
 package com.example.onlinedoctor.patient.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,8 +27,6 @@ import com.example.onlinedoctor.model.VisitingSchedule;
 import com.example.onlinedoctor.patient.adapter.ChamberVisitingScheduleRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
-import com.example.onlinedoctor.patient.view_model.PatientHomeViewModelFactory;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
 
@@ -40,6 +39,8 @@ public class VisitingScheduleForPatientFragment extends Fragment {
     private ChamberVisitingScheduleRecyclerViewAdapter mChamberVisitingScheduleRecyclerViewAdapter;
     private NavHostFragment mNavHostFragment;
     private NavController mNavController;
+    private ProgressDialog loadingDataProgressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,14 +79,25 @@ public class VisitingScheduleForPatientFragment extends Fragment {
         getVisitingSchedule(mPatientHomeViewModel.selectedChamberId.getValue());
         specializationLiveDataObserver();
         visitingScheduleLiveDataObserver();
+        showLoadingDataProgressDialog();
+
+        initNavController();
+        mFragmentVisitingScheduleForPatientBinding.closeFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
+
+
+
+
+
+    }
+    private void initNavController(){
         mNavHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.chamberVisitingScheduleFragmentHolder);
         mNavController = mNavHostFragment.getNavController();
-
-
-
-
-
-
     }
     private int getChamberIdFormIntentExtra(){
         int chamberId = 0;
@@ -179,6 +191,7 @@ public class VisitingScheduleForPatientFragment extends Fragment {
     }
 
     private void specializationOnClick(int position){
+        showLoadingDataProgressDialog();
         if(position==mPatientHomeViewModel.visitingScheduleRecyclerViewSelectedItem){
             getVisitingSchedule(mPatientHomeViewModel.selectedChamberId.getValue());
             mPatientHomeViewModel.visitingScheduleRecyclerViewSelectedItem = -1;
@@ -237,10 +250,21 @@ public class VisitingScheduleForPatientFragment extends Fragment {
         mPatientHomeViewModel.getVisitingScheduleList().observe(getActivity(), new Observer<List<VisitingSchedule>>() {
             @Override
             public void onChanged(List<VisitingSchedule> visitingSchedules) {
-
+                dismissLoadingDataProgressDialog();
                 initVisitingScheduleRecyclerView();
                 Log.d(getString(R.string.DEBUGING_TAG),"visiting schedule on change"+(visitingSchedules==null? "null":visitingSchedules.size()));
             }
         });
+    }
+
+    private void showLoadingDataProgressDialog(){
+        loadingDataProgressDialog = new ProgressDialog(getContext(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        loadingDataProgressDialog.setIndeterminate(true);
+        loadingDataProgressDialog.setCancelable(false);
+        loadingDataProgressDialog.setMessage("Loading...");
+        loadingDataProgressDialog.show();
+    }
+    private void dismissLoadingDataProgressDialog(){
+        loadingDataProgressDialog.dismiss();
     }
 }

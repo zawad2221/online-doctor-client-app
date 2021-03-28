@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,8 +30,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -43,7 +40,6 @@ import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Specialization;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.ChamberVisitingScheduleForPatientActivity;
-import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModelFactory;
@@ -77,6 +73,8 @@ public class PatientHomeFragment extends Fragment {
 
     private NavController mNavController;
     private ProgressDialog progressDialog;
+
+    private ProgressDialog loadingSpecializationDataProgressDialog;
 
 
 
@@ -220,6 +218,7 @@ public class PatientHomeFragment extends Fragment {
         View view = mFragmentPatientHomeBinding.getRoot();
         initViewModel();
         mPatientHomeViewModel.initSpecialization();
+        showLoadingSpecializationDataProgressDialog();
         initRecyclerView();
         specializationLiveDataObserver();
         searchViewOnClick();
@@ -271,7 +270,7 @@ public class PatientHomeFragment extends Fragment {
             @Override
             public void onChanged(List<Specialization> specializations) {
                 initRecyclerView();
-
+                dismissLoadingSpecializationDataProgressDialog();
                 Log.d(DEBUGING_TAG,"data from change: "+specializations.size());
                 Log.d(DEBUGING_TAG,"data from change view model: "+mPatientHomeViewModel.getSpecializationList().getValue().size());
 
@@ -352,7 +351,7 @@ public class PatientHomeFragment extends Fragment {
         changeSpecializationRecyclerViewVisibility(View.GONE);
         setSearchViewIconifiedState(false);
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(12),2000,null);
-        showLoginProgressDialog();
+        showLoadingProgressDialog();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getLastKnownLocation(),12.0f));
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -370,8 +369,8 @@ public class PatientHomeFragment extends Fragment {
 
     }
 
-    private void showLoginProgressDialog(){
-        progressDialog = new ProgressDialog(getContext(),R.style.Theme_AppCompat_Light_Dialog);
+    private void showLoadingProgressDialog(){
+        progressDialog = new ProgressDialog(getContext(),android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         progressDialog.setCancelable(true);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Loading.....");
@@ -507,7 +506,7 @@ public class PatientHomeFragment extends Fragment {
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.marker_view_bubble, null);
 
-//        ImageView markerImage = (ImageView) marker.findViewById(R.id.marker_icon);
+//        ImageView markerImage = (ImageView) marker.findViewById(R.id.marker_icon);5
 //
 //        markerImage.setImageResource(resource);
         TextView txt_name = (TextView)marker.findViewById(R.id.marker_title);
@@ -559,6 +558,16 @@ public class PatientHomeFragment extends Fragment {
                 }
             }
         });
+    }
+    private void showLoadingSpecializationDataProgressDialog(){
+        loadingSpecializationDataProgressDialog = new ProgressDialog(getContext(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        loadingSpecializationDataProgressDialog.setIndeterminate(true);
+        loadingSpecializationDataProgressDialog.setCancelable(false);
+        loadingSpecializationDataProgressDialog.setMessage("Loading...");
+        loadingSpecializationDataProgressDialog.show();
+    }
+    private void dismissLoadingSpecializationDataProgressDialog(){
+        loadingSpecializationDataProgressDialog.dismiss();
     }
 
 

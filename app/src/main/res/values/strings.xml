@@ -11,6 +11,7 @@
 
 
     <string name="DEBUGING_TAG">DEBUGING_TAG</string>
+    <string name="OK">OK</string>
 
     //radio button option
     <string name="patient">Patient</string>
@@ -67,5 +68,9 @@
     <string name="chamber_visiting_schedule_activity_chamber_address_extra_value">chamber_address</string>
     <string name="is_visiting_canceled_status_text">The next visiting schedule is canceled</string>
     <string name="patient_make_appointment_booked_patient_info">Number of patient booked: </string>
+    <string name="DATA_FETCH_FAILDED_STATUS_KEY">status</string>
+    <string name="DATA_FETCH_FAILED_STATUS_VALUE">failed</string>
+    <string name="BOOK_PATIENT_NUMBER_ADDITIONAL_PROPERTIES_KEY">bookedPatientNumber</string>
+    <string name="DATA_FETCH_FULL_STATUS_VALUE">full</string>
 
 </resources>

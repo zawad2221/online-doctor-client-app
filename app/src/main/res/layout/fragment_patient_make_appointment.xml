@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".patient.fragment.PatientMakeAppointmentFragment">
 
-  <include layout="@layout/visiting_schedule_for_patient_bottom_sheet"
+  <include layout="@layout/make_appointment_layout"
       android:id="@+id/makeAppointmentLayout"
 
       />
