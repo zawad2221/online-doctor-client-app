@@ -17,5 +17,16 @@
     <color name="recycler_item_selected_color">#E6BBB7</color>
     <color name="black">#000000</color>
     <color name="color_green">#1F9C24</color>
+    <color name="light_green">#BBF49C</color>
+    <color name="light_red">#F4A39C</color>
+    <color name="red">#FD1403</color>
+
+    <color name="bottom_nav_item">
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:state_checked="true" android:color="@color/white" />
+            <item android:color="@android:color/darker_gray"  />
+        </selector>
+    </color>
+    <color name="yellow">#FFC107</color>
 
 </resources>

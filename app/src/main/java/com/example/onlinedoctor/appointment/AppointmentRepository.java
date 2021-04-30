@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.model.Appointment;
-import com.example.onlinedoctor.patient.PatientApi;
 
 import java.util.List;
 

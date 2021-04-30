@@ -1,4 +1,4 @@
-package com.example.onlinedoctor.patient;
+package com.example.onlinedoctor.patient.api;
 
 import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.Chamber;
@@ -24,6 +24,22 @@ public interface PatientApi {
 
     @POST("makeAppointment/")
     Call<Appointment> makeAppointment(@Body Appointment appointment);
+
+    @GET("appointment/getAppointmentByPatientId/{patientId}")
+    Call<List<Appointment>> getAppointmentByPatientId(
+            @Path(value = "patientId", encoded = true) int patientId
+    );
+
+    @GET("appointment/getNewAppointmentOfPatient/{patientUserId}/{dateOfToday}/")
+    Call<List<Appointment>> getNewAppointmentOfPatient(
+            @Path(value = "patientUserId", encoded = true) int patientUserId,
+            @Path(value = "dateOfToday", encoded = true) String dateOfToday
+    );
+    @GET("appointment/getOldAppointmentOfPatient/{patientUserId}/{dateOfToday}/")
+    Call<List<Appointment>> getOldAppointmentOfPatient(
+            @Path(value = "patientUserId", encoded = true) int patientUserId,
+            @Path(value = "dateOfToday", encoded = true) String dateOfToday
+    );
 
 
 

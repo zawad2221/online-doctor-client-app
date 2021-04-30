@@ -8,5 +8,26 @@
         android:id="@+id/patientHomeFragment"
         android:name="com.example.onlinedoctor.patient.fragment.PatientHomeFragment"
         android:label="Patient Home"
-        tools:layout="@layout/fragment_patient_home" />
+        tools:layout="@layout/fragment_patient_home" >
+        <action
+            android:id="@+id/action_patientHomeFragment_to_patientBookedAppointment"
+            app:destination="@id/patientBookedAppointment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/patientBookedAppointment"
+        android:name="com.example.onlinedoctor.patient.fragment.PatientBookedAppointmentsFragment"
+        android:label="Patient Appointments"
+        tools:layout="layout/fragment_patient_booked_appointments"
+        >
+        <action
+            android:id="@+id/action_patientBookedAppointment_to_patientBookedAppointmentDetails"
+            app:destination="@id/patientBookedAppointmentDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientBookedAppointmentDetails"
+        android:name="com.example.onlinedoctor.patient.fragment.BookedAppointmentDetailsFragment"
+        android:label="Patient Appointments Details"
+        tools:layout="@layout/fragment_booked_appointment_details"
+        />
 </navigation>

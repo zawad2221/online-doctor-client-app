@@ -1,5 +1,6 @@
 package com.example.onlinedoctor.patient.view_model;
 
+import android.app.Activity;
 import android.content.Context;
 
 import androidx.lifecycle.MutableLiveData;
@@ -28,12 +29,16 @@ public class PatientHomeViewModel extends ViewModel {
 
     public MutableLiveData<Integer> selectedChamberId = new MutableLiveData<>();
     public int selectedVisitingSchedule;
+    public int selectedAppointmentFromBookedAppointmentPage;
 
     public int visitingScheduleRecyclerViewSelectedItem = -2;
 
     private MutableLiveData<Appointment> newMadeAppointment = new MutableLiveData<>();
     private MutableLiveData<Integer> bookedPatientNumber;
     private MutableLiveData<List<Appointment>> patientOldAppointment;
+    private MutableLiveData<List<Appointment>> patientBookedAppointmentList;
+
+    public MutableLiveData<String> bottomNavSelectedItem = new MutableLiveData<>("null");
 
 
 
@@ -54,6 +59,21 @@ public class PatientHomeViewModel extends ViewModel {
                 patientId,
                 visitingScheduleId,
                 date);
+    }
+
+    public void getOldAppointmentOfPatient(Context context, int patientUserId, String dateOfToday){
+        initPatientRepository();
+        patientBookedAppointmentList = mPatientRepository.getOldAppointmentOfPatient(context, patientUserId, dateOfToday);
+    }
+    public void getNewAppointmentOfPatient(Context context, int patientUserId, String dateOfToday){
+        initPatientRepository();
+        patientBookedAppointmentList = mPatientRepository.getNewAppointmentOfPatient(context, patientUserId, dateOfToday);
+    }
+
+
+    public void getBookedAppointmentByPatientId(Activity activity, Context context, int patientId){
+        initPatientRepository();
+        patientBookedAppointmentList =mPatientRepository.getAppointmentByPatientId(activity, context, patientId);
     }
 
     public void getBookedPatientNumberOnScheduleIdAndDate(Context context,
@@ -147,5 +167,7 @@ public class PatientHomeViewModel extends ViewModel {
         return bookedPatientNumber;
     }
 
-
+    public MutableLiveData<List<Appointment>> getPatientBookedAppointmentList() {
+        return patientBookedAppointmentList;
+    }
 }

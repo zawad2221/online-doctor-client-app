@@ -6,9 +6,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.Intent;
@@ -18,11 +21,12 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.ActivityMainBinding;
 import com.example.onlinedoctor.model.User;
-import com.example.onlinedoctor.registration.RegisterActivity;
+import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
 
+    private NavHostFragment navHostFragment;
+    private PatientHomeViewModel mPatientHomeViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +65,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mActivityMainBinding.getRoot());
 //        Doctor doctor= new Doctor();
 //        RegistrationRepository.registration(doctor);
+        initViewModel();
+        observeSelectedBottomNavTab();
 
         initFusedLocationClient();
         fineLocationPermission();
         Log.d(DEBUGING_TAG, "latest location: " + getLatestLocation());
+
+        navHostFragment = (NavHostFragment) getSupportFragmentManager()
+        .findFragmentById(R.id.patientHomeFragmentHolder);
+        NavigationUI.setupWithNavController(
+                mActivityMainBinding.patientHomeBottomNav,
+                navHostFragment.getNavController()
+        );
 
 
 //        startActivity(new Intent(this, ChamberVisitingScheduleForPatientActivity.class));
@@ -85,8 +101,46 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+//        mActivityMainBinding.patientHomeBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId()){
+//                    case R.id.patientHomeFragment:
+//                        Log.d(getString(R.string.DEBUGING_TAG),"selected nav item home: "+menuItem.getItemId());
+//                        break;
+//                    case R.id.patientBookedAppointment:
+//                        Log.d(getString(R.string.DEBUGING_TAG),"selected nav item booked item: "+menuItem.getItemId());
+//                        //mActivityMainBinding.patientHomeBottomNav.setVisibility(View.INVISIBLE);
+//                        break;
+//                }
+//
+//                return true;
+//            }
+//        });
+//
 
+    }
 
+    private void initViewModel(){
+        mPatientHomeViewModel = new ViewModelProvider(this)
+                .get(PatientHomeViewModel.class);
+    }
+    private void observeSelectedBottomNavTab(){
+        mPatientHomeViewModel.bottomNavSelectedItem.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.d(getString(R.string.DEBUGING_TAG),"selected nav on change, selected frag: "+s);
+                if(s.equals(getString(R.string.PATIENT_FRAGMENT_BOOKED_APPOINTMENT_DETAILS))){
+                    setBottomNabVisibility(View.GONE);
+                }
+                else {
+                    setBottomNabVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+    private void setBottomNabVisibility(int visibility){
+        mActivityMainBinding.patientHomeBottomNav.setVisibility(visibility);
     }
 
     private void initFusedLocationClient() {

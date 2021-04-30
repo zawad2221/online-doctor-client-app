@@ -117,12 +117,15 @@ public class PatientMakeAppointmentFragment extends Fragment {
                         requireActivity().getOnBackPressedDispatcher().onBackPressed();
                     }
                 });
+
         getBookedPatientNumber();
         showProgressDialog("Loading Data......");
         bookedPatientNumberObserver();
         checkForAlreadyMadeAppointment();
         alreadyMadeAppointmentObserver();
     }
+
+
 
     private void checkForAlreadyMadeAppointment(){
         mPatientHomeViewModel.getAppointmentByPatientIdVisitingScheduleIdAndDate(
@@ -499,5 +502,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
     private void dismissProgressDialog(){
         progressDialog.dismiss();
     }
+
+
 
 }

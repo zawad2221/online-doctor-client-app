@@ -72,5 +72,11 @@
     <string name="DATA_FETCH_FAILED_STATUS_VALUE">failed</string>
     <string name="BOOK_PATIENT_NUMBER_ADDITIONAL_PROPERTIES_KEY">bookedPatientNumber</string>
     <string name="DATA_FETCH_FULL_STATUS_VALUE">full</string>
+    <string name="PATIENT_FRAGMENT_BOOKED_APPOINTMENT">booked_appointment_fragment</string>
+    <string name="PATIENT_FRAGMENT_BOOKED_APPOINTMENT_DETAILS">booked_appointment_details_fragment</string>
+    <string name="PATIENT_FRAGMENT_HOME">patient_home_fragment</string>
+    <string name="appointment_filer_new">New Appointment</string>
+    <string name="appointment_filter_old">Old Appointment</string>
+    <string name="send_query_text">Send Query</string>
 
 </resources>

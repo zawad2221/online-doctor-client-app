@@ -1,9 +1,12 @@
 package com.example.onlinedoctor.patient.fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +19,14 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentVisitingScheduleForPatientBinding;
@@ -44,8 +52,6 @@ public class VisitingScheduleForPatientFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -89,11 +95,68 @@ public class VisitingScheduleForPatientFragment extends Fragment {
             }
         });
 
+        mFragmentVisitingScheduleForPatientBinding.tobBarMenu.setOnClickListener(v -> {
+            showMenu(v,R.menu.visiting_schedule_for_patient_top_menu);
+        });
 
 
 
 
+    }
 
+    private void showSendQueryDialog(){
+
+
+        AlertDialog.Builder alertDialog= new AlertDialog.Builder(this.getContext(), R.style.Theme_AppCompat_Light_Dialog)
+                .setView(getLayoutInflater().inflate(R.layout.send_quey_dialog,null))
+                .setTitle("Send Query")
+                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNeutralButton("Cancel", ((dialog, which) -> {
+
+                }))
+                .setCancelable(false);
+        AlertDialog dialog = alertDialog.create();
+        dialog.show();
+//        // Fetch the PositiveButton
+//        final Button lPositiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        // Fetch the LinearLayout.
+//        final LinearLayout lParent         = (LinearLayout) lPositiveButton.getParent();
+//        // Ensure the Parent of the Buttons aligns it's contents to the right.
+//        lParent.setGravity(Gravity.RIGHT);
+//        final Button lNegativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+//        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) lNegativeButton.getLayoutParams();
+//        layoutParams.weight = -10;
+//
+//        lPositiveButton.setLayoutParams(layoutParams);
+//        lNegativeButton.setLayoutParams(layoutParams);
+//        // Fetch the LinearLayout.
+//        final LinearLayout lParentNegative         = (LinearLayout) lNegativeButton.getParent();
+        // Ensure the Parent of the Buttons aligns it's contents to the right.
+        //lParentNegative.setGravity(Gravity.LEFT);
+
+        // Hide the LeftSpacer. (Strict dependence on the order of the layout!)
+        //lParent.getChildAt(1).setVisibility(View.GONE);
+
+    }
+
+    private void showMenu(View view, @MenuRes Integer menuRes){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        popupMenu.getMenuInflater().inflate(menuRes, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener((MenuItem menuItem) ->{
+            switch (menuItem.getItemId()){
+                case R.id.sendQuery:
+                    showSendQueryDialog();
+                    break;
+
+            }
+            return false;
+        });
+        popupMenu.show();
     }
     private void initNavController(){
         mNavHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.chamberVisitingScheduleFragmentHolder);

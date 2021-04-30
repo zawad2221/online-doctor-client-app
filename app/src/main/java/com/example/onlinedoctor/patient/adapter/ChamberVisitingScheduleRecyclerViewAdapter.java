@@ -70,7 +70,7 @@ public class ChamberVisitingScheduleRecyclerViewAdapter extends RecyclerView.Ada
 
             }
         });
-        holder.visitingScheduleItemBinding.scheduleDayOfWeek.setText(visitingSchedule.getVisitingScheduleDaysOfWeek().getDay());
+        holder.visitingScheduleItemBinding.scheduleDayOfWeek.setText(visitingSchedule.getVisitingScheduleDaysOfWeek().getDay().toUpperCase());
         if(!visitingSchedule.getIsCanceled())
             holder.visitingScheduleItemBinding.clockImage.setImageTintList(ColorStateList.valueOf(Color.GREEN));
         else

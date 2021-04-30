@@ -21,4 +21,5 @@ public interface AppointmentApi {
             @Path(value = "visitingScheduleId", encoded = true) int visitingScheduleId,
             @Path(value = "date", encoded = true) String date
     );
+
 }

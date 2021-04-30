@@ -1,4 +1,8 @@
 package com.example.onlinedoctor.model;
+import android.content.Context;
+import android.content.Intent;
+
+import com.example.onlinedoctor.login.LoginActivity;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -83,5 +87,41 @@ public class User {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public static void profileClick(Context context){
+        if(User.loginUser!=null && User.loginUser.getUserId()!=null){
+            switch (loginUser.getUserRole()){
+                case "patient":
+                    showPatientProfile();
+                    break;
+                case "doctor":
+                    showDoctorProfile();
+                    break;
+                case "pathology":
+                    showPathologyProfile();
+                    break;
+                case "chamber":
+                    showChamberProfile();
+                    break;
+
+            }
+        }
+        else {
+            context.startActivity(new Intent(context, LoginActivity.class));
+
+        }
+    }
+
+    private static void showDoctorProfile() {
+    }
+
+    private static void showPathologyProfile() {
+    }
+
+    private static void showChamberProfile() {
+    }
+
+    private static void showPatientProfile() {
     }
 }

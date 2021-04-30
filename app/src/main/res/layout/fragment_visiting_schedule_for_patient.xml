@@ -42,6 +42,15 @@ tools:context=".patient.fragment.VisitingScheduleForPatientFragment">
             android:clickable="true"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
             />
+        <ImageView
+            android:id="@+id/tobBarMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            app:srcCompat="@drawable/menu"
+            android:layout_gravity="right"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

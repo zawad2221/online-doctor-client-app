@@ -217,6 +217,7 @@ public class PatientHomeFragment extends Fragment {
         mFragmentPatientHomeBinding = FragmentPatientHomeBinding.inflate(inflater, container, false);
         View view = mFragmentPatientHomeBinding.getRoot();
         initViewModel();
+        setSelectedFragmentInViewModel();
         mPatientHomeViewModel.initSpecialization();
         showLoadingSpecializationDataProgressDialog();
         initRecyclerView();
@@ -263,6 +264,9 @@ public class PatientHomeFragment extends Fragment {
         mNavController = Navigation.findNavController(this.getView());
         onProfileClick();
 
+    }
+    private void setSelectedFragmentInViewModel() {
+        mPatientHomeViewModel.bottomNavSelectedItem.setValue(getString(R.string.PATIENT_FRAGMENT_HOME));
     }
 
     private void specializationLiveDataObserver(){
@@ -549,13 +553,7 @@ public class PatientHomeFragment extends Fragment {
         mFragmentPatientHomeBinding.profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(User.loginUser!=null && User.loginUser.getUserId()!=null){
-
-                }
-                else {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-
-                }
+                User.profileClick(getActivity());
             }
         });
     }

@@ -24,7 +24,7 @@
             android:screenOrientation="portrait"
             android:name=".patient.ChamberVisitingScheduleForPatientActivity"
             android:label="@string/title_activity_chamber_visiting_schedule_for_patient"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
              />
 <!--        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"-->
         <!--

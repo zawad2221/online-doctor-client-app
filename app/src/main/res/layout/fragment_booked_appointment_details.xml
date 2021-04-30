@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="appointment"
+            type="com.example.onlinedoctor.model.Appointment" />
+    </data>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/appointmentDetailsScrollView"
+        android:background="@color/white"
+        android:fillViewport="true"
+
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:id="@+id/bottomSheet"
+            android:background="@color/white"
+            >
+            <ImageView
+                android:id="@+id/closeFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/black" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="171dp"
+                app:layout_constraintTop_toTopOf="@+id/closeFragment"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="11dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="#FFFFFF"
+                android:id="@+id/doctorProfileInfo"
+                >
+                <ImageView
+                    android:id="@+id/doctorProfileImage"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/demo_profile_pic"
+                    android:layout_gravity="center_vertical"
+                    android:padding="12dp"
+                    android:background="@drawable/shadow_test"
+                    />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="73dp"
+                    android:layout_gravity="center"
+                    android:padding="7dp"
+                    >
+                    <TextView
+                        android:id="@+id/doctorName"
+                        android:textColor="#031161"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{appointment.appointmentVisitingSchedule.visitingScheduleDoctor.doctorUser.userName}"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="22dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/specialization"
+                        android:textColor="#0824BD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{appointment.appointmentVisitingSchedule.visitingScheduleDoctor.doctorSpecialization.specializationName}"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="14dp"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="15dp"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/horizontalTopGuideline"
+                app:layout_constraintGuide_begin="452dp"
+                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/chamberInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/doctorProfileInfo"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="73dp"
+                    android:layout_gravity="center"
+                    android:padding="7dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/chamberNameAddressLayout"
+                    >
+                    <TextView
+                        android:id="@+id/chamberName"
+                        android:textColor="#031161"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{appointment.appointmentVisitingSchedule.visitingScheduleChamber.chamberUser.userName}"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="22dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/chamberAddress"
+                        android:textColor="@color/red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{appointment.appointmentVisitingSchedule.visitingScheduleChamber.chamberLocation.locationAdderssDetail}"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/map_card_view_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="251dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chamberNameAddressLayout"
+                    android:elevation="12dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp"
+
+                    >
+
+                        <fragment
+
+                            android:id="@+id/chamberAddressMap"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/appointmentInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appointment Information"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@+id/chamberInfo"
+                app:layout_constraintLeft_toRightOf="@+id/guidelineVertical"
+                android:layout_marginTop="22dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/appointmentInfoCard"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+                app:layout_constraintTop_toBottomOf="@id/appointmentInfo"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+
+
+                app:cardCornerRadius="12dp"
+                app:cardElevation="11dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="#FFFFFF"
+                >
+                <LinearLayout
+                    android:id="@+id/timeLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="22dp"
+                    android:layout_gravity="right"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="7dp">
+                        <ImageView
+                            android:id="@+id/appointmentVisitingStatusImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/eye"
+                            android:tint="@{appointment.appointmentIsVisited? @color/color_green:@color/red}" />
+
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            android:id="@+id/appointmentVisitingStatus"
+                            android:text="@{appointment.appointmentIsVisited? `Visited`:`Not Visited`}"
+
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="7dp">
+                        <ImageView
+                            android:id="@+id/appointmentStatusImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@{appointment.appointmentIsCanceled ?@drawable/cancel_icon:(appointment.appointmentIsConfirmed ?@drawable/confirm_check: @drawable/pending)}"
+
+                            />
+
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            android:id="@+id/appointmentStatus"
+                            android:text="@{appointment.appointmentIsCanceled ? `Canceled`:(appointment.appointmentIsConfirmed ?`Confirm`: `Pending`)}"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+                        <ImageView
+                            android:id="@+id/serialImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/serial_icon"
+
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Serial No."
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            android:text="@{String.valueOf(appointment.appointmentSerialNumber)}"
+                            android:id="@+id/serialNumberTextView"
+                            />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="left"
+                    android:layout_margin="22dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/appointmentInfo"
+                        app:layout_constraintLeft_toRightOf="@+id/guidelineVertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="18dp"
+                        android:id="@+id/appointmentDate"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/date_icon"
+                            />
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/scheduleDayOfWeek"
+                                android:layout_marginStart="5dp"
+                                android:text="@{appointment.appointmentVisitingSchedule.visitingScheduleDaysOfWeek.day.toUpperCase()}"
+                                android:textSize="@dimen/appointment_info_text_size"
+                                android:textColor="@android:color/black"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/scheduleDate"
+                                android:layout_marginStart="5dp"
+                                android:text="@{appointment.appointmentDate}"
+                                android:textSize="16sp"
+                                android:textColor="@android:color/black"
+                                />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/appointmentDate"
+                        app:layout_constraintLeft_toRightOf="@+id/guidelineVertical"
+                        android:orientation="horizontal"
+                        android:id="@+id/appointmentTimeLayout"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/clock"
+                            app:tint="#00FF3C" />
+                        <TextView
+                            android:setTimeIn12Format="@{appointment.appointmentTime}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/scheduleTime"
+                            android:layout_marginStart="5dp"
+                            android:text="10:00 AM - 2:00 PM"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/bookedPatientInfoLayout"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/appointmentInfoCard"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+                android:layout_marginTop="@dimen/appointment_info_top_margin"
+
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Symptom"
+                    android:textSize="@dimen/appointment_info_text_size"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/symptomNoteTextView"
+                    android:textSize="@dimen/appointment_info_text_size"
+                    android:textColor="@color/black"
+                    android:text="@{appointment.patientSymptomNote}"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
