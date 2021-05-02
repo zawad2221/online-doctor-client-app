@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_patientHomeFragment_to_patientBookedAppointment"
             app:destination="@id/patientBookedAppointment" />
+        <action
+            android:id="@+id/action_patientHomeFragment_to_patientAskedQueries"
+            app:destination="@id/patientAskedQueries" />
     </fragment>
 
     <fragment
@@ -29,5 +32,11 @@
         android:name="com.example.onlinedoctor.patient.fragment.BookedAppointmentDetailsFragment"
         android:label="Patient Appointments Details"
         tools:layout="@layout/fragment_booked_appointment_details"
+        />
+    <fragment
+        android:id="@+id/patientAskedQueries"
+        android:name="com.example.onlinedoctor.patient.fragment.AskedQueryListFragment"
+        android:label="Patient Asked Query List"
+        tools:layout="@layout/fragment_asked_query_list"
         />
 </navigation>

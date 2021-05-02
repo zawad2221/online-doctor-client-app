@@ -10,7 +10,10 @@
         android:title="Appointments"
         android:icon="@drawable/view_list"
         app:showAsAction="always"
-
+        />
+    <item android:id="@+id/patientAskedQueries"
+        android:title="Queries"
+        android:icon="@drawable/view_list"
         />
 
 </menu>

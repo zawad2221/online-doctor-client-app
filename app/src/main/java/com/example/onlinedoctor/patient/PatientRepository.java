@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.AskedQuery;
 import com.example.onlinedoctor.model.Chamber;
+import com.example.onlinedoctor.model.Patient;
 import com.example.onlinedoctor.patient.api.DaggerPatientApiComponent;
 import com.example.onlinedoctor.patient.api.PatientApi;
 import com.example.onlinedoctor.patient.api.PatientApiComponent;
@@ -213,6 +215,47 @@ public class PatientRepository {
         return appointmentList;
 
     }
+
+    public MutableLiveData<AskedQuery> sendQuery(Context context, AskedQuery askedQuery){
+        MutableLiveData<AskedQuery> askedQueryResponse = new MutableLiveData<>();
+        PatientApi patientApi= getPatientApi(context);
+        Call<AskedQuery> call = patientApi.sendQuery(askedQuery);
+        call.enqueue(new Callback<AskedQuery>() {
+            @Override
+            public void onResponse(Call<AskedQuery> call, Response<AskedQuery> response) {
+                if(response.isSuccessful()){
+                    askedQueryResponse.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AskedQuery> call, Throwable t) {
+
+            }
+        });
+        return askedQueryResponse;
+    }
+
+    public MutableLiveData<List<AskedQuery>> getAskedQueryByPatient(Context context, int patientUserId){
+        MutableLiveData<List<AskedQuery>> askedQueryList = new MutableLiveData<>();
+        PatientApi patientApi = getPatientApi(context);
+        Call<List<AskedQuery>> call = patientApi.getAskedQueryByPatient(patientUserId);
+        call.enqueue(new Callback<List<AskedQuery>>() {
+            @Override
+            public void onResponse(Call<List<AskedQuery>> call, Response<List<AskedQuery>> response) {
+                if(response.isSuccessful()&&response.code()==Integer.parseInt(context.getString(R.string.HTML_CREATE_CODE))){
+                    askedQueryList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AskedQuery>> call, Throwable t) {
+
+            }
+        });
+        return askedQueryList;
+    }
+
 
 
 

@@ -25,12 +25,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentVisitingScheduleForPatientBinding;
+import com.example.onlinedoctor.model.AskedQuery;
+import com.example.onlinedoctor.model.Chamber;
+import com.example.onlinedoctor.model.Patient;
+import com.example.onlinedoctor.model.PatientQuery;
 import com.example.onlinedoctor.model.Specialization;
+import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.model.VisitingSchedule;
 import com.example.onlinedoctor.patient.adapter.ChamberVisitingScheduleRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
@@ -48,6 +54,8 @@ public class VisitingScheduleForPatientFragment extends Fragment {
     private NavHostFragment mNavHostFragment;
     private NavController mNavController;
     private ProgressDialog loadingDataProgressDialog;
+    private AlertDialog alertDialog;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +93,7 @@ public class VisitingScheduleForPatientFragment extends Fragment {
         getVisitingSchedule(mPatientHomeViewModel.selectedChamberId.getValue());
         specializationLiveDataObserver();
         visitingScheduleLiveDataObserver();
-        showLoadingDataProgressDialog();
+        showProgressDialog("Loading...");
 
         initNavController();
         mFragmentVisitingScheduleForPatientBinding.closeFragment.setOnClickListener(new View.OnClickListener() {
@@ -103,44 +111,77 @@ public class VisitingScheduleForPatientFragment extends Fragment {
 
 
     }
+    private void sendQueryResponseObserver(){
+        mPatientHomeViewModel.getSendQueryResponse().observe(getViewLifecycleOwner(), (AskedQuery askedQuery) -> {
+            dismissProgressDialog();
+            if(askedQuery.getAskedQueryId()!=null){
+                showAlertDialog("Successfully Send");
 
+            }
+            else {
+                showAlertDialog("Failed to Send");
+            }
+        });
+    }
+    private void sendQuery(AskedQuery askedQuery){
+        mPatientHomeViewModel.sendQuery(getContext(),askedQuery);
+        sendQueryResponseObserver();
+        showProgressDialog("Sending...");
+    }
+
+    private void showAlertDialog(String message){
+        AlertDialog dialog = new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Light_Dialog)
+                .setTitle(message)
+                .setPositiveButton("OK", null)
+                .create();
+                dialog.show();
+        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setBackgroundColor(getResources().getColor(R.color.blue));
+        positiveButton.setTextColor(getResources().getColor(R.color.white));
+        LinearLayout parent = (LinearLayout) positiveButton.getParent();
+        parent.setGravity(Gravity.CENTER_HORIZONTAL);
+        View leftSpacer = parent.getChildAt(1);
+        leftSpacer.setVisibility(View.GONE);
+    }
+
+
+    private AskedQuery getAskedQueryToSend(String query){
+        AskedQuery askedQuery = new AskedQuery();
+        PatientQuery patientQuery = new PatientQuery();
+        Patient patient = new Patient();
+        patient.setPatientUser(User.loginUser);
+        patientQuery.setPatient(patient);
+        patientQuery.setQueryDetails(query);
+        Chamber chamber = new Chamber();
+        chamber.setChamberId(mPatientHomeViewModel.selectedChamberId.getValue());
+        askedQuery.setChamber(chamber);
+        askedQuery.setQuery(patientQuery);
+        return askedQuery;
+    }
     private void showSendQueryDialog(){
 
 
-        AlertDialog.Builder alertDialog= new AlertDialog.Builder(this.getContext(), R.style.Theme_AppCompat_Light_Dialog)
-                .setView(getLayoutInflater().inflate(R.layout.send_quey_dialog,null))
-                .setTitle("Send Query")
-                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        AlertDialog.Builder alertDialog= new AlertDialog.Builder(this.getContext(), R.style.Theme_AppCompat_Light_Dialog);
+        View view = getLayoutInflater().inflate(R.layout.send_quey_dialog,null);
+                alertDialog
+                        .setView(view)
+                        .setTitle("Send Query")
+                        .setPositiveButton("Send", null)
+                        .setNeutralButton("Cancel", ((dialog, which) -> {
 
-                    }
-                })
-                .setNeutralButton("Cancel", ((dialog, which) -> {
-
-                }))
-                .setCancelable(false);
+                        }))
+                        .setCancelable(false);
         AlertDialog dialog = alertDialog.create();
         dialog.show();
-//        // Fetch the PositiveButton
-//        final Button lPositiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-//        // Fetch the LinearLayout.
-//        final LinearLayout lParent         = (LinearLayout) lPositiveButton.getParent();
-//        // Ensure the Parent of the Buttons aligns it's contents to the right.
-//        lParent.setGravity(Gravity.RIGHT);
-//        final Button lNegativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-//        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) lNegativeButton.getLayoutParams();
-//        layoutParams.weight = -10;
-//
-//        lPositiveButton.setLayoutParams(layoutParams);
-//        lNegativeButton.setLayoutParams(layoutParams);
-//        // Fetch the LinearLayout.
-//        final LinearLayout lParentNegative         = (LinearLayout) lNegativeButton.getParent();
-        // Ensure the Parent of the Buttons aligns it's contents to the right.
-        //lParentNegative.setGravity(Gravity.LEFT);
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v ->{
+            String query =
+                    ((EditText)view.findViewById(R.id.queryInputEditText)).getText().toString();
+            if(query.isEmpty()) return;
+            AskedQuery askedQuery = getAskedQueryToSend(query);
+            sendQuery(askedQuery);
+            dialog.dismiss();
+        });
 
-        // Hide the LeftSpacer. (Strict dependence on the order of the layout!)
-        //lParent.getChildAt(1).setVisibility(View.GONE);
 
     }
 
@@ -158,6 +199,7 @@ public class VisitingScheduleForPatientFragment extends Fragment {
         });
         popupMenu.show();
     }
+
     private void initNavController(){
         mNavHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.chamberVisitingScheduleFragmentHolder);
         mNavController = mNavHostFragment.getNavController();
@@ -254,7 +296,7 @@ public class VisitingScheduleForPatientFragment extends Fragment {
     }
 
     private void specializationOnClick(int position){
-        showLoadingDataProgressDialog();
+        showProgressDialog("Loading...");
         if(position==mPatientHomeViewModel.visitingScheduleRecyclerViewSelectedItem){
             getVisitingSchedule(mPatientHomeViewModel.selectedChamberId.getValue());
             mPatientHomeViewModel.visitingScheduleRecyclerViewSelectedItem = -1;
@@ -313,21 +355,21 @@ public class VisitingScheduleForPatientFragment extends Fragment {
         mPatientHomeViewModel.getVisitingScheduleList().observe(getActivity(), new Observer<List<VisitingSchedule>>() {
             @Override
             public void onChanged(List<VisitingSchedule> visitingSchedules) {
-                dismissLoadingDataProgressDialog();
+                dismissProgressDialog();
                 initVisitingScheduleRecyclerView();
                 Log.d(getString(R.string.DEBUGING_TAG),"visiting schedule on change"+(visitingSchedules==null? "null":visitingSchedules.size()));
             }
         });
     }
 
-    private void showLoadingDataProgressDialog(){
+    private void showProgressDialog(String message){
         loadingDataProgressDialog = new ProgressDialog(getContext(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         loadingDataProgressDialog.setIndeterminate(true);
         loadingDataProgressDialog.setCancelable(false);
-        loadingDataProgressDialog.setMessage("Loading...");
+        loadingDataProgressDialog.setMessage(message);
         loadingDataProgressDialog.show();
     }
-    private void dismissLoadingDataProgressDialog(){
+    private void dismissProgressDialog(){
         loadingDataProgressDialog.dismiss();
     }
 }

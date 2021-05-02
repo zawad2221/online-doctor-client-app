@@ -1,6 +1,7 @@
 package com.example.onlinedoctor.patient.api;
 
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.AskedQuery;
 import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
@@ -41,6 +42,13 @@ public interface PatientApi {
             @Path(value = "dateOfToday", encoded = true) String dateOfToday
     );
 
+    @POST("patient/saveAskedQuery/")
+    Call<AskedQuery> sendQuery(@Body AskedQuery askedQuery);
+
+    @GET("patient/getAskedQueryByPatient/{patientUserId}/")
+    Call<List<AskedQuery>> getAskedQueryByPatient(
+            @Path(value = "patientUserId", encoded = true) int patientUserId
+    );
 
 
 

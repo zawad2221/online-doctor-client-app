@@ -9,8 +9,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.ActivityLoginBinding;
@@ -83,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showLoginResponseDialog(String message, boolean response){
-        new AlertDialog.Builder(this)
+        AlertDialog alertDialog= new AlertDialog.Builder(this)
                 .setTitle(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -98,8 +101,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 })
                 .setCancelable(false)
-                .create()
-                .show();
+                .create();
+                alertDialog.show();
+
     }
 
     private boolean isValidInput(){

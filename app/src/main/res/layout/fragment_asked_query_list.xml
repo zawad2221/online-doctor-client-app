@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetScrollView"
+    android:background="@color/white"
+    android:fillViewport="true"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:id="@+id/bottomSheet"
+        android:background="@color/white"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/appToolBar"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_bar_style"
+
+                >
+
+
+                <ImageButton
+                    android:id="@+id/profileButton"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@drawable/home_search_bar_profile"
+                    android:src="@drawable/demo_profile_pic"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/queryFilterChipGroup"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appToolBar"
+            android:layout_margin="9dp"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:singleSelection="true"
+
+            >
+            <com.google.android.material.chip.Chip
+
+                android:id="@+id/askedQueryAnswered"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/asked_query_answered"
+                android:theme="@style/Theme.MaterialComponents.Light"
+
+                />
+            <com.google.android.material.chip.Chip
+
+
+
+                android:id="@+id/askedQueryNotAnswered"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:text="@string/asked_query_not_answered"
+                android:theme="@style/Theme.MaterialComponents.Light"
+
+                />
+
+        </com.google.android.material.chip.ChipGroup>
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/queryFilterChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:id="@+id/askedQueryRecyclerView"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

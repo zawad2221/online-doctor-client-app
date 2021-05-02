@@ -3,4 +3,5 @@
     <item android:id="@+id/sendQuery"
         android:title="@string/send_query_text"
         />
+
 </menu>

@@ -28,5 +28,6 @@
         </selector>
     </color>
     <color name="yellow">#FFC107</color>
+    <color name="blue">#0027FD</color>
 
 </resources>

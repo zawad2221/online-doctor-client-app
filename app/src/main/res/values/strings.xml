@@ -78,5 +78,9 @@
     <string name="appointment_filer_new">New Appointment</string>
     <string name="appointment_filter_old">Old Appointment</string>
     <string name="send_query_text">Send Query</string>
+    <string name="queries_text">Queries</string>
+    <string name="asked_query_answered">Answered</string>
+    <string name="asked_query_not_answered">Not Answered</string>
+    <string name="HTML_CREATE_CODE">200</string>
 
 </resources>

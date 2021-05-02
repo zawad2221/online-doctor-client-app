@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="22dp"
+    >
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:id="@+id/noteDetail"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,7 +21,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/symptomNoteDetailEditTextInput"
+            android:id="@+id/queryInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your query"

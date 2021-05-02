@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.onlinedoctor.appointment.AppointmentRepository;
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.AskedQuery;
 import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Specialization;
 import com.example.onlinedoctor.model.VisitingSchedule;
@@ -40,6 +41,11 @@ public class PatientHomeViewModel extends ViewModel {
 
     public MutableLiveData<String> bottomNavSelectedItem = new MutableLiveData<>("null");
 
+    public MutableLiveData<AskedQuery> sendQueryResponse = new MutableLiveData<>();
+
+    //patient query list
+    private MutableLiveData<List<AskedQuery>> askedQueryListLiveData = new MutableLiveData<>();
+
 
 
 
@@ -59,6 +65,12 @@ public class PatientHomeViewModel extends ViewModel {
                 patientId,
                 visitingScheduleId,
                 date);
+    }
+
+    //get patient asked query list
+    public void getAskedQueryList(Context context, int patientUserId){
+        initPatientRepository();
+        askedQueryListLiveData = mPatientRepository.getAskedQueryByPatient(context, patientUserId);
     }
 
     public void getOldAppointmentOfPatient(Context context, int patientUserId, String dateOfToday){
@@ -117,6 +129,11 @@ public class PatientHomeViewModel extends ViewModel {
         );
     }
 
+    public void sendQuery(Context context, AskedQuery askedQuery){
+        initPatientRepository();
+        sendQueryResponse = mPatientRepository.sendQuery(context,askedQuery);
+    }
+
     public void makeAppointment(Context context, Appointment appointment){
         initPatientRepository();
         newMadeAppointment=mPatientRepository.makeAppointment(context,appointment);
@@ -169,5 +186,13 @@ public class PatientHomeViewModel extends ViewModel {
 
     public MutableLiveData<List<Appointment>> getPatientBookedAppointmentList() {
         return patientBookedAppointmentList;
+    }
+
+    public MutableLiveData<AskedQuery> getSendQueryResponse() {
+        return sendQueryResponse;
+    }
+
+    public MutableLiveData<List<AskedQuery>> getAskedQueryMutableLiveData() {
+        return askedQueryListLiveData;
     }
 }

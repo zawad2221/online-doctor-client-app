@@ -52,7 +52,7 @@
     </androidx.appcompat.widget.Toolbar>
     <com.google.android.material.chip.ChipGroup
         android:layout_width="0dp"
-        android:layout_height="44dp"
+        android:layout_height="54dp"
         style="@style/Widget.MaterialComponents.Chip.Choice"
         android:id="@+id/appointmentFilterChipGroup"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -66,6 +66,7 @@
 
         >
         <com.google.android.material.chip.Chip
+
             android:id="@+id/appointmentFilterNew"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

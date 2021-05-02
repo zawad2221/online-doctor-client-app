@@ -14,6 +14,7 @@
         <action
             android:id="@+id/action_chamberVisitingScheduleForPatient_to_patientMakeAppointment"
             app:destination="@id/patientMakeAppointment" />
+
     </fragment>
     <fragment
         android:id="@+id/patientMakeAppointment"
@@ -21,5 +22,7 @@
         android:label="Patient Make Appointment"
         tools:layout="@layout/fragment_patient_make_appointment"
         />
+
+
 
 </navigation>
