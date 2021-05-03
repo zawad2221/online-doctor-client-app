@@ -49,6 +49,14 @@ public interface PatientApi {
     Call<List<AskedQuery>> getAskedQueryByPatient(
             @Path(value = "patientUserId", encoded = true) int patientUserId
     );
+    @GET("patient/getNotAnsweredQueryByPatient/{patientUserId}/")
+    Call<List<AskedQuery>> getNotAnsweredQueryByPatient(
+            @Path(value = "patientUserId", encoded = true) int patientUserId
+    );
+    @GET("patient/getAnsweredQueryByPatient/{patientUserId}/")
+    Call<List<AskedQuery>> getAnsweredQueryByPatient(
+            @Path(value = "patientUserId", encoded = true) int patientUserId
+    );
 
 
 

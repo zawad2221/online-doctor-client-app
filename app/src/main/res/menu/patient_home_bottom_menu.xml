@@ -4,16 +4,23 @@
     <item android:id="@+id/patientHomeFragment"
         android:title="Home"
         android:icon="@drawable/ic_baseline_home_24"
-
+        android:enabled="true"
         />
     <item android:id="@+id/patientBookedAppointment"
         android:title="Appointments"
         android:icon="@drawable/view_list"
-        app:showAsAction="always"
+        android:enabled="true"
         />
     <item android:id="@+id/patientAskedQueries"
         android:title="Queries"
-        android:icon="@drawable/view_list"
+        android:icon="@drawable/query_symbol"
+        android:enabled="true"
+        />
+    <item android:id="@+id/patientMedicalHistory"
+        android:title="Medical History"
+        android:icon="@drawable/history"
+        android:enabled="true"
+
         />
 
 </menu>

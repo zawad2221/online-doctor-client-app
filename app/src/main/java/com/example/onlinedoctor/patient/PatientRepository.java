@@ -256,6 +256,46 @@ public class PatientRepository {
         return askedQueryList;
     }
 
+    public MutableLiveData<List<AskedQuery>> getNotAnsweredQueryByPatient(Context context, int patientUserId){
+        MutableLiveData<List<AskedQuery>> askedQueryList = new MutableLiveData<>();
+        PatientApi patientApi = getPatientApi(context);
+        Call<List<AskedQuery>> call = patientApi.getNotAnsweredQueryByPatient(patientUserId);
+        call.enqueue(new Callback<List<AskedQuery>>() {
+            @Override
+            public void onResponse(Call<List<AskedQuery>> call, Response<List<AskedQuery>> response) {
+                if(response.isSuccessful()&&response.code()==Integer.parseInt(context.getString(R.string.HTML_CREATE_CODE))){
+                    askedQueryList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AskedQuery>> call, Throwable t) {
+
+            }
+        });
+        return askedQueryList;
+    }
+
+    public MutableLiveData<List<AskedQuery>> getAnsweredQueryByPatient(Context context, int patientUserId){
+        MutableLiveData<List<AskedQuery>> askedQueryList = new MutableLiveData<>();
+        PatientApi patientApi = getPatientApi(context);
+        Call<List<AskedQuery>> call = patientApi.getAnsweredQueryByPatient(patientUserId);
+        call.enqueue(new Callback<List<AskedQuery>>() {
+            @Override
+            public void onResponse(Call<List<AskedQuery>> call, Response<List<AskedQuery>> response) {
+                if(response.isSuccessful()&&response.code()==Integer.parseInt(context.getString(R.string.HTML_CREATE_CODE))){
+                    askedQueryList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AskedQuery>> call, Throwable t) {
+
+            }
+        });
+        return askedQueryList;
+    }
+
 
 
 

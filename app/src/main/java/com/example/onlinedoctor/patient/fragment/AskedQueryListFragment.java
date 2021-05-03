@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.Gravity;
@@ -19,15 +17,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentAskedQueryListBinding;
-import com.example.onlinedoctor.model.AskedQuery;
-import com.example.onlinedoctor.model.Patient;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.adapter.AskedQueryRecyclerAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
 
@@ -57,10 +53,47 @@ public class AskedQueryListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPatientHomeViewModel.getAskedQueryList(getContext(), User.loginUser.getUserId());
+        answeredFilterListener();
+        mPatientHomeViewModel.getAskedQueryList(getContext(), getLoggedInPatientUserId());
         askedQueryListObserver();
 
     }
+
+    private int getLoggedInPatientUserId(){
+        return User.loginUser.getUserId();
+    }
+
+    private void answeredFilterListener(){
+        mFragmentAskedQueryListBinding.queryFilterChipGroup.setOnCheckedChangeListener((ChipGroup chipGroup, int checkedId) -> {
+            switch (checkedId){
+                case R.id.askedQueryAnswered:
+                    answeredFilterChecked();
+                    break;
+                case R.id.askedQueryNotAnswered:
+                    notAnsweredFilterChecked();
+                    break;
+            }
+        });
+    }
+
+    private void notAnsweredFilterChecked() {
+        getAnsweredQuery();
+        askedQueryListObserver();
+    }
+
+    private void getAnsweredQuery() {
+        mPatientHomeViewModel.getAnsweredQueryByPatient(getContext(),getLoggedInPatientUserId());
+    }
+
+    private void answeredFilterChecked() {
+        getNotAnsweredQuery();
+        askedQueryListObserver();
+    }
+
+    private void getNotAnsweredQuery() {
+        mPatientHomeViewModel.getNotAnsweredQueryByPatient(getContext(),getLoggedInPatientUserId());
+    }
+
 
     private void initViewModel(){
         mPatientHomeViewModel = new ViewModelProvider(getActivity())

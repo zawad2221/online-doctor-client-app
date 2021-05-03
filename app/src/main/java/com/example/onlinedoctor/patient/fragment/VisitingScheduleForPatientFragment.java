@@ -111,6 +111,9 @@ public class VisitingScheduleForPatientFragment extends Fragment {
 
 
     }
+
+
+
     private void sendQueryResponseObserver(){
         mPatientHomeViewModel.getSendQueryResponse().observe(getViewLifecycleOwner(), (AskedQuery askedQuery) -> {
             dismissProgressDialog();

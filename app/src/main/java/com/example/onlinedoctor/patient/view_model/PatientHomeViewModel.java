@@ -72,6 +72,16 @@ public class PatientHomeViewModel extends ViewModel {
         initPatientRepository();
         askedQueryListLiveData = mPatientRepository.getAskedQueryByPatient(context, patientUserId);
     }
+    //get patient asked query list which replied by chamber
+    public void getAnsweredQueryByPatient(Context context, int patientUserId){
+        initPatientRepository();
+        askedQueryListLiveData = mPatientRepository.getAnsweredQueryByPatient(context, patientUserId);
+    }
+    //get patient asked query list which is not replied by chamber
+    public void getNotAnsweredQueryByPatient(Context context, int patientUserId){
+        initPatientRepository();
+        askedQueryListLiveData = mPatientRepository.getNotAnsweredQueryByPatient(context, patientUserId);
+    }
 
     public void getOldAppointmentOfPatient(Context context, int patientUserId, String dateOfToday){
         initPatientRepository();
