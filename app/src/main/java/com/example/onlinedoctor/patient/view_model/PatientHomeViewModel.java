@@ -10,9 +10,11 @@ import com.example.onlinedoctor.appointment.AppointmentRepository;
 import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.AskedQuery;
 import com.example.onlinedoctor.model.Chamber;
+import com.example.onlinedoctor.model.Prescription;
 import com.example.onlinedoctor.model.Specialization;
 import com.example.onlinedoctor.model.VisitingSchedule;
 import com.example.onlinedoctor.patient.PatientRepository;
+import com.example.onlinedoctor.prescription.PrescriptionRepository;
 import com.example.onlinedoctor.registration.RegistrationRepository;
 import com.example.onlinedoctor.visiting_schedule.VisitingScheduleRepository;
 
@@ -23,6 +25,8 @@ public class PatientHomeViewModel extends ViewModel {
     private RegistrationRepository mRegistrationRepository;
     private VisitingScheduleRepository mVisitingScheduleRepository;
     private AppointmentRepository mAppointmentRepository;
+    private PrescriptionRepository mPrescriptionRepository;
+
 
     private MutableLiveData<List<Specialization>> specializationList;
     private MutableLiveData<List<Chamber>> chamberList;
@@ -46,6 +50,8 @@ public class PatientHomeViewModel extends ViewModel {
     //patient query list
     private MutableLiveData<List<AskedQuery>> askedQueryListLiveData = new MutableLiveData<>();
 
+    //patient prescription list
+    private MutableLiveData<List<Prescription>> prescriptionListLiveData = new MutableLiveData<>();
 
 
 
@@ -66,6 +72,16 @@ public class PatientHomeViewModel extends ViewModel {
                 visitingScheduleId,
                 date);
     }
+
+    //patient prescription
+    private void initPrescriptionRepository(){
+        if(mPrescriptionRepository==null) mPrescriptionRepository = PrescriptionRepository.getInstance();
+    }
+    public void getPrescriptionListByPatientUserId(Context context, int patientUserId){
+        initPrescriptionRepository();
+        prescriptionListLiveData =  mPrescriptionRepository.getPrescriptionByPatientUserId(context,patientUserId);
+    }
+
 
     //get patient asked query list
     public void getAskedQueryList(Context context, int patientUserId){
@@ -205,4 +221,10 @@ public class PatientHomeViewModel extends ViewModel {
     public MutableLiveData<List<AskedQuery>> getAskedQueryMutableLiveData() {
         return askedQueryListLiveData;
     }
+
+    public MutableLiveData<List<Prescription>> getPrescriptionListLiveData() {
+        return prescriptionListLiveData;
+    }
+
+
 }

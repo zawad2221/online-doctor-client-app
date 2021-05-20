@@ -29,9 +29,9 @@
             <ImageView
                 android:id="@+id/doctorProfileImage"
                 android:layout_width="69dp"
-                android:layout_height="89dp"
+                android:layout_height="99dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:src="@drawable/demo_profile_pic"
+                android:src="@drawable/doctor_icon_demo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="0dp"

@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_patientHomeFragment_to_patientAskedQueries"
             app:destination="@id/patientAskedQueries" />
+        <action
+            android:id="@+id/action_patientHomeFragment_to_patientMedicalHistory"
+            app:destination="@id/patientMedicalHistory" />
     </fragment>
 
     <fragment
@@ -38,5 +41,11 @@
         android:name="com.example.onlinedoctor.patient.fragment.AskedQueryListFragment"
         android:label="Patient Asked Query List"
         tools:layout="@layout/fragment_asked_query_list"
+        />
+    <fragment
+        android:id="@+id/patientMedicalHistory"
+        android:name="com.example.onlinedoctor.patient.fragment.PatientMedicalHistoryFragment"
+        android:label="Patient Medical History"
+        tools:layout="@layout/fragment_patient_medical_history"
         />
 </navigation>
