@@ -15,7 +15,9 @@
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
-        android:padding="@dimen/loginViewsMargin">
+        android:padding="@dimen/loginViewsMargin"
+        android:background="@color/white"
+        >
 
         <TextView
             style="@style/headerTextPrimary"
@@ -24,11 +26,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputEmail"
-            style="@style/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="@dimen/loginViewsMargin"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             >
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPhoneNumber"
                 style="@style/modifiedEditText"
                 android:inputType="number"
@@ -39,9 +46,14 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutPassword"
-            style="@style/parent"
-            android:layout_marginTop="@dimen/loginViewsMargin">
-            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black">
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPassword"
                 style="@style/modifiedEditText"
                 android:hint="@string/login_password_hint"

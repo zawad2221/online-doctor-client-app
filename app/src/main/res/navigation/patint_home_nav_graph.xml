@@ -47,5 +47,35 @@
         android:name="com.example.onlinedoctor.patient.fragment.PatientMedicalHistoryFragment"
         android:label="Patient Medical History"
         tools:layout="@layout/fragment_patient_medical_history"
+        >
+        <action
+            android:id="@+id/action_patientMedicalHistory_to_patientMedicalHistoryPrescription"
+            app:destination="@id/patientMedicalHistoryPrescription" />
+        <action
+            android:id="@+id/action_patientMedicalHistory_to_patientPrescriptionDetails"
+            app:destination="@id/patientPrescriptionDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientMedicalHistoryPrescription"
+        android:name="com.example.onlinedoctor.patient.fragment.PatientPrescriptionListFragment"
+        android:label="Patient Medical History Prescription"
+        tools:layout="@layout/fragment_patient_prescription_list"
+        >
+        <action
+            android:id="@+id/action_patientMedicalHistoryPrescription_to_patientMedicalHistoryReport"
+            app:destination="@id/patientMedicalHistoryReport" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/patientMedicalHistoryReport"
+        android:name="com.example.onlinedoctor.patient.fragment.PatientReportListFragment"
+        android:label="Patient Medical History Report"
+        tools:layout="@layout/fragment_patient_report_list"
+        />
+    <fragment
+        android:id="@+id/patientPrescriptionDetails"
+        android:name="com.example.onlinedoctor.patient.fragment.PrescriptionDetailsFragment"
+        android:label="Patient Prescription Details"
+        tools:layout="@layout/fragment_prescription_details"
         />
 </navigation>

@@ -113,6 +113,11 @@ public class User {
         }
     }
 
+    public static boolean isLoggedInUser(){
+        if(User.loginUser.getUserId()==null) return false;
+        else return true;
+    }
+
     private static void showDoctorProfile() {
     }
 

@@ -32,9 +32,7 @@ public class PatientPrescriptionRecyclerAdapter extends RecyclerView.Adapter<Pat
         final Prescription prescription = prescriptionList.get(position);
         Log.d("DEBUGING_TAG", "prescription adapter on bind item: "+position);
         holder.mPrescriptionRecyclerViewItemBinding.setPrescription(prescription);
-        holder.mPrescriptionRecyclerViewItemBinding.prescriptionItemConstraintLayout.setOnClickListener((View v) -> {
-            onClickListener.OnItemClickListener(position);
-        });
+
     }
 
     @Override
@@ -59,7 +57,9 @@ public class PatientPrescriptionRecyclerAdapter extends RecyclerView.Adapter<Pat
         public ViewHolder(PrescriptionRecyclerViewItemBinding mPrescriptionRecyclerViewItemBinding) {
             super(mPrescriptionRecyclerViewItemBinding.getRoot());
             this.mPrescriptionRecyclerViewItemBinding = mPrescriptionRecyclerViewItemBinding;
-
+            mPrescriptionRecyclerViewItemBinding.prescriptionItemConstraintLayout.setOnClickListener((View v) -> {
+                onClickListener.OnItemClickListener(getAdapterPosition());
+            });
         }
     }
 }

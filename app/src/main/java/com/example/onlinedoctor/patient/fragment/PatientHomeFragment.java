@@ -544,7 +544,7 @@ public class PatientHomeFragment extends Fragment {
         }
         catch (Exception e){
             Log.d(DEBUGING_TAG,"patient home frag get location exception: "+e.getMessage());
-            return new LatLng(-34, 151);
+            return new LatLng(27.2046, 77.4977);
         }
 
     }

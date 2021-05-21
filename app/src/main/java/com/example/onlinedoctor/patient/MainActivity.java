@@ -130,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(String s) {
                 Log.d(getString(R.string.DEBUGING_TAG),"selected nav on change, selected frag: "+s);
-                if(s.equals(getString(R.string.PATIENT_FRAGMENT_BOOKED_APPOINTMENT_DETAILS))){
+                if(s.equals(getString(R.string.PATIENT_FRAGMENT_BOOKED_APPOINTMENT_DETAILS))||
+                    s.equals(getString(R.string.PRESCRIBED_MEDICINE_FRAGMENT))){
                     setBottomNabVisibility(View.GONE);
                 }
                 else {

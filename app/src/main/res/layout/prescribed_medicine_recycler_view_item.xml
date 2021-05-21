@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data >
+        <variable
+            name="prescribedMedicine"
+            type="com.example.onlinedoctor.model.PrescribedMedicine" />
+
+    </data>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:cardCornerRadius="11dp"
+        app:cardElevation="22dp"
+        app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="#FFFFFF"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/prescriptionItemConstraintLayout"
+            android:padding="11dp"
+            >
+
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="22dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/medicineNameLayout"
+                    >
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@{prescribedMedicine.medicine.medicineForm.formName.equals(`tablet`)? @drawable/tablet: (prescribedMedicine.medicine.medicineForm.formName.equals(`capsule`)? @drawable/capsule: @drawable/liquid_icon)}"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/medicineName"
+                        android:layout_marginStart="5dp"
+                        android:text="@{prescribedMedicine.medicine.medicineName}"
+                        android:textSize="22sp"
+                        android:textColor="@android:color/black"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp"
+                    >
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/medicine_frequency"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/medicineFrequency"
+                            android:layout_marginLeft="5dp"
+                            android:text="@{prescribedMedicine.frequency}"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            android:textColor="@android:color/black"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/medicineQuantity"
+                            android:layout_marginLeft="15dp"
+                            android:text="@{prescribedMedicine.quantity}"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            android:textColor="@android:color/black"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:text="@{prescribedMedicine.medicine.medicineForm.formName.equals(`liquid`)? `ml`: `piece`}"
+                            android:textSize="@dimen/appointment_info_text_size"
+                            android:textColor="@android:color/black"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    >
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@drawable/medicine_taking_duration"
+                        android:tint="@color/color_green"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/medicineTakingDuration"
+                        android:layout_marginLeft="5dp"
+                        android:text="@{prescribedMedicine.duration}"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:text="Day"
+                        android:textSize="@dimen/appointment_info_text_size"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

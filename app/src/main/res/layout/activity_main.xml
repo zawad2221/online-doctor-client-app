@@ -18,7 +18,7 @@
        app:layout_constraintBottom_toBottomOf="parent"
 
        android:background="#FFFFFF"
-       android:backgroundTint="#FF0000"
+       android:backgroundTint="@color/white"
        app:itemIconTint="@color/patient_home_bottom_nav_color"
        app:itemTextColor="@color/patient_home_bottom_nav_color"
 

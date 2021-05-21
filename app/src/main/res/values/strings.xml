@@ -82,5 +82,7 @@
     <string name="asked_query_answered">Answered</string>
     <string name="asked_query_not_answered">Not Answered</string>
     <string name="HTML_CREATE_CODE">200</string>
+    <string name="PRESCRIBED_MEDICINE_FRAGMENT">prescribed_medicine_fragment</string>
+    <string name="PATIENT_PRESCRIPTION_FRAGMENT">patient_prescription_list</string>
 
 </resources>

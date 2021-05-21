@@ -52,6 +52,7 @@ public class PatientHomeViewModel extends ViewModel {
 
     //patient prescription list
     private MutableLiveData<List<Prescription>> prescriptionListLiveData = new MutableLiveData<>();
+    public int selectedPrescriptionRecyclerItemPosition;
 
 
 

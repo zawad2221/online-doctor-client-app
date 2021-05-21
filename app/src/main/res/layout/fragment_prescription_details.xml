@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="prescription"
+            type="com.example.onlinedoctor.model.Prescription" />
+    </data>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/prescriptionDetailsScrollView"
+        android:background="@color/white"
+        android:fillViewport="true"
+
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
+            <ImageView
+                android:id="@+id/closeFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/black" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="171dp"
+                app:layout_constraintTop_toTopOf="@+id/closeFragment"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="11dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="#FFFFFF"
+                android:id="@+id/doctorProfileInfo"
+                >
+                <ImageView
+                    android:id="@+id/doctorProfileImage"
+                    android:layout_width="96dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/doctor_icon_demo"
+                    android:layout_gravity="center_vertical"
+                    android:padding="12dp"
+                    android:background="@drawable/shadow_test"
+                    />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="7dp"
+                    >
+                    <TextView
+                        android:id="@+id/doctorName"
+                        android:textColor="#031161"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{prescription.appointment.appointmentVisitingSchedule.visitingScheduleDoctor.doctorUser.userName}"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="22dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/specialization"
+                        android:textColor="#0824BD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{prescription.appointment.appointmentVisitingSchedule.visitingScheduleDoctor.doctorSpecialization.specializationName}"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/doctorName"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        />
+                    <TextView
+                        android:id="@+id/doctorBMDCId"
+                        android:textColor="#0824BD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{prescription.appointment.appointmentVisitingSchedule.visitingScheduleDoctor.doctorSpecialization.specializationName}"
+
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/specialization"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="14dp"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="15dp"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/horizontalTopGuideline"
+                app:layout_constraintGuide_begin="452dp"
+                />
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/prescriptionInfoCard"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+                app:layout_constraintTop_toBottomOf="@id/doctorProfileInfo"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="11dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="#FFFFFF"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="left"
+                    android:layout_margin="22dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/appointmentInfo"
+                        app:layout_constraintLeft_toRightOf="@+id/guidelineVertical"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="18dp"
+                        android:id="@+id/appointmentDate"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/date_icon"
+                            />
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/scheduleDate"
+                                android:layout_marginStart="5dp"
+                                android:text="@{prescription.appointment.appointmentDate}"
+                                android:textSize="16sp"
+                                android:textColor="@android:color/black"
+                                />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="11dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Patient History"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{prescription.patientHistory.patientHistoryDetails}"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:id="@+id/patientMedicalHistory"
+
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="11dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Doctor's Suggestion"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{prescription.suggestion.suggestionDetails}"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:id="@+id/doctorsSuggestion"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/prescriptionMedicineCard"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+                app:layout_constraintTop_toBottomOf="@id/prescriptionInfoCard"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="11dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="#FFFFFF"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bookedPatientInfoLayout"
+                    android:orientation="vertical"
+
+
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Suggested Medicine"
+                        android:textSize="@dimen/appointment_info_text_size"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="22dp"
+                        android:layout_marginTop="22dp"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/prescribedMedicineRecyclerView"
+                        />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

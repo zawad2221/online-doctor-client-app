@@ -42,12 +42,25 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/patientPrescriptionHistory"
-                android:text="@{prescription.patientHistory.patientHistoryDetails}"
+                android:id="@+id/patientPrescriptionHistoryLabel"
+                android:text="History/Symptom"
                 app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
                 app:layout_constraintRight_toLeftOf="@id/guidelineRight"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="22dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/patientPrescriptionHistory"
+                android:text="@{prescription.patientHistory.patientHistoryDetails}"
+                app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+                app:layout_constraintRight_toLeftOf="@id/guidelineRight"
+                app:layout_constraintTop_toBottomOf="@id/patientPrescriptionHistoryLabel"
+                android:layout_marginTop="2dp"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 />
