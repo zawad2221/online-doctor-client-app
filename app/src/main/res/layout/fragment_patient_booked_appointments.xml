@@ -67,6 +67,17 @@
         >
         <com.google.android.material.chip.Chip
 
+            android:id="@+id/appointmentFilterAll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/filter_all"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:checkedIcon="@drawable/check"
+            android:checked="true"
+            />
+        <com.google.android.material.chip.Chip
+
             android:id="@+id/appointmentFilterNew"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

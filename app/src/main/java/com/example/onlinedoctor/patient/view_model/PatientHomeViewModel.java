@@ -12,13 +12,17 @@ import com.example.onlinedoctor.model.AskedQuery;
 import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Prescription;
 import com.example.onlinedoctor.model.Specialization;
+import com.example.onlinedoctor.model.TestReport;
 import com.example.onlinedoctor.model.VisitingSchedule;
 import com.example.onlinedoctor.patient.PatientRepository;
+import com.example.onlinedoctor.patient_report.ReportRepository;
 import com.example.onlinedoctor.prescription.PrescriptionRepository;
 import com.example.onlinedoctor.registration.RegistrationRepository;
 import com.example.onlinedoctor.visiting_schedule.VisitingScheduleRepository;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public class PatientHomeViewModel extends ViewModel {
     private PatientRepository mPatientRepository;
@@ -26,6 +30,7 @@ public class PatientHomeViewModel extends ViewModel {
     private VisitingScheduleRepository mVisitingScheduleRepository;
     private AppointmentRepository mAppointmentRepository;
     private PrescriptionRepository mPrescriptionRepository;
+    private ReportRepository mReportRepository;
 
 
     private MutableLiveData<List<Specialization>> specializationList;
@@ -53,6 +58,31 @@ public class PatientHomeViewModel extends ViewModel {
     //patient prescription list
     private MutableLiveData<List<Prescription>> prescriptionListLiveData = new MutableLiveData<>();
     public int selectedPrescriptionRecyclerItemPosition;
+
+    //patient report list
+    private MutableLiveData<List<TestReport>> patientTestReportList = new MutableLiveData<>();
+    public int selectedTestReportRecyclerItemPosition;
+    private MutableLiveData<ResponseBody> testReportDownloadResponse = new MutableLiveData<ResponseBody>();
+    private void initReportRepository(){
+        if(mReportRepository==null) mReportRepository=ReportRepository.getInstance();
+    }
+    public void getPatientReportByPatientUserId(Context context, int patientUserId){
+        initReportRepository();
+        patientTestReportList = mReportRepository.getReportByPatientUserId(context,patientUserId);
+    }
+    public void getDoneReportByPatientUserId(Context context, int patientUserId){
+        initReportRepository();
+        patientTestReportList = mReportRepository.getDoneReportByPatientUserId(context,patientUserId);
+    }
+    public void getNotReportByPatientUserId(Context context, int patientUserId){
+        initReportRepository();
+        patientTestReportList = mReportRepository.getNotReportByPatientUserId(context,patientUserId);
+    }
+    public void downloadReportFile(Context context, int reportId){
+        initReportRepository();
+        testReportDownloadResponse = mReportRepository.downloadReportFile(context,reportId);
+
+    }
 
 
 
@@ -227,5 +257,11 @@ public class PatientHomeViewModel extends ViewModel {
         return prescriptionListLiveData;
     }
 
+    public MutableLiveData<List<TestReport>> getPatientTestReportList() {
+        return patientTestReportList;
+    }
 
+    public MutableLiveData<ResponseBody> getTestReportDownloadResponse() {
+        return testReportDownloadResponse;
+    }
 }

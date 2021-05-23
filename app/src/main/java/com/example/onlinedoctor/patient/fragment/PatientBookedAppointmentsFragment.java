@@ -76,9 +76,15 @@ public class PatientBookedAppointmentsFragment extends Fragment {
                     getOldAppointment();
                     observeAppointmentList();
                     break;
+                case R.id.appointmentFilterAll:
+                    initBookedAppointmentList();
+                    observeAppointmentList();
+                    break;
                 default:
                     initBookedAppointmentList();
                     observeAppointmentList();
+                    mFragmentPatientBookedAppointmentsBinding.appointmentFilterAll.setChecked(true);
+                    break;
             }
 
         });

@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mActivityMainBinding.getRoot());
 //        Doctor doctor= new Doctor();
 //        RegistrationRepository.registration(doctor);
+        getLoginUser();
         initViewModel();
         observeSelectedBottomNavTab();
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //        finish();
 
 
-        getLoginUser();
+
         if(User.loginUser!=null){
             if(User.loginUser.getUserRole()!=null){
                 if(User.loginUser.getUserRole().equals("patient")){

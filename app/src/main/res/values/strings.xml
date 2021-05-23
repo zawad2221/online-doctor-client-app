@@ -84,5 +84,9 @@
     <string name="HTML_CREATE_CODE">200</string>
     <string name="PRESCRIBED_MEDICINE_FRAGMENT">prescribed_medicine_fragment</string>
     <string name="PATIENT_PRESCRIPTION_FRAGMENT">patient_prescription_list</string>
+    <string name="report_filer_not_done">Not Done</string>
+    <string name="report_filer_done">Done</string>
+    <string name="filter_all">All</string>
+    <string name="report_file_url_intent_exrta_tag">report_file</string>
 
 </resources>

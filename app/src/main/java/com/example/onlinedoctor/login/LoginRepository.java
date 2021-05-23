@@ -31,8 +31,8 @@ public class LoginRepository {
         return instance;
     }
 
-    public MutableLiveData<Boolean> login(User user, Context context){
-        MutableLiveData<Boolean> result = new MutableLiveData<>();
+    public MutableLiveData<User> login(User user, Context context){
+        MutableLiveData<User> result = new MutableLiveData<>();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8000/user/")
                 .addConverterFactory(GsonConverterFactory.create());
@@ -43,20 +43,26 @@ public class LoginRepository {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()&&response.code()==LOGIN_SUCCESS_CODE){
-                    result.setValue(true);
+                    result.setValue(response.body());
+
+
                     Log.d(DEBUGING_TAG,"login success: ");
-                    saveLoginUser(response.body(),context);
-                    redirectToUserPage(context, response.body());
+//                    saveLoginUser(response.body(),context);
+//                    redirectToUserPage(context, response.body());
                 }
                 else {
-                    result.setValue(false);
+                    User u = new User();
+                    u.setUserId(-1);
+                    result.setValue(u);
                     Log.d(DEBUGING_TAG,"login is not success");
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                result.setValue(false);
+                User u = new User();
+                u.setUserId(-1);
+                result.setValue(u);
                 Log.d(DEBUGING_TAG,"login failed");
             }
         });
@@ -66,6 +72,7 @@ public class LoginRepository {
     private void redirectToUserPage(Context context, User user){
         Log.d(DEBUGING_TAG,"redirecting....User: "+user.getUserRole());
         if(user.getUserRole().equals("patient")){
+
             context.startActivity(new Intent(context, MainActivity.class));
 
 

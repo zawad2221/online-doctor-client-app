@@ -72,6 +72,7 @@ public class PatientPrescriptionListFragment extends Fragment {
     }
     private void getPrescriptionList(){
         mPatientHomeViewModel.getPrescriptionListByPatientUserId(getContext(), User.loginUser.getUserId());
+        Log.d(getString(R.string.DEBUGING_TAG),"pres frag userId: "+User.loginUser.getUserId());
         patientPrescriptionListObserver();
     }
     private void patientPrescriptionListObserver(){

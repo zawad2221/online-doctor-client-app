@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".patient.fragment.PatientReportListFragment">
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:id="@+id/reportFilterChipGroup"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:singleSelection="true"
+        >
+        <com.google.android.material.chip.Chip
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+            android:id="@+id/reportFilterAll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/filter_all"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:checkedIcon="@drawable/check"
+            android:checked="true"
+            />
+        <com.google.android.material.chip.Chip
+
+            android:id="@+id/reportFilterNotDone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/report_filer_not_done"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:checkedIcon="@drawable/check"
+            />
+        <com.google.android.material.chip.Chip
+            android:textSize="22dp"
+            android:id="@+id/reportFilterDone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:text="@string/report_filer_done"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:checkedIcon="@drawable/check"
+            />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/patientTestReportRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintTop_toBottomOf="@id/reportFilterChipGroup"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</FrameLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

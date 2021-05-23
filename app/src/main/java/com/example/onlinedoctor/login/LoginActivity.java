@@ -6,20 +6,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.ActivityLoginBinding;
 import com.example.onlinedoctor.login.view_model.LoginViewModel;
 import com.example.onlinedoctor.login.view_model.LoginViewModelFactory;
 import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.registration.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -47,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+        mActivityLoginBinding.closeActivity.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        });
         
 
     }
@@ -63,18 +67,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginResponseObserver(){
-        mLoginViewModel.getLoginResponse().observe(this, new Observer<Boolean>() {
+        mLoginViewModel.getLoginResponse().observe(this, new Observer<User>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
-                    showLoginResponseDialog("login success",aBoolean);
+            public void onChanged(User user) {
+                if(user.getUserId()!=-1){
+                    saveLoginUser(user);
+                    showLoginResponseDialog("login success",true, user);
+                    User.loginUser = user;
+
                 }
                 else {
-                    showLoginResponseDialog("login failed. invalid phone number or password",aBoolean);
+                    showLoginResponseDialog("login failed. invalid phone number or password",false, user);
                 }
                 progressDialog.dismiss();
             }
         });
+    }
+    private void redirectToUserPage(User user){
+        Log.d(getString(R.string.DEBUGING_TAG),"redirecting....User: "+user.getUserRole());
+        if(user.getUserRole().equals("patient")){
+
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+
+
+        }
+
     }
 
     private void showLoginProgressDialog(){
@@ -85,14 +103,14 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
-    private void showLoginResponseDialog(String message, boolean response){
+    private void showLoginResponseDialog(String message, boolean response, User user){
         AlertDialog alertDialog= new AlertDialog.Builder(this)
                 .setTitle(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(response){
-                            //login success
+                            redirectToUserPage(user);
 
                         }
                         else {
@@ -103,6 +121,32 @@ public class LoginActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .create();
                 alertDialog.show();
+
+    }
+    private void saveLoginUser(User user){
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getString(R.string.LOGIN_USER_FILE_NAME),
+                MODE_PRIVATE
+        );
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(
+                getString(R.string.LOGIN_USER_PHONE_NUMBER_PREFERENCE_KEY),
+                user.getUserPhoneNumber()
+        );
+        editor.putString(
+                getString(R.string.LOGIN_USER_NAME_PREFERENCE_KEY),
+                user.getUserName()
+        );
+        editor.putString(
+                getString(R.string.LOGIN_USER_ROLE_PREFERENCE_KEY),
+                user.getUserRole()
+        );
+        editor.putString(
+                getString(R.string.LOGIN_USER_ID_PREFERENCE_KEY),
+                user.getUserId().toString()
+        );
+        editor.apply();
 
     }
 

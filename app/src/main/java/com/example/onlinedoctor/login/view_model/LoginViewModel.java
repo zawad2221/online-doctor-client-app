@@ -11,7 +11,7 @@ import com.example.onlinedoctor.model.User;
 public class LoginViewModel extends ViewModel {
 
 
-    private MutableLiveData<Boolean> loginResponse;
+    private MutableLiveData<User> loginResponse = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
     public void login(User user, Context context){
@@ -26,7 +26,7 @@ public class LoginViewModel extends ViewModel {
     }
 
 
-    public MutableLiveData<Boolean> getLoginResponse() {
+    public MutableLiveData<User> getLoginResponse() {
         return loginResponse;
     }
 }
