@@ -1,7 +1,13 @@
 package com.example.onlinedoctor.model;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.databinding.BindingAdapter;
+
+import com.example.onlinedoctor.DateAndTime;
 import com.example.onlinedoctor.login.LoginActivity;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -128,5 +134,12 @@ public class User {
     }
 
     private static void showPatientProfile() {
+    }
+
+    @BindingAdapter("android:setLinearLayoutVisibility")
+    public static void setLinearLayoutVisibility(LinearLayout linearLayout, VisitingSchedule visitingSchedule){
+
+        if(visitingSchedule.getIsCanceled()) linearLayout.setVisibility(View.VISIBLE);
+        else  linearLayout.setVisibility(View.GONE);
     }
 }

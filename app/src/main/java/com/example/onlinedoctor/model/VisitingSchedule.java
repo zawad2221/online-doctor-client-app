@@ -1,8 +1,14 @@
 package com.example.onlinedoctor.model;
 
+import android.widget.TextView;
+
+import androidx.databinding.BindingAdapter;
+
 import java.util.HashMap;
         import java.util.Map;
-        import com.fasterxml.jackson.annotation.JsonAnyGetter;
+
+import com.example.onlinedoctor.DateAndTime;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
         import com.fasterxml.jackson.annotation.JsonAnySetter;
         import com.fasterxml.jackson.annotation.JsonIgnore;
         import com.fasterxml.jackson.annotation.JsonInclude;
@@ -44,7 +50,7 @@ public class VisitingSchedule {
     private Doctor visitingScheduleDoctor;
     @JsonProperty("visitingScheduleChamber")
     private Chamber visitingScheduleChamber;
-    private int numberOfPatientBooked;
+    private Integer numberOfPatientBooked;
     private String appointmentDate;
 
     @JsonIgnore
@@ -164,7 +170,7 @@ public class VisitingSchedule {
         return numberOfPatientBooked;
     }
 
-    public void setNumberOfPatientBooked(int numberOfPatientBooked) {
+    public void setNumberOfPatientBooked(Integer numberOfPatientBooked) {
         this.numberOfPatientBooked = numberOfPatientBooked;
     }
 
@@ -174,5 +180,10 @@ public class VisitingSchedule {
 
     public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+    @BindingAdapter("android:setScheduleTimeIn12Format")
+    public static void setVisitingScheduleTimeInTextViewView(TextView textView, String timeIn24Format){
+        String timeIn12Format = DateAndTime.convert24to12(timeIn24Format);
+        textView.setText(timeIn12Format);
     }
 }

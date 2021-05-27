@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.ActivityLoginBinding;
+import com.example.onlinedoctor.doctor.activity.DoctorMainActivity;
 import com.example.onlinedoctor.login.view_model.LoginViewModel;
 import com.example.onlinedoctor.login.view_model.LoginViewModelFactory;
 import com.example.onlinedoctor.model.User;
@@ -91,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
 
+        }
+        else if(user.getUserRole().equals("doctor")){
+            startActivity(new Intent(LoginActivity.this, DoctorMainActivity.class));
+            finish();
         }
 
     }

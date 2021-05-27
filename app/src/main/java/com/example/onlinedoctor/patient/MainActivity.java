@@ -25,6 +25,7 @@ import android.view.View;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.ActivityMainBinding;
+import com.example.onlinedoctor.doctor.activity.DoctorMainActivity;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -413,6 +414,7 @@ public class MainActivity extends AppCompatActivity {
             User.loginUser.setUserName(userName);
             User.loginUser.setUserRole(userRole);
             User.loginUser.setUserId(Integer.parseInt(userId));
+            redirectUserPage(User.loginUser);
 
         }
         catch (Exception e){
@@ -423,6 +425,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+    private void redirectUserPage(User user){
+        if(user.getUserRole().equals("patient")){
+
+        }
+        else if(user.getUserRole().equals("doctor")){
+            startActivity(new Intent(MainActivity.this, DoctorMainActivity.class));
+            finish();
+        }
     }
 
 

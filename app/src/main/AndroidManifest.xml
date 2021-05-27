@@ -19,7 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".patient.activity.ReportFileWebViewActivity"></activity>
+        <activity
+            android:name=".doctor.activity.DoctorMainActivity"
+            android:label="@string/title_activity_doctor_main"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"></activity>
+        <activity android:name=".patient.activity.ReportFileWebViewActivity" />
         <activity
             android:name=".patient.ChamberVisitingScheduleForPatientActivity"
             android:label="@string/title_activity_chamber_visiting_schedule_for_patient"

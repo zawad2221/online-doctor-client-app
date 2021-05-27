@@ -554,7 +554,7 @@ public class PatientHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 User.profileClick(getActivity());
-                getActivity().finish();
+
             }
         });
     }

@@ -88,5 +88,14 @@
     <string name="report_filer_done">Done</string>
     <string name="filter_all">All</string>
     <string name="report_file_url_intent_exrta_tag">report_file</string>
+    <string name="title_activity_doctor_main">DoctorMainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>
