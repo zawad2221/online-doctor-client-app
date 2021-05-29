@@ -12,6 +12,16 @@
         tools:layout="@layout/fragment_doctor_home"
         android:label="Doctor Home">
 
+        <action
+            android:id="@+id/action_doctorHomeFragment_to_doctorScheduleAppointmentFragment"
+            app:destination="@id/doctorScheduleAppointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorScheduleAppointmentFragment"
+        android:name="com.example.onlinedoctor.doctor.fragment.DoctorsScheduleAppointmentsFragment"
+        tools:layout="@layout/fragment_doctors_schedule_appointments"
+        android:label="Doctor Visiting Schedule">
+
     </fragment>
 
 </navigation>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="visitingSchedule"
+            type="com.example.onlinedoctor.model.VisitingSchedule" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".doctor.fragment.DoctorsScheduleAppointmentsFragment"
+        android:fillViewport="true"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
+
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+                android:layout_marginTop="16dp"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/black"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".05"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".95"
+                />
+            <com.google.android.material.card.MaterialCardView
+                app:layout_constraintTop_toBottomOf="@id/closeButton"
+                android:layout_marginTop="3dp"
+                app:layout_constraintRight_toLeftOf="@id/guidelineRight"
+                app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="11dp"
+                android:elevation="21dp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="#FFFFFF"
+                android:id="@+id/scheduleInfoCard"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="11dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/timeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:orientation="vertical"
+                        android:layout_marginRight="22dp"
+                        android:layout_marginBottom="22dp"
+
+                        >
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="7dp"
+                            android:orientation="horizontal"
+                            android:id="@+id/appointmentDate"
+                            >
+                            <ImageView
+                                android:id="@+id/dayOfWeekImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/date_icon"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/scheduleDayOfWeek"
+                                android:layout_marginStart="5dp"
+                                android:text="@{visitingSchedule.visitingScheduleDaysOfWeek.day.toUpperCase()}"
+                                android:textSize="@dimen/appointment_info_text_size"
+                                android:textColor="@android:color/black"
+                                />
+
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/clockImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/clock"
+                                android:tint="@color/blue"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/scheduleStartAt"
+                                android:layout_marginLeft="5dp"
+                                android:text="10:00 AM"
+                                android:textSize="18sp"
+                                android:textColor="@android:color/black"
+                                android:setScheduleTimeIn12Format="@{visitingSchedule.startAt}"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:text=" - "
+                                android:textSize="18sp"
+                                android:textColor="@android:color/black"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/scheduleEndAt"
+                                android:layout_marginLeft="5dp"
+                                android:text="2:00 PM"
+                                android:textSize="18sp"
+                                android:textColor="@android:color/black"
+                                android:setScheduleTimeIn12Format="@{visitingSchedule.endAt}"
+                                />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/patientNumberLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/timeLayout"
+                        android:layout_marginTop="22dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Number of Booked Patient"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/numberOfBookedPatient"
+                            android:layout_marginLeft="5dp"
+                            android:text="@{String.valueOf(visitingSchedule.numberOfPatientBooked)}"
+                            android:textSize="16sp"
+                            android:textColor="@color/black"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:text="/"
+                            android:textSize="16sp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:text="@{visitingSchedule.maxPatient.toString()}"
+                            android:textSize="16sp"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/scheduleStatusLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientNumberLayout"
+                        android:layout_marginTop="11dp"
+                        >
+                        <ImageView
+                            android:id="@+id/scheduleStatusIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@{visitingSchedule.isCanceled? @drawable/cancel_icon: @drawable/check}"
+                            />
+                        <TextView
+                            android:id="@+id/scheduleStatusText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{visitingSchedule.isCanceled? `Cancel`:`Open`}"
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/red"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            />
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/appointmentLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/scheduleInfoCard"
+                app:layout_constraintLeft_toRightOf="@id/guidelineLeft"
+                android:textStyle="bold"
+                android:text="Appointment List"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:padding="5dp"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/appointmentListRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+                app:layout_constraintRight_toLeftOf="@id/guidelineRight"
+                app:layout_constraintTop_toBottomOf="@id/appointmentLabel"
+                android:layout_marginTop="2dp"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

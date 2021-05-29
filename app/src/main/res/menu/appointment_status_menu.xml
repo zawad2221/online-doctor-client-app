@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/confirm_option"
+        android:title="Confirm"
+        android:icon="@drawable/confirm_check"
+        />
+    <item android:id="@+id/cancel_option"
+        android:title="Cancel"
+        android:icon="@drawable/cancel_icon"
+        />
+
+</menu>

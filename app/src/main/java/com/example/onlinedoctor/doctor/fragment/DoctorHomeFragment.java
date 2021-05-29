@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ public class DoctorHomeFragment extends Fragment {
     private FragmentDoctorHomeBinding mDoctorHomeBinding;
     private DoctorMainViewModel mDoctorMainViewModel;
     private DoctorVisitingScheduleAdapter doctorVisitingScheduleAdapter;
+    private NavController navController;
 
 
 
@@ -48,6 +51,7 @@ public class DoctorHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initNavController();
         iniViewModel();
         initVisitingScheduleList();
         visitingScheduleListObserver();
@@ -61,7 +65,8 @@ public class DoctorHomeFragment extends Fragment {
         doctorVisitingScheduleAdapter = new DoctorVisitingScheduleAdapter(mDoctorMainViewModel.getVisitingScheduleList().getValue(), new DoctorVisitingScheduleAdapter.OnClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                mDoctorMainViewModel.selectedVisitingScheduleItem=position;
+                navController.navigate(R.id.action_doctorHomeFragment_to_doctorScheduleAppointmentFragment);
             }
         });
     }
@@ -84,5 +89,8 @@ public class DoctorHomeFragment extends Fragment {
                 }
             }
         });
+    }
+    private void initNavController(){
+        navController = ((NavHostFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.doctorHomeFragmentHolder)).getNavController();
     }
 }

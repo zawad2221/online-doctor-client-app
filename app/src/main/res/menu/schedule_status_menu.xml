@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/cancel_option"
+        android:title="Cancel"
+        android:icon="@drawable/cancel_icon"
+        />
+    <item android:id="@+id/open_option"
+        android:title="Open"
+        android:icon="@drawable/check"
+        />
+    <item android:id="@+id/delete_option"
+        android:title="Delete"
+        android:icon="@drawable/delete"
+        />
+
+</menu>

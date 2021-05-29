@@ -10,6 +10,7 @@ import com.example.onlinedoctor.doctor.api.DaggerDoctorApiComponent;
 import com.example.onlinedoctor.doctor.api.DoctorApi;
 import com.example.onlinedoctor.doctor.api.DoctorApiComponent;
 import com.example.onlinedoctor.doctor.api.DoctorApiModule;
+import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
 import java.util.ArrayList;
@@ -26,7 +27,32 @@ public class DoctorMainRepository {
         return instance;
     }
 
+    public MutableLiveData<List<Appointment>> getAppointmentByDoctorUserIdScheduleIdAndDate(Context context,
+                                                                                            int doctorUserId,
+                                                                                            int scheduleId,
+                                                                                            String date){
+        MutableLiveData<List<Appointment>> appointmentList = new MutableLiveData<>();
 
+        DoctorApi doctorApi = getDoctorApi(context);
+        Call<List<Appointment>> call = doctorApi.getAppointmentByDoctorUserIdScheduleIdAndDate(doctorUserId,
+                scheduleId,
+                date);
+        call.enqueue(new Callback<List<Appointment>>() {
+            @Override
+            public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
+                if(response.isSuccessful()){
+                    appointmentList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Appointment>> call, Throwable t) {
+
+            }
+        });
+        return appointmentList;
+
+    }
     public MutableLiveData<List<VisitingSchedule>> getVisitingScheduleByDoctorUserId(Context context,
                                                                                      int doctorUserId){
         MutableLiveData<List<VisitingSchedule>> visitingScheduleList = new MutableLiveData<>();

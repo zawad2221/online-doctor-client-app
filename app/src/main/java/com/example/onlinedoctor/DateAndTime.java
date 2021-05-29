@@ -165,6 +165,26 @@ public class DateAndTime {
         return daysOfWeek;
 
     }
+    public static DateAndTime.DAYS_OF_WEEK getDayOfWeekOnString(String day){
+        switch (day){
+            case "saturday":
+                return DateAndTime.DAYS_OF_WEEK.SATURDAY;
+            case "sunday":
+                return DateAndTime.DAYS_OF_WEEK.SUNDAY;
+            case "monday":
+                return DateAndTime.DAYS_OF_WEEK.MONDAY;
+            case "tuesday":
+                return DateAndTime.DAYS_OF_WEEK.TUESDAY;
+            case "wednesday":
+                return DateAndTime.DAYS_OF_WEEK.WEDNESDAY;
+            case "thursday":
+                return DateAndTime.DAYS_OF_WEEK.THURSDAY;
+            case "friday":
+                return DateAndTime.DAYS_OF_WEEK.FRIDAY;
+            default: return null;
+
+        }
+    }
 
     public static boolean isDaysOfWeekIsToday(DateAndTime.DAYS_OF_WEEK days_of_week){
         int daysOfWeek = getDaysOfWeek(days_of_week);
