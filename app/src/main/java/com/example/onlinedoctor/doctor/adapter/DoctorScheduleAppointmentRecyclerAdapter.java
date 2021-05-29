@@ -58,7 +58,7 @@ public class DoctorScheduleAppointmentRecyclerAdapter extends RecyclerView.Adapt
 
     class DoctorScheduleAppointmentViewHolder extends RecyclerView.ViewHolder{
         DoctorsScheduleAppointmentItemBinding doctorsScheduleAppointmentItemBinding;
-        @RequiresApi(api = Build.VERSION_CODES.Q)
+
         public DoctorScheduleAppointmentViewHolder(DoctorsScheduleAppointmentItemBinding doctorsScheduleAppointmentItemBinding) {
             super(doctorsScheduleAppointmentItemBinding.getRoot());
             this.doctorsScheduleAppointmentItemBinding=doctorsScheduleAppointmentItemBinding;
@@ -70,10 +70,11 @@ public class DoctorScheduleAppointmentRecyclerAdapter extends RecyclerView.Adapt
             });
 
         }
-        @RequiresApi(api = Build.VERSION_CODES.Q)
+
         private void showStatusMenu(View view, int menuRes){
             PopupMenu popupMenu = new PopupMenu(context,view);
             popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
+            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.Q)
             popupMenu.setForceShowIcon(true);
             popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
                 doctorScheduleAppointmentOnClickListener.onItemStatusChangeMenuClick(getAdapterPosition(),

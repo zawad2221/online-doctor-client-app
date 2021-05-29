@@ -62,7 +62,7 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
         );
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -80,14 +80,14 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
         doctorMainViewModel = new ViewModelProvider(getActivity())
                 .get(DoctorMainViewModel.class);
     }
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+
     private void showStatusMenu(View view, int menuRes){
         PopupMenu popupMenu = new PopupMenu(getContext(),view);
         popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
 
 
-
-        popupMenu.setForceShowIcon(true);
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.Q)
+            popupMenu.setForceShowIcon(true);
         popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
 
             return false;
