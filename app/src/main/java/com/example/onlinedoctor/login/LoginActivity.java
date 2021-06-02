@@ -50,9 +50,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         mActivityLoginBinding.closeActivity.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startMainActivity();
         });
         
+
+    }
+    private void startMainActivity(){
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startMainActivity();
 
     }
 

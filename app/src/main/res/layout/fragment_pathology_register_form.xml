@@ -14,7 +14,9 @@
         style="@style/linearParent"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/loginViewsMargin">
+        android:padding="@dimen/loginViewsMargin"
+        android:background="@color/white"
+        >
 
         <TextView
             style="@style/headerTextPrimary"
@@ -23,7 +25,12 @@
             android:text="@string/register" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
             <EditText
@@ -31,11 +38,19 @@
                 style="@style/modifiedEditText"
                 android:hint="Pathology Center Name"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
+
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
             <EditText
@@ -43,7 +58,9 @@
                 style="@style/modifiedEditText"
                 android:hint="Mobile Number"
                 android:inputType="number"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -104,7 +121,12 @@
 <!--        </LinearLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
@@ -113,11 +135,18 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/pathology_center_register_signup_address_hint"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
@@ -126,7 +155,9 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/login_password_hint"
                 android:inputType="textPassword"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
 

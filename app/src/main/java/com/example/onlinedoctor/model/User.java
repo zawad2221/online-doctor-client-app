@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class User {
 
-    public static User loginUser = new User();
+    public static User loginUser;
 
     @JsonProperty("userId")
     private Integer userId;
@@ -141,5 +141,10 @@ public class User {
 
         if(visitingSchedule.getIsCanceled()) linearLayout.setVisibility(View.VISIBLE);
         else  linearLayout.setVisibility(View.GONE);
+    }
+    @BindingAdapter("android:setAgeFromDateOfBirth")
+    public static void setAgeFromDateOfBirth(TextView textView, String dateOfBirth){
+
+        textView.setText(DateAndTime.getAgeFromDateOfBirth(dateOfBirth));
     }
 }

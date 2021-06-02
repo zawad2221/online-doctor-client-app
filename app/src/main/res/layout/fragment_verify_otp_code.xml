@@ -15,7 +15,9 @@
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
-        android:padding="@dimen/loginViewsMargin">
+        android:padding="@dimen/loginViewsMargin"
+        android:background="@color/white"
+        >
 
         <TextView
             style="@style/parent"
@@ -24,7 +26,9 @@
             android:textStyle="bold"
             android:textSize="30sp"
             android:text="We send you a code"
-            android:layout_marginTop="@dimen/loginViewsMargin"/>
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:textColor="@color/black"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -33,16 +37,23 @@
             style="@style/parent"
             android:paddingLeft="3dp"
             android:layout_marginTop="9dp"
+            android:textColor="@color/black"
             />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputOtpCode"
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/loginViewsMargin">
             <EditText
                 android:id="@+id/editTextOtpCode"
                 style="@style/modifiedEditText"
                 android:hint="Code"
+                android:textColor="@color/black"
                 android:maxLines="1"
                 />
         </com.google.android.material.textfield.TextInputLayout>
@@ -57,7 +68,7 @@
                 style="@style/parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/black"
                 android:clickable="true"
                 android:gravity="left"
                 android:paddingLeft="3dp"
@@ -76,6 +87,7 @@
                 style="@style/parent"
                 android:layout_alignParentRight="true"
                 android:paddingEnd="1dp"
+                android:textColor="@color/black"
                 />
         </RelativeLayout>
 

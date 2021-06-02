@@ -26,7 +26,8 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
         "visitingScheduleFee",
         "visitingScheduleDaysOfWeek",
         "visitingScheduleDoctor",
-        "visitingScheduleChamber"
+        "visitingScheduleChamber",
+        "visitingScheduleAdditionalInformation"
 })
 public class VisitingSchedule {
 
@@ -36,6 +37,8 @@ public class VisitingSchedule {
     private String startAt;
     @JsonProperty("endAt")
     private String endAt;
+    @JsonProperty("visitingScheduleAdditionalInformation")
+    private String visitingScheduleAdditionalInformation;
     @JsonProperty("maxPatient")
     private Integer maxPatient;
     @JsonProperty("isCanceled")
@@ -154,6 +157,16 @@ public class VisitingSchedule {
     @JsonProperty("visitingScheduleChamber")
     public void setVisitingScheduleChamber(Chamber visitingScheduleChamber) {
         this.visitingScheduleChamber = visitingScheduleChamber;
+    }
+
+
+    @JsonProperty("visitingScheduleAdditionalInformation")
+    public String getVisitingScheduleAdditionalInformation() {
+        return visitingScheduleAdditionalInformation;
+    }
+    @JsonProperty("visitingScheduleAdditionalInformation")
+    public void setVisitingScheduleAdditionalInformation(String visitingScheduleAdditionalInformation) {
+        this.visitingScheduleAdditionalInformation = visitingScheduleAdditionalInformation;
     }
 
     @JsonAnyGetter

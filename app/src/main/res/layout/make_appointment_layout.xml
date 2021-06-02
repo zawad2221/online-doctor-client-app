@@ -319,12 +319,74 @@
                 android:text="27"
                 />
         </LinearLayout>
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@+id/bookedPatientInfoLayout"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+            android:id="@+id/scheduleAdditionalInfoLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Additional Information"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="11dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/scheduleAdditionalInformation"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:layout_margin="11dp"
 
+                />
+        </LinearLayout>
+        <RadioGroup
+            app:layout_constraintTop_toBottomOf="@id/scheduleAdditionalInfoLayout"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/appointmentTypeRadioGroup"
+            android:layout_margin="11dp"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Patient"
+                android:textColor="@color/black"
+                android:checked="true"
+                android:buttonTint="@color/black"
+                android:id="@+id/appointmentNewRadio"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Old Patient"
+                android:textColor="@color/black"
+                android:buttonTint="@color/black"
+                android:id="@+id/appointmentOldRadio"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Report Showing"
+                android:textColor="@color/black"
+                android:buttonTint="@color/black"
+                android:id="@+id/appointmentReportRadio"
+                />
+        </RadioGroup>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/isCanceledStatusTextView"
-            app:layout_constraintTop_toBottomOf="@+id/bookedPatientInfoLayout"
+            app:layout_constraintTop_toBottomOf="@+id/appointmentTypeRadioGroup"
             app:layout_constraintLeft_toRightOf="@id/guidelineVertical"
             android:layout_marginTop="@dimen/appointment_info_top_margin"
             android:layout_marginStart="@dimen/appointment_info_left_margin"

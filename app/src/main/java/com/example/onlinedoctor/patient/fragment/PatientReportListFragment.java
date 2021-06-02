@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPatientReportListBinding;
+import com.example.onlinedoctor.doctor.view_model.DoctorMainViewModel;
 import com.example.onlinedoctor.model.TestReport;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.activity.ReportFileWebViewActivity;
@@ -43,6 +44,8 @@ import okhttp3.ResponseBody;
 public class PatientReportListFragment extends Fragment {
     private final int MY_PERMISSION_REQUEST=100;
     PatientHomeViewModel mPatientHomeViewModel;
+    private DoctorMainViewModel mDoctorMainViewModel;
+
     FragmentPatientReportListBinding fragmentPatientReportListBinding;
     TestReportRecyclerAdapter testReportRecyclerAdapter;
 
@@ -65,8 +68,8 @@ public class PatientReportListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViewModel();
+        initDocViewModel();
         initReportList();
-        reportLiveDataObserver();
         reportFilterListener();
 
         if(ContextCompat.checkSelfPermission(getContext(),
@@ -78,25 +81,29 @@ public class PatientReportListFragment extends Fragment {
         }
 
     }
+    private void initDocViewModel(){
+        mDoctorMainViewModel = new ViewModelProvider(getActivity())
+                .get(DoctorMainViewModel.class);
+    }
 
     private void reportFilterListener(){
         fragmentPatientReportListBinding.reportFilterChipGroup.setOnCheckedChangeListener((ChipGroup group, int checkedId) -> {
             switch (checkedId){
                 case R.id.reportFilterDone:
                     initDoneReportList();
-                    reportLiveDataObserver();
+
                     break;
                 case R.id.reportFilterNotDone:
                     initNotReportList();
-                    reportLiveDataObserver();
+
                     break;
                 case R.id.reportFilterAll:
                     initReportList();
-                    reportLiveDataObserver();
+
                     break;
                 default:
                     initReportList();
-                    reportLiveDataObserver();
+
                     fragmentPatientReportListBinding.reportFilterAll.setChecked(true);
                     break;
 
@@ -108,9 +115,15 @@ public class PatientReportListFragment extends Fragment {
         if(mPatientHomeViewModel==null) mPatientHomeViewModel = new ViewModelProvider(getActivity())
                 .get(PatientHomeViewModel.class);
     }
+
+    private List<TestReport> getTestReportList(){
+        if(isPatientLogin()) return mPatientHomeViewModel.getPatientTestReportList().getValue();
+        else return mDoctorMainViewModel.getPatientTestReportList().getValue();
+    }
+
     private void iniReportAdapter(){
         testReportRecyclerAdapter = new TestReportRecyclerAdapter(
-                mPatientHomeViewModel.getPatientTestReportList().getValue(),
+                getTestReportList(),
                 new TestReportRecyclerAdapter.OnClickListener() {
                     @Override
                     public void onItemClick(int position) {
@@ -122,15 +135,15 @@ public class PatientReportListFragment extends Fragment {
     }
 
     private void testReportRecyclerItemClick(int position) {
-        //Toast.makeText(getContext(),"clicked item"+position,Toast.LENGTH_LONG).show();
-        if(mPatientHomeViewModel.getPatientTestReportList().getValue().get(position).getIsDone()){
-//            mPatientHomeViewModel.downloadReportFile(getContext(),mPatientHomeViewModel.getPatientTestReportList().getValue().get(position).getTestReportId());
-//            reportDownloadObserver();
-            //
-        }
-        else {
-            Toast.makeText(this.getActivity(),"Report not done yet.",Toast.LENGTH_LONG).show();
-        }
+//        //Toast.makeText(getContext(),"clicked item"+position,Toast.LENGTH_LONG).show();
+//        if(mPatientHomeViewModel.getPatientTestReportList().getValue().get(position).getIsDone()){
+////            mPatientHomeViewModel.downloadReportFile(getContext(),mPatientHomeViewModel.getPatientTestReportList().getValue().get(position).getTestReportId());
+////            reportDownloadObserver();
+//            //
+//        }
+//        else {
+//            Toast.makeText(this.getActivity(),"Report not done yet.",Toast.LENGTH_LONG).show();
+//        }
 
 
     }
@@ -205,13 +218,61 @@ public class PatientReportListFragment extends Fragment {
         fragmentPatientReportListBinding.patientTestReportRecyclerView.setAdapter(testReportRecyclerAdapter);
     }
     private void initReportList(){
-        mPatientHomeViewModel.getPatientReportByPatientUserId(getContext(), User.loginUser.getUserId());
+        if(isPatientLogin()){
+            mPatientHomeViewModel.getPatientReportByPatientUserId(getContext(), User.loginUser.getUserId());
+            reportLiveDataObserver();
+        }
+        else {
+            mDoctorMainViewModel.getPatientReportByPatientUserId(
+                    getContext(),
+                    mDoctorMainViewModel
+                            .getAppointmentList()
+                            .getValue()
+                            .get(mDoctorMainViewModel.selectedVisitingScheduleAppointmentItem)
+                            .getAppointmentPatient()
+                            .getPatientUser()
+                            .getUserId()
+            );
+            reportLiveDataObserverForDoctor();
+        }
     }
     private void initDoneReportList(){
-        mPatientHomeViewModel.getDoneReportByPatientUserId(getContext(), User.loginUser.getUserId());
+        if(isPatientLogin()){
+            mPatientHomeViewModel.getDoneReportByPatientUserId(getContext(), User.loginUser.getUserId());
+            reportLiveDataObserver();
+        }
+        else {
+            mDoctorMainViewModel.getDoneReportByPatientUserId(
+                    getContext(),
+                    mDoctorMainViewModel
+                            .getAppointmentList()
+                            .getValue()
+                            .get(mDoctorMainViewModel.selectedVisitingScheduleAppointmentItem)
+                            .getAppointmentPatient()
+                            .getPatientUser()
+                            .getUserId()
+            );
+            reportLiveDataObserverForDoctor();
+        }
     }
     private void initNotReportList(){
-        mPatientHomeViewModel.getNotReportByPatientUserId(getContext(), User.loginUser.getUserId());
+        if(isPatientLogin()){
+            mPatientHomeViewModel.getNotReportByPatientUserId(getContext(), User.loginUser.getUserId());
+            reportLiveDataObserver();
+        }
+        else {
+            mDoctorMainViewModel.getNotReportByPatientUserId(
+                    getContext(),
+                    mDoctorMainViewModel
+                            .getAppointmentList()
+                            .getValue()
+                            .get(mDoctorMainViewModel.selectedVisitingScheduleAppointmentItem)
+                            .getAppointmentPatient()
+                            .getPatientUser()
+                            .getUserId()
+            );
+            reportLiveDataObserverForDoctor();
+        }
     }
     private void reportLiveDataObserver(){
         mPatientHomeViewModel.getPatientTestReportList().observe(getViewLifecycleOwner(), new Observer<List<TestReport>>() {
@@ -221,5 +282,19 @@ public class PatientReportListFragment extends Fragment {
                 Log.d(getString(R.string.DEBUGING_TAG),"got report list: "+testReports.size());
             }
         });
+    }
+    private void reportLiveDataObserverForDoctor(){
+        mDoctorMainViewModel.getPatientTestReportList().observe(getViewLifecycleOwner(), new Observer<List<TestReport>>() {
+            @Override
+            public void onChanged(List<TestReport> testReports) {
+                iniRecyclerView();
+                Log.d(getString(R.string.DEBUGING_TAG),"got report list: "+testReports.size());
+            }
+        });
+    }
+
+
+    private boolean isPatientLogin(){
+        return User.loginUser.getUserRole().equals("patient")? true:false;
     }
 }

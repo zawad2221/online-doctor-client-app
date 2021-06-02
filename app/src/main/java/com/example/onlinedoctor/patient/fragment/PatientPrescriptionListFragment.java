@@ -15,10 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPatientPrescriptionListBinding;
+import com.example.onlinedoctor.doctor.view_model.DoctorMainViewModel;
 import com.example.onlinedoctor.model.Prescription;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.adapter.PatientPrescriptionRecyclerAdapter;
@@ -29,9 +29,11 @@ import java.util.List;
 
 public class PatientPrescriptionListFragment extends Fragment {
     private PatientHomeViewModel mPatientHomeViewModel;
+    private DoctorMainViewModel mDoctorMainViewModel;
     private FragmentPatientPrescriptionListBinding mFragmentPatientPrescriptionListBinding;
     private PatientPrescriptionRecyclerAdapter mPatientPrescriptionRecyclerAdapter;
     private NavController navController;
+    private NavController navControllerDoc;
 
 
 
@@ -46,9 +48,11 @@ public class PatientPrescriptionListFragment extends Fragment {
                              Bundle savedInstanceState) {
         mFragmentPatientPrescriptionListBinding = FragmentPatientPrescriptionListBinding
                 .inflate(inflater, container, false);
-        initNavHost();
+        if(isPatientLogin())initNavHost();
+        else initNavHostDoc();
+        initDocViewModel();
         iniViewModel();
-        getPrescriptionList();
+        initPrescriptionList();
         return mFragmentPatientPrescriptionListBinding.getRoot();
     }
 
@@ -66,15 +70,59 @@ public class PatientPrescriptionListFragment extends Fragment {
         ).getNavController();
     }
 
+    private void initNavHostDoc(){
+        navControllerDoc = (
+                (NavHostFragment) getActivity()
+                        .getSupportFragmentManager()
+                        .findFragmentById(R.id.doctorHomeFragmentHolder)
+        ).getNavController();
+    }
+
+    private List<Prescription> getPrescriptionList(){
+        if(isPatientLogin()) return mPatientHomeViewModel.getPrescriptionListLiveData().getValue();
+        else return mDoctorMainViewModel.getPrescriptionListLiveData().getValue();
+    }
+
+    private boolean isPatientLogin(){
+        return User.loginUser.getUserRole().equals("patient")? true:false;
+    }
+
 
     private void iniViewModel(){
         mPatientHomeViewModel = new ViewModelProvider(getActivity()).get(PatientHomeViewModel.class);
     }
-    private void getPrescriptionList(){
-        mPatientHomeViewModel.getPrescriptionListByPatientUserId(getContext(), User.loginUser.getUserId());
-        Log.d(getString(R.string.DEBUGING_TAG),"pres frag userId: "+User.loginUser.getUserId());
-        patientPrescriptionListObserver();
+    private void initPrescriptionList(){
+        if(isPatientLogin()){
+            mPatientHomeViewModel.getPrescriptionListByPatientUserId(getContext(), User.loginUser.getUserId());
+            Log.d(getString(R.string.DEBUGING_TAG),"pres frag userId: "+User.loginUser.getUserId());
+            patientPrescriptionListObserver();
+        }
+        else {
+            mDoctorMainViewModel.getPrescriptionListByPatientUserId(
+                    getContext(),
+                    mDoctorMainViewModel
+                    .getAppointmentList()
+                    .getValue()
+                    .get(mDoctorMainViewModel.selectedVisitingScheduleAppointmentItem)
+                    .getAppointmentPatient()
+                    .getPatientUser()
+                    .getUserId()
+            );
+            patientPrescriptionListForDoctorObserver();
+        }
+
     }
+
+    private void patientPrescriptionListForDoctorObserver(){
+        mDoctorMainViewModel.getPrescriptionListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Prescription>>() {
+            @Override
+            public void onChanged(List<Prescription> prescriptions) {
+                initPrescriptionRecyclerView();
+                Log.d(getString(R.string.DEBUGING_TAG), "patient prescription list observer");
+            }
+        });
+    }
+
     private void patientPrescriptionListObserver(){
         mPatientHomeViewModel.getPrescriptionListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Prescription>>() {
             @Override
@@ -92,7 +140,7 @@ public class PatientPrescriptionListFragment extends Fragment {
     }
     private void initPrescriptionRecyclerAdapter(){
         mPatientPrescriptionRecyclerAdapter = new PatientPrescriptionRecyclerAdapter(
-                mPatientHomeViewModel.getPrescriptionListLiveData().getValue(),
+                getPrescriptionList(),
                 new PatientPrescriptionRecyclerAdapter.OnClickListener() {
                     @Override
                     public void OnItemClickListener(int position) {
@@ -102,8 +150,19 @@ public class PatientPrescriptionListFragment extends Fragment {
         );
     }
     private void prescriptionRecyclerViewItemClick(int position){
-        mPatientHomeViewModel.selectedPrescriptionRecyclerItemPosition=position;
-        navController.navigate(R.id.action_patientMedicalHistory_to_patientPrescriptionDetails);
+        if(isPatientLogin()) {
+            mPatientHomeViewModel.selectedPrescriptionRecyclerItemPosition = position;
+            navController.navigate(R.id.action_patientMedicalHistory_to_patientPrescriptionDetails);
+        }
+        else {
+            mDoctorMainViewModel.selectedPrescriptionItem=position;
+            navControllerDoc.navigate(R.id.action_doctorScheduleAppointmentDetailsFragment_to_patientPrescriptionDetails);
+        }
 
+    }
+
+    private void initDocViewModel(){
+        mDoctorMainViewModel = new ViewModelProvider(getActivity())
+                .get(DoctorMainViewModel.class);
     }
 }

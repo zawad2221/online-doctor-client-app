@@ -27,7 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "appointmentDate",
         "appointmentSerialNumber",
         "appointmentVisitingSchedule",
-        "appointmentPatient"
+        "appointmentPatient",
+        "appointmentType"
 })
 public class Appointment {
 
@@ -47,6 +48,8 @@ public class Appointment {
     private Boolean appointmentIsVisited;
     @JsonProperty("appointmentDate")
     private String appointmentDate;
+    @JsonProperty("appointmentType")
+    private String appointmentType;
     @JsonProperty("appointmentSerialNumber")
     private Integer appointmentSerialNumber;
     @JsonProperty("appointmentVisitingSchedule")
@@ -168,6 +171,16 @@ public class Appointment {
         this.appointmentPatient = appointmentPatient;
     }
 
+    @JsonProperty("appointmentType")
+    public String getAppointmentType() {
+        return appointmentType;
+    }
+
+    @JsonProperty("appointmentType")
+    public void setAppointmentType(String appointmentType) {
+        this.appointmentType = appointmentType;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -177,6 +190,7 @@ public class Appointment {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 
     @BindingAdapter("android:setTimeIn12Format")
     public static void setAppointmentTimeInTextViewView(TextView textView, String timeIn24Format){

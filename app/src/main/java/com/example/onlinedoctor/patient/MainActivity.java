@@ -410,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
                     getString(R.string.LOGIN_USER_ID_PREFERENCE_KEY),
                     null
             );
+            User.loginUser = new User();
             User.loginUser.setUserPhoneNumber(userPhoneNumber);
             User.loginUser.setUserName(userName);
             User.loginUser.setUserRole(userRole);

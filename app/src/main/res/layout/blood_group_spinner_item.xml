@@ -9,5 +9,7 @@
     android:ellipsize="marquee"
     android:textAlignment="inherit"
     android:gravity="center_horizontal"
+    android:textColor="@color/black"
+    android:background="@color/white"
 
     />

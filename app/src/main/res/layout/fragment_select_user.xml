@@ -14,6 +14,7 @@
     android:layout_height="333dp"
     >
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -47,6 +48,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/patient"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
                 <RadioButton
                     android:id="@+id/radioDoctor"
@@ -54,6 +56,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/doctor"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
                 <RadioButton
                     android:id="@+id/radioChamber"
@@ -61,6 +64,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/chamber"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
                 <RadioButton
                     android:id="@+id/radioPathology"
@@ -68,6 +72,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/pathology"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
 
             </RadioGroup>

@@ -14,7 +14,9 @@
         style="@style/linearParent"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/loginViewsMargin">
+        android:padding="@dimen/loginViewsMargin"
+        android:background="@color/white"
+        >
 
         <TextView
             style="@style/headerTextPrimary"
@@ -23,7 +25,12 @@
             android:text="@string/register" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
             <EditText
@@ -31,17 +38,24 @@
                 style="@style/modifiedEditText"
                 android:hint="Chamber Name"
                 android:inputType="text"
+                android:textColor="@color/black"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
             <EditText
                 android:id="@+id/inputTextChamberPhoneNumber"
                 style="@style/modifiedEditText"
                 android:hint="Mobile Number"
+                android:textColor="@color/black"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -104,7 +118,12 @@
 <!--        </LinearLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
@@ -113,11 +132,17 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/chamber_register_signup_address_hint"
                 android:inputType="text"
+                android:textColor="@color/black"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
 
@@ -125,6 +150,7 @@
                 android:id="@+id/inputTextChamberPassword"
                 style="@style/modifiedEditText"
                 android:hint="@string/login_password_hint"
+                android:textColor="@color/black"
                 android:inputType="textPassword"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>

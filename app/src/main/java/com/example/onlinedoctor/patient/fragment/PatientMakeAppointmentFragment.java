@@ -149,11 +149,19 @@ public class PatientMakeAppointmentFragment extends Fragment {
         });
     }
 
+    private void setScheduleAdditionalInfoInView(){
+        mFragmentPatientMakeAppointmentBinding.makeAppointmentLayout.scheduleAdditionalInformation.setText(
+                getCurrentSelectedVisitingSchedule().getVisitingScheduleAdditionalInformation()
+        );
+    }
+
+
     private void setVisitingScheduleDataOnView(){
         if(isScheduleCanceled()){
             setIsCanceledTextVisibility(View.VISIBLE);
             setMakeAppointmentButtonEnableStatus(false);
         }
+        setScheduleAdditionalInfoInView();
         setDoctorNameInView();
         setDoctorSpecializationInView();
         setScheduleTimeDataInView(getScheduleTime());
@@ -250,6 +258,16 @@ public class PatientMakeAppointmentFragment extends Fragment {
                 getCurrentSelectedVisitingSchedule()
                         .getMaxPatient().toString()
         );
+    }
+
+    private String getAppointmentType(){
+        int checkId = mFragmentPatientMakeAppointmentBinding
+                .makeAppointmentLayout
+                .appointmentTypeRadioGroup
+                .getCheckedRadioButtonId();
+        if(checkId==R.id.appointmentNewRadio) return "new";
+        else if(checkId==R.id.appointmentOldRadio) return "old";
+        else return "report";
     }
 
     private String getAppointmentDate(){
@@ -365,6 +383,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
         appointment.setAppointmentVisitingSchedule(
                 getCurrentSelectedVisitingSchedule()
         );
+        appointment.setAppointmentType(getAppointmentType());
         Log.d(getString(R.string.DEBUGING_TAG), "login user: "+User.loginUser.getUserId());
 
         return appointment;

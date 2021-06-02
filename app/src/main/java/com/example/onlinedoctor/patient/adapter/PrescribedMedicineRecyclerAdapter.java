@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onlinedoctor.databinding.PrescribedMedicineRecyclerViewItemBinding;
@@ -23,6 +24,8 @@ public class PrescribedMedicineRecyclerAdapter extends RecyclerView.Adapter<Pres
     @NonNull
     @Override
     public ViewModel onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         return new ViewModel(
                 PrescribedMedicineRecyclerViewItemBinding
                 .inflate(LayoutInflater.from(parent.getContext()), parent, false)

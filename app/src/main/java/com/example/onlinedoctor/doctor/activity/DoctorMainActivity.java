@@ -43,6 +43,8 @@ public class DoctorMainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener((NavController controller, NavDestination destination, Bundle arguments) -> {
             switch (destination.getId()){
                 case R.id.doctorScheduleAppointmentFragment:
+                case R.id.doctorScheduleAppointmentDetailsFragment:
+                case R.id.patientPrescriptionDetails:
                     setVisibilityOfAppBar(View.GONE);
                     break;
                 default:

@@ -14,13 +14,19 @@ import android.view.ViewGroup;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPrescriptionDetailsBinding;
+import com.example.onlinedoctor.doctor.view_model.DoctorMainViewModel;
+import com.example.onlinedoctor.model.Prescription;
+import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.adapter.PrescribedMedicineRecyclerAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
+
+import java.util.List;
 
 
 public class PrescriptionDetailsFragment extends Fragment {
 
     private PatientHomeViewModel patientHomeViewModel;
+    private DoctorMainViewModel mDoctorMainViewModel;
     private FragmentPrescriptionDetailsBinding fragmentPrescriptionDetailsBinding;
     private PrescribedMedicineRecyclerAdapter prescribedMedicineRecyclerAdapter;
 
@@ -37,26 +43,38 @@ public class PrescriptionDetailsFragment extends Fragment {
         fragmentPrescriptionDetailsBinding = FragmentPrescriptionDetailsBinding
                 .inflate(inflater, container, false);
         initViewModel();
+        initDocViewModel();
+
         fragmentPrescriptionDetailsBinding.setPrescription(
-                patientHomeViewModel.getPrescriptionListLiveData().getValue().get(
-                        patientHomeViewModel.selectedPrescriptionRecyclerItemPosition
-                )
+                getSelectedPrescription()
         );
 
         return fragmentPrescriptionDetailsBinding.getRoot();
     }
 
+    private Prescription getSelectedPrescription(){
+        if(isPatientLogin()) return patientHomeViewModel.getPrescriptionListLiveData().getValue().get(
+                patientHomeViewModel.selectedPrescriptionRecyclerItemPosition
+        );
+        else return mDoctorMainViewModel.getPrescriptionListLiveData().getValue().get(
+                mDoctorMainViewModel.selectedPrescriptionItem
+        );
+    }
+    private boolean isPatientLogin(){
+        return User.loginUser.getUserRole().equals("patient")? true:false;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        patientHomeViewModel.bottomNavSelectedItem.setValue(getString(R.string.PRESCRIBED_MEDICINE_FRAGMENT));
+        if(isPatientLogin())patientHomeViewModel.bottomNavSelectedItem.setValue(getString(R.string.PRESCRIBED_MEDICINE_FRAGMENT));
         initPrescribedAdapter();
         initRecyclerView();
         fragmentPrescriptionDetailsBinding.closeFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requireActivity().getOnBackPressedDispatcher().onBackPressed();
-                patientHomeViewModel.bottomNavSelectedItem.setValue(getString(R.string.PATIENT_PRESCRIPTION_FRAGMENT));
+                if(isPatientLogin())patientHomeViewModel.bottomNavSelectedItem.setValue(getString(R.string.PATIENT_PRESCRIPTION_FRAGMENT));
             }
         });
     }
@@ -66,15 +84,18 @@ public class PrescriptionDetailsFragment extends Fragment {
     }
     private void initPrescribedAdapter(){
         prescribedMedicineRecyclerAdapter = new PrescribedMedicineRecyclerAdapter(
-                patientHomeViewModel.getPrescriptionListLiveData().getValue().get(
-                        patientHomeViewModel.selectedPrescriptionRecyclerItemPosition
-                ).getPrescribedMedicine()
+                getSelectedPrescription().getPrescribedMedicine()
         );
     }
     private void initRecyclerView(){
         fragmentPrescriptionDetailsBinding.prescribedMedicineRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentPrescriptionDetailsBinding.prescribedMedicineRecyclerView.setHasFixedSize(true);
         fragmentPrescriptionDetailsBinding.prescribedMedicineRecyclerView.setAdapter(prescribedMedicineRecyclerAdapter);
+    }
+
+    private void initDocViewModel(){
+        mDoctorMainViewModel = new ViewModelProvider(getActivity())
+                .get(DoctorMainViewModel.class);
     }
 
 }

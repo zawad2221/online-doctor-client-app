@@ -14,44 +14,66 @@
         style="@style/linearParent"
         android:layout_gravity="center"
         android:padding="@dimen/loginViewsMargin"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
 
         <TextView
             style="@style/headerTextPrimary"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:text="@string/register" />
+            android:text="@string/register"
+
+            />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/inputTextPatientName"
                 style="@style/modifiedEditText"
                 android:inputType="text"
                 android:maxLines="1"
+                android:textColor="@color/black"
                 android:hint="Name"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/inputTextPatientPhoneNumber"
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="1"
+                android:textColor="@color/black"
                 android:hint="Mobile Number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/inputTextPatientNid"
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="1"
+                android:textColor="@color/black"
                 android:hint="@string/register_nid_hint"/>
         </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
@@ -69,6 +91,7 @@
                 style="@style/bodyTextView"
                 android:text="@string/gender_label"
                 android:layout_gravity="center"
+                android:textColor="@color/black"
                 />
             <RadioGroup
                 android:layout_width="wrap_content"
@@ -84,6 +107,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/gender_male"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
                 <RadioButton
                     android:id="@+id/radioPatientGenderFemale"
@@ -91,6 +115,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/gender_female"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
                 <RadioButton
                     android:id="@+id/radioPatientGenderOthers"
@@ -98,6 +123,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/gender_others"
                     style="@style/radioButton"
+                    android:textColor="@color/black"
                     />
 
 
@@ -118,7 +144,7 @@
                 android:layout_height="wrap_content"
                 style="@style/bodyTextView"
                 android:text="@string/blood_group_label"
-
+                android:textColor="@color/black"
                 android:layout_gravity="center"
                 />
             <Spinner
@@ -127,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
+                android:backgroundTint="@color/black"
                 />
 
         </LinearLayout>
@@ -144,7 +171,7 @@
                 android:text="@string/pick_date"
                 android:id="@+id/patientBirthDatePickerButton"
                 android:paddingLeft="3dp"
-
+                android:textColor="@color/black"
                 />
             <TextView
                 android:layout_marginLeft="20dp"
@@ -153,14 +180,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
                 style="@style/bodyTextView"
-
+                android:textColor="@color/black"
 
                 />
         </LinearLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
@@ -168,6 +200,7 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/login_password_hint"
                 android:maxLines="1"
+                android:textColor="@color/black"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 

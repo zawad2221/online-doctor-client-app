@@ -9,5 +9,6 @@
     android:ellipsize="marquee"
     android:padding="10dp"
     android:textAlignment="center"
-
+    android:background="@color/white"
+    android:textColor="@color/black"
     />

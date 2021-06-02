@@ -1,6 +1,7 @@
 package com.example.onlinedoctor.patient.fragment;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentAskedQueryListBinding;
+import com.example.onlinedoctor.login.LoginActivity;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.adapter.AskedQueryRecyclerAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
@@ -46,13 +48,25 @@ public class AskedQueryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         mFragmentAskedQueryListBinding = FragmentAskedQueryListBinding
                 .inflate(inflater,  container,false );
+
         initViewModel();
         return mFragmentAskedQueryListBinding.getRoot();
+    }
+    public boolean isLogin(){
+        return (User.loginUser==null)? false:true;
+    }
+    public void redirectToLoginPage(){
+        getActivity().finish();
+        startActivity(new Intent(this.getActivity(), LoginActivity.class));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(!isLogin()) {
+            redirectToLoginPage();
+            return;
+        }
         answeredFilterListener();
         mPatientHomeViewModel.getAskedQueryList(getContext(), getLoggedInPatientUserId());
         askedQueryListObserver();

@@ -22,6 +22,26 @@
         tools:layout="@layout/fragment_doctors_schedule_appointments"
         android:label="Doctor Visiting Schedule">
 
+        <action
+            android:id="@+id/action_doctorScheduleAppointmentFragment_to_doctorScheduleAppointmentDetailsFragment"
+            app:destination="@id/doctorScheduleAppointmentDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/doctorScheduleAppointmentDetailsFragment"
+        android:name="com.example.onlinedoctor.doctor.fragment.DoctorsScheduleAppointmentsDetailsFragment"
+        tools:layout="@layout/fragment_doctors_schedule_appointments_details"
+        android:label="Doctor Visiting Schedule Appointment Details">
+
+        <action
+            android:id="@+id/action_doctorScheduleAppointmentDetailsFragment_to_patientPrescriptionDetails"
+            app:destination="@id/patientPrescriptionDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/patientPrescriptionDetails"
+        android:name="com.example.onlinedoctor.patient.fragment.PrescriptionDetailsFragment"
+        android:label="Patient Prescription Details"
+        tools:layout="@layout/fragment_prescription_details"
+        />
 
 </navigation>

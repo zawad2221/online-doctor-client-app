@@ -23,6 +23,7 @@ import android.widget.PopupMenu;
 import com.example.onlinedoctor.DateAndTime;
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPatientBookedAppointmentsBinding;
+import com.example.onlinedoctor.login.LoginActivity;
 import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.Patient;
 import com.example.onlinedoctor.model.User;
@@ -54,9 +55,25 @@ public class PatientBookedAppointmentsFragment extends Fragment {
         return mFragmentPatientBookedAppointmentsBinding.getRoot();
     }
 
+    public boolean isLogin(){
+        Log.d(getString(R.string.DEBUGING_TAG),"is login: "+ (User.loginUser==null? "false":"true"));
+        return (User.loginUser==null)? false:true;
+    }
+    public void redirectToLoginPage(){
+        Log.d(getString(R.string.DEBUGING_TAG),"login page redirect");
+        getActivity().finish();
+        startActivity(new Intent(this.getActivity(), LoginActivity.class));
+
+    }
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(!isLogin()) {
+            redirectToLoginPage();
+            return;
+        }
         initViewModel();
         initBookedAppointmentList();
         observeAppointmentList();

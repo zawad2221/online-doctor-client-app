@@ -7,12 +7,19 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.onlinedoctor.doctor.repository.DoctorMainRepository;
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.Prescription;
+import com.example.onlinedoctor.model.Test;
+import com.example.onlinedoctor.model.TestReport;
 import com.example.onlinedoctor.model.VisitingSchedule;
+import com.example.onlinedoctor.patient_report.ReportRepository;
+import com.example.onlinedoctor.prescription.PrescriptionRepository;
 
 import java.util.List;
 
 public class DoctorMainViewModel extends ViewModel {
     private DoctorMainRepository doctorMainRepository;
+    private PrescriptionRepository mPrescriptionRepository;
+    private ReportRepository mReportRepository;
     private void initDoctorRepository(){
         if(doctorMainRepository==null){
             doctorMainRepository=DoctorMainRepository.getInstance();
@@ -32,7 +39,7 @@ public class DoctorMainViewModel extends ViewModel {
 
     //schedule appointment list
     private MutableLiveData<List<Appointment>> appointmentList = new MutableLiveData<>();
-    public int selectedVisitingSchedule;
+    public int selectedVisitingScheduleAppointmentItem;
     public void initScheduleAppointment(Context context, int doctorUserId, int scheduleId, String date){
         initDoctorRepository();
         appointmentList = doctorMainRepository.getAppointmentByDoctorUserIdScheduleIdAndDate(context, doctorUserId, scheduleId, date);
@@ -40,4 +47,39 @@ public class DoctorMainViewModel extends ViewModel {
     public MutableLiveData<List<Appointment>> getAppointmentList(){
         return appointmentList;
     }
+
+    //patient report
+    private MutableLiveData<List<TestReport>> patientTestReportList = new MutableLiveData<>();
+    private void initReportRepository(){
+        if(mReportRepository==null) mReportRepository=ReportRepository.getInstance();
+    }
+    public void getPatientReportByPatientUserId(Context context, int patientUserId){
+        initReportRepository();
+        patientTestReportList = mReportRepository.getReportByPatientUserId(context,patientUserId);
+    }
+    public void getDoneReportByPatientUserId(Context context, int patientUserId){
+        initReportRepository();
+        patientTestReportList = mReportRepository.getDoneReportByPatientUserId(context,patientUserId);
+    }
+    public void getNotReportByPatientUserId(Context context, int patientUserId){
+        initReportRepository();
+        patientTestReportList = mReportRepository.getNotReportByPatientUserId(context,patientUserId);
+    }
+    public MutableLiveData<List<TestReport>> getPatientTestReportList(){
+        return patientTestReportList;
+    }
+
+    //patient prescription
+    private MutableLiveData<List<Prescription>> prescriptionListLiveData = new MutableLiveData<>();
+    private void initPrescriptionRepository(){
+        if(mPrescriptionRepository==null) mPrescriptionRepository = PrescriptionRepository.getInstance();
+    }
+    public void getPrescriptionListByPatientUserId(Context context, int patientUserId){
+        initPrescriptionRepository();
+        prescriptionListLiveData =  mPrescriptionRepository.getPrescriptionByPatientUserId(context,patientUserId);
+    }
+    public MutableLiveData<List<Prescription>> getPrescriptionListLiveData(){
+        return prescriptionListLiveData;
+    }
+    public int selectedPrescriptionItem;
 }

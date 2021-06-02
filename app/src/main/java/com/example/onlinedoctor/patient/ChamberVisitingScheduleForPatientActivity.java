@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.example.onlinedoctor.databinding.ActivityChamberVisitingScheduleForPatientBinding;
 
 import com.example.onlinedoctor.databinding.MakeAppointmentLayoutBinding;
+import com.example.onlinedoctor.login.LoginActivity;
+import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.adapter.ChamberVisitingScheduleRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
@@ -36,7 +38,10 @@ public class ChamberVisitingScheduleForPatientActivity extends AppCompatActivity
         setContentView(mActivityChamberVisitingScheduleForPatientBinding.getRoot());
         mMakeAppointmentLayoutBinding = MakeAppointmentLayoutBinding
                 .inflate(getLayoutInflater());
-
+        if(!isLogin()) {
+            redirectToLoginPage();
+            return;
+        }
         initViewModel();
         //mPatientHomeViewModel.selectedChamberId.setValue(getChamberIdFormIntentExtra());
 //        mPatientHomeViewModel.initSpecialization();
@@ -52,6 +57,13 @@ public class ChamberVisitingScheduleForPatientActivity extends AppCompatActivity
         //initBottomSheet();
 
 
+    }
+    public boolean isLogin(){
+        return (User.loginUser==null)? false:true;
+    }
+    public void redirectToLoginPage(){
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
     }
     private int getChamberIdFormIntentExtra(){
         int chamberId = 0;

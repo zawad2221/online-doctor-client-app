@@ -8,13 +8,17 @@
     android:layout_gravity="center"
     android:layout_marginTop="@dimen/loginViewsMargin"
     android:layout_marginBottom="@dimen/loginViewsMargin"
-    android:background="@color/whiteCardColor">
+    android:background="@color/whiteCardColor"
+
+    >
 
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
         android:padding="@dimen/loginViewsMargin"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
 
         <TextView
             style="@style/headerTextPrimary"
@@ -23,36 +27,57 @@
             android:text="@string/register" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/inputTextDoctorName"
                 style="@style/modifiedEditText"
                 android:inputType="text"
                 android:maxLines="1"
-                android:hint="Name"/>
+                android:hint="Name"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/inputTextDoctorPhoneNumber"
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="1"
-                android:hint="Mobile Number"/>
+                android:hint="Mobile Number"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
                 android:id="@+id/inputTextDoctorBmdcId"
                 style="@style/modifiedEditText"
                 android:inputType="number"
                 android:maxLines="1"
-                android:hint="@string/register_doctor_bmdcId_hint"/>
+                android:hint="@string/register_doctor_bmdcId_hint"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 <!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
@@ -131,11 +156,16 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
-
+                android:textColor="@color/black"
                 android:id="@+id/inputTextDoctorDesignation"
                 style="@style/modifiedEditText"
                 android:hint="@string/doctor_register_signup_designation_hint"
@@ -144,7 +174,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
 
             android:layout_marginTop="@dimen/signup_text_margin_top">
             <EditText
@@ -152,7 +187,9 @@
                 style="@style/modifiedEditText"
                 android:hint="@string/login_password_hint"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -160,7 +197,9 @@
             android:id="@+id/DoctorSignUpButton"
             style="@style/loginButton"
             android:layout_gravity="center"
-            android:text="Register" />
+            android:text="Register"
+
+            />
 
 
 

@@ -10,6 +10,8 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -35,8 +37,7 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
     FragmentDoctorsScheduleAppointmentsBinding fragmentDoctorsScheduleAppointmentsBinding;
     DoctorMainViewModel doctorMainViewModel;
     DoctorScheduleAppointmentRecyclerAdapter doctorScheduleAppointmentRecyclerAdapter;
-
-
+    private NavController navController;
 
 
     @Override
@@ -50,6 +51,7 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentDoctorsScheduleAppointmentsBinding = FragmentDoctorsScheduleAppointmentsBinding
                 .inflate(inflater, container, false);
+        initNavController();
         initViewModel();
         fragmentDoctorsScheduleAppointmentsBinding.setVisitingSchedule(
                 getSelectedVisitingSchedule()
@@ -131,6 +133,8 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
                 new DoctorScheduleAppointmentRecyclerAdapter.DoctorScheduleAppointmentOnClickListener() {
                     @Override
                     public void onItemClick(int position) {
+                        doctorMainViewModel.selectedVisitingScheduleAppointmentItem=position;
+                        navController.navigate(R.id.action_doctorScheduleAppointmentFragment_to_doctorScheduleAppointmentDetailsFragment);
                         Log.d(getString(R.string.DEBUGING_TAG),"on item click: "+position);
                     }
 
@@ -140,5 +144,8 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
                     }
                 }
         );
+    }
+    private void initNavController(){
+        navController = ((NavHostFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.doctorHomeFragmentHolder)).getNavController();
     }
 }
