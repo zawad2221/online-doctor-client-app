@@ -30,14 +30,14 @@ public class DoctorMainActivity extends AppCompatActivity {
         initNavController();
         navControllerDestinationListener();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
     private void navControllerDestinationListener(){
         navController.addOnDestinationChangedListener((NavController controller, NavDestination destination, Bundle arguments) -> {
@@ -45,6 +45,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                 case R.id.doctorScheduleAppointmentFragment:
                 case R.id.doctorScheduleAppointmentDetailsFragment:
                 case R.id.patientPrescriptionDetails:
+                case R.id.createVisitingSchedule:
                     setVisibilityOfAppBar(View.GONE);
                     break;
                 default:

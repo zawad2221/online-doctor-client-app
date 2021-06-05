@@ -11,6 +11,7 @@ import com.example.onlinedoctor.doctor.api.DoctorApi;
 import com.example.onlinedoctor.doctor.api.DoctorApiComponent;
 import com.example.onlinedoctor.doctor.api.DoctorApiModule;
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
 import java.util.ArrayList;
@@ -25,6 +26,26 @@ public class DoctorMainRepository {
     public static DoctorMainRepository getInstance(){
         if(instance==null) instance = new DoctorMainRepository();
         return instance;
+    }
+
+    public MutableLiveData<List<Chamber>> searchChamber(Context context, String query){
+        MutableLiveData<List<Chamber>> searchedChamberList = new MutableLiveData<>();
+        DoctorApi doctorApi = getDoctorApi(context);
+        Call<List<Chamber>> call = doctorApi.searchChamber(query);
+        call.enqueue(new Callback<List<Chamber>>() {
+            @Override
+            public void onResponse(Call<List<Chamber>> call, Response<List<Chamber>> response) {
+                if(response.isSuccessful()){
+                    searchedChamberList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Chamber>> call, Throwable t) {
+
+            }
+        });
+        return searchedChamberList;
     }
 
     public MutableLiveData<List<Appointment>> getAppointmentByDoctorUserIdScheduleIdAndDate(Context context,

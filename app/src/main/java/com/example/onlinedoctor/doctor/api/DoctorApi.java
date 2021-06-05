@@ -1,6 +1,7 @@
 package com.example.onlinedoctor.doctor.api;
 
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
 import java.util.List;
@@ -19,5 +20,9 @@ public interface DoctorApi {
             @Path(value = "doctorUserId", encoded = true) int doctorUserId,
             @Path(value = "visitingScheduleId", encoded = true) int visitingScheduleId,
             @Path(value = "date", encoded = true) String date
+    );
+    @GET("doctor/searchChamber/{query}/")
+    Call<List<Chamber>> searchChamber(
+            @Path(value = "query", encoded = true) String query
     );
 }

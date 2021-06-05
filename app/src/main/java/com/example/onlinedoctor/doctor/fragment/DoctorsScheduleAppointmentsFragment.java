@@ -30,6 +30,7 @@ import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -97,16 +98,27 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
         popupMenu.show();
     }
     private void initAppointmentList(){
+        String date=null;
+        if(DateAndTime.isDaysOfWeekIsToday(
+            DateAndTime.getDayOfWeekOnString(getSelectedVisitingSchedule()
+                    .getVisitingScheduleDaysOfWeek()
+                    .getDay())
+        )){
+            date = DateAndTime.getLocalDate();
+        }
+        else {
+            date = DateAndTime.getDateOfNextDayOfWeek(
+                    DateAndTime.getDayOfWeekOnString(
+                            getSelectedVisitingSchedule()
+                                    .getVisitingScheduleDaysOfWeek()
+                                    .getDay()
+                    )
+            );
+        }
         doctorMainViewModel.initScheduleAppointment(getContext(),
                 User.loginUser.getUserId(),
                 getSelectedVisitingSchedule().getVisitingScheduleId(),
-                DateAndTime.getDateOfNextDayOfWeek(
-                        DateAndTime.getDayOfWeekOnString(
-                                getSelectedVisitingSchedule()
-                                        .getVisitingScheduleDaysOfWeek()
-                                        .getDay()
-                        )
-                ));
+                date);
     }
     private void appointmentListObserver(){
         doctorMainViewModel.getAppointmentList().observe(getActivity(), new Observer<List<Appointment>>() {

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.onlinedoctor.doctor.repository.DoctorMainRepository;
 import com.example.onlinedoctor.model.Appointment;
+import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Prescription;
 import com.example.onlinedoctor.model.Test;
 import com.example.onlinedoctor.model.TestReport;
@@ -82,4 +83,15 @@ public class DoctorMainViewModel extends ViewModel {
         return prescriptionListLiveData;
     }
     public int selectedPrescriptionItem;
+
+    //search chamber
+    private MutableLiveData<List<Chamber>> searchChamberList = new MutableLiveData<>();
+    public void searchChamber(Context context, String query){
+        initDoctorRepository();
+        searchChamberList = doctorMainRepository.searchChamber(context,query);
+    }
+    public MutableLiveData<List<Chamber>> getSearchChamberList(){
+        return searchChamberList;
+    }
+    public int selectedChamberItemPosition;
 }

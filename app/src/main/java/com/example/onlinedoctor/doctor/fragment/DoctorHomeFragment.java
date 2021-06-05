@@ -55,6 +55,13 @@ public class DoctorHomeFragment extends Fragment {
         iniViewModel();
         initVisitingScheduleList();
         visitingScheduleListObserver();
+        mDoctorHomeBinding.createScheduleButton.setOnClickListener(v -> {
+            showCreateSchedulePage();
+        });
+    }
+
+    private void showCreateSchedulePage(){
+        navController.navigate(R.id.action_doctorHomeFragment_to_createVisitingSchedule);
     }
 
     private void iniViewModel(){

@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_doctorHomeFragment_to_doctorScheduleAppointmentFragment"
             app:destination="@id/doctorScheduleAppointmentFragment" />
+        <action
+            android:id="@+id/action_doctorHomeFragment_to_createVisitingSchedule"
+            app:destination="@id/createVisitingSchedule" />
     </fragment>
     <fragment
         android:id="@+id/doctorScheduleAppointmentFragment"
@@ -42,6 +45,12 @@
         android:name="com.example.onlinedoctor.patient.fragment.PrescriptionDetailsFragment"
         android:label="Patient Prescription Details"
         tools:layout="@layout/fragment_prescription_details"
+        />
+    <fragment
+        android:id="@+id/createVisitingSchedule"
+        android:name="com.example.onlinedoctor.doctor.fragment.CreateVisitingScheduleFragment"
+        android:label="Create Visiting Schedule"
+        tools:layout="@layout/fragment_create_visiting_schedule"
         />
 
 </navigation>
