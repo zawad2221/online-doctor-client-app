@@ -6,6 +6,10 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.onlinedoctor.R;
+import com.example.onlinedoctor.doctor.api.DaggerDoctorApiComponent;
+import com.example.onlinedoctor.doctor.api.DoctorApi;
+import com.example.onlinedoctor.doctor.api.DoctorApiComponent;
+import com.example.onlinedoctor.doctor.api.DoctorApiModule;
 import com.example.onlinedoctor.model.VisitingSchedule;
 
 import java.util.List;
@@ -63,4 +67,32 @@ public class VisitingScheduleRepository {
         });
         return visitingSchedule;
     }
+
+    public MutableLiveData<VisitingSchedule> createVisitingSchedule(Context context, VisitingSchedule visitingSchedule){
+        MutableLiveData<VisitingSchedule> visitingScheduleResponse = new MutableLiveData<>();
+        VisitingScheduleApi visitingScheduleApi = getVisitingScheduleApi(context);
+        Call<VisitingSchedule> call = visitingScheduleApi.createVisitingSchedule(visitingSchedule);
+        call.enqueue(new Callback<VisitingSchedule>() {
+            @Override
+            public void onResponse(Call<VisitingSchedule> call, Response<VisitingSchedule> response) {
+                if(response.isSuccessful()){
+                    visitingScheduleResponse.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VisitingSchedule> call, Throwable t) {
+
+            }
+        });
+        return visitingScheduleResponse;
+    }
+
+    private VisitingScheduleApi getVisitingScheduleApi(Context context){
+        VisitingScheduleApiComponent visitingScheduleApiComponent = DaggerVisitingScheduleApiComponent.builder()
+                .visitingScheduleApiModule(new VisitingScheduleApiModule(context))
+                .build();
+        return visitingScheduleApiComponent.getVisitingScheduleApi();
+    }
+
 }

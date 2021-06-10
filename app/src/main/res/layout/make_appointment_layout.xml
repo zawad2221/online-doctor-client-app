@@ -418,7 +418,7 @@
             android:id="@+id/symptomNoteDetailEditTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter symptom of patinet"
+            android:hint="Enter symptom of patient"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
 

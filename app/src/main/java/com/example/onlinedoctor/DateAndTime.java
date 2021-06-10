@@ -1,6 +1,7 @@
 package com.example.onlinedoctor;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -31,6 +32,7 @@ public class DateAndTime {
 
     public static String convert24to12(String str)
     {
+        Log.d("DEBUGING_TAG","time: "+str);
         String time ="";
 // Get Hours
         int h1 = (int)str.charAt(0) - '0';
@@ -57,6 +59,7 @@ public class DateAndTime {
             // Printing minutes and seconds
             for (int i = 2; i < 5; ++i) {
                 time = time+ (str.charAt(i));
+                Log.d("DEBUGING_TAG","time: "+(str.charAt(i)));
             }
         }
         else {

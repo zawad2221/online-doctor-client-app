@@ -20,41 +20,41 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-
-        System.out.println("is greater "+DateAndTime.isTimeOneGreaterThanTimeTwo(
-                DateAndTime.getLocalTime(),
-                "22:04:00"
-        ));
-
-        String input_date="01/08/2012";
-        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
-        Date dt1= null;
-        try {
-            dt1 = format1.parse(input_date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        DateFormat format2=new SimpleDateFormat("EEEE");
-        String finalDay=format2.format(dt1);
-        System.out.println("final day: "+finalDay);
-
-
-            System.out.printf(
-                    "%ta, %<tb %<te, %<tY\n",
-                    NextWednesday.nextDayOfWeek(Calendar.TUESDAY)
-            );
-
-        System.out.println(DateAndTime.getDateOfNextDayOfWeek(DateAndTime.DAYS_OF_WEEK.TUESDAY));
-
-
-    }
+//    @Test
+//    public void addition_isCorrect() {
+//        assertEquals(4, 2 + 2);
+//
+//        System.out.println("is greater "+DateAndTime.isTimeOneGreaterThanTimeTwo(
+//                DateAndTime.getLocalTime(),
+//                "22:04:00"
+//        ));
+//
+//        String input_date="01/08/2012";
+//        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+//        Date dt1= null;
+//        try {
+//            dt1 = format1.parse(input_date);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        DateFormat format2=new SimpleDateFormat("EEEE");
+//        String finalDay=format2.format(dt1);
+//        System.out.println("final day: "+finalDay);
+//
+//
+//            System.out.printf(
+//                    "%ta, %<tb %<te, %<tY\n",
+//                    NextWednesday.nextDayOfWeek(Calendar.TUESDAY)
+//            );
+//
+//        System.out.println(DateAndTime.getDateOfNextDayOfWeek(DateAndTime.DAYS_OF_WEEK.TUESDAY));
+//
+//
+//    }
 
     public static void Main(String[] arg){
-        System.out.println("lol");
+
     }
     static class NextWednesday {
         public static Calendar nextDayOfWeek(int dow) {

@@ -81,13 +81,14 @@
             <ImageButton
                 android:id="@+id/searchChamberButton"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="66dp"
                 android:layout_alignTop="@+id/chamberNameLayout"
-                android:layout_alignBottom="@+id/chamberNameLayout"
                 android:layout_alignRight="@+id/chamberNameLayout"
+                android:layout_centerVertical="true"
                 android:src="@drawable/search_icon"
                 android:tint="@color/black"
                 android:backgroundTint="@color/gray_500"
+
 
                 />
         </RelativeLayout>
@@ -101,6 +102,233 @@
             android:visibility="gone"
             android:background="@color/gray_500"
             android:padding="2dp"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            app:layout_constraintTop_toBottomOf="@+id/chamberSearchResultRecyclerView"
+            android:layout_marginTop="22dp"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
+            android:drawableRight="@drawable/check"
+            android:id="@+id/scheduleDaysOfWeekLayout"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Select Day"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:id="@+id/scheduleDaysOfWeek"
+                android:drawableRight="@drawable/check"
+                android:inputType="none"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/scheduleDaysOfWeekLayout"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:layout_marginTop="11dp"
+            android:id="@+id/scheduleTimeLayout"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="Start at: "
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/startTimeButton"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue"
+                android:text="Select"
+                android:textColor="@color/white"
+                />
+            <TextView
+                android:layout_marginLeft="11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+
+                android:textSize="16sp"
+                android:text="Ends at: "
+                />
+            <Button
+                android:id="@+id/endTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:backgroundTint="@color/blue"
+                android:text="Select"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:layout_constraintTop_toBottomOf="@+id/scheduleTimeLayout"
+            android:layout_marginTop="22dp"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
+
+            android:id="@+id/maxPatientLayout"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:hint="Patient Number"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:id="@+id/maxPatient"
+                android:inputType="number"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:id="@+id/feeOldNewLayout"
+            android:layout_marginTop="22dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/maxPatientLayout"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:orientation="horizontal"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:backgroundTint="@color/black"
+                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black"
+                app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/newFeeLayout"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="New Patient Fee"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:id="@+id/newFee"
+                    android:inputType="number"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:backgroundTint="@color/black"
+                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black"
+                app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/oldFeeLayout"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Old Patient Fee"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:id="@+id/oldFee"
+                    android:inputType="number"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/reportShowingFeeLayout"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/feeOldNewLayout"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:orientation="horizontal"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:backgroundTint="@color/black"
+                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black"
+                app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/reportFeeLayout"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Report Showing Fee"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:id="@+id/reportFee"
+                    android:inputType="number"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            app:layout_constraintTop_toBottomOf="@+id/reportShowingFeeLayout"
+            android:layout_marginTop="22dp"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:backgroundTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:textColorHint="@color/black"
+            android:id="@+id/additionalInfoLayout"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Payment making/contact information"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:id="@+id/additionalInfo"
+                android:inputType="text"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/additionalInfoLayout"
+            app:layout_constraintLeft_toRightOf="@id/guidLineLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidLineRight"
+            android:backgroundTint="@color/blue"
+            android:elevation="11dp"
+            app:cornerRadius="6dp"
+            android:text="Create"
+            android:textColor="@color/white"
+            android:id="@+id/createScheduleButton"
             />
 
 

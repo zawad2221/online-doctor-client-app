@@ -14,6 +14,7 @@ import com.example.onlinedoctor.model.TestReport;
 import com.example.onlinedoctor.model.VisitingSchedule;
 import com.example.onlinedoctor.patient_report.ReportRepository;
 import com.example.onlinedoctor.prescription.PrescriptionRepository;
+import com.example.onlinedoctor.visiting_schedule.VisitingScheduleRepository;
 
 import java.util.List;
 
@@ -24,6 +25,13 @@ public class DoctorMainViewModel extends ViewModel {
     private void initDoctorRepository(){
         if(doctorMainRepository==null){
             doctorMainRepository=DoctorMainRepository.getInstance();
+        }
+    }
+
+    private VisitingScheduleRepository mVisitingScheduleRepository;
+    private void initScheduleRepository(){
+        if(mVisitingScheduleRepository==null){
+            mVisitingScheduleRepository=VisitingScheduleRepository.getInstance();
         }
     }
 
@@ -94,4 +102,18 @@ public class DoctorMainViewModel extends ViewModel {
         return searchChamberList;
     }
     public int selectedChamberItemPosition;
+
+    //days of week
+    public String[] daysOfWeek = new String[]{"saturday","sunday","monday","tuesday","wednesday","thursday","friday"};
+    //new schedule
+    public VisitingSchedule newSchedule = new VisitingSchedule();
+    private MutableLiveData<VisitingSchedule> visitingScheduleResponse = new MutableLiveData<>();
+    public MutableLiveData<VisitingSchedule> getVisitingScheduleResponse(){
+        return visitingScheduleResponse;
+    }
+    public void createVisitingSchedule(Context context, VisitingSchedule visitingSchedule){
+        initScheduleRepository();
+        visitingScheduleResponse = mVisitingScheduleRepository.createVisitingSchedule(context, visitingSchedule);
+    }
+
 }
