@@ -1,6 +1,8 @@
 package com.example.onlinedoctor.patient.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,13 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentPatientMedicalHistoryBinding;
 import com.example.onlinedoctor.login.LoginActivity;
 import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.patient.adapter.PatientMedicalHistoryViewPagerAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -62,6 +67,7 @@ public class PatientMedicalHistoryFragment extends Fragment {
         initViewModel();
         initPagerAdapter();
         initTabLayout();
+        onProfileClick();
     }
 
     private void initPagerAdapter(){
@@ -128,6 +134,40 @@ public class PatientMedicalHistoryFragment extends Fragment {
                 view.setAlpha(0f);
             }
         }
+    }
+    private void onProfileClick(){
+        mFragmentPatientMedicalHistoryBinding.profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showLogoutMenu(v,R.menu.logout_menu);
+
+
+            }
+        });
+    }
+    private void showLogoutMenu(View view, int menuRes){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
+            switch (item.getItemId()){
+                case R.id.logoutOption:
+                    logout();
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
+    private void logout(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_USER_FILE_NAME), Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
+        redirectToHomePage();
+    }
+    private void redirectToHomePage(){
+        getActivity().finish();
+        startActivity(new Intent(this.getContext(), MainActivity.class));
     }
 
 

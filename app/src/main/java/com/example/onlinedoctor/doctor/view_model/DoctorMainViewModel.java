@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.onlinedoctor.appointment.AppointmentRepository;
 import com.example.onlinedoctor.doctor.repository.DoctorMainRepository;
 import com.example.onlinedoctor.model.Appointment;
 import com.example.onlinedoctor.model.Chamber;
@@ -22,6 +23,12 @@ public class DoctorMainViewModel extends ViewModel {
     private DoctorMainRepository doctorMainRepository;
     private PrescriptionRepository mPrescriptionRepository;
     private ReportRepository mReportRepository;
+    private AppointmentRepository mAppointmentRepository;
+    private void initAppointmentRepository(){
+        if(mAppointmentRepository==null){
+            mAppointmentRepository=AppointmentRepository.getInstance();
+        }
+    }
     private void initDoctorRepository(){
         if(doctorMainRepository==null){
             doctorMainRepository=DoctorMainRepository.getInstance();
@@ -52,6 +59,10 @@ public class DoctorMainViewModel extends ViewModel {
     public void initScheduleAppointment(Context context, int doctorUserId, int scheduleId, String date){
         initDoctorRepository();
         appointmentList = doctorMainRepository.getAppointmentByDoctorUserIdScheduleIdAndDate(context, doctorUserId, scheduleId, date);
+    }
+    public void updateAppointment(Context context, List<Appointment> appointments){
+        initAppointmentRepository();
+        appointmentList = mAppointmentRepository.updateAppointment(context,appointments);
     }
     public MutableLiveData<List<Appointment>> getAppointmentList(){
         return appointmentList;
@@ -115,5 +126,7 @@ public class DoctorMainViewModel extends ViewModel {
         initScheduleRepository();
         visitingScheduleResponse = mVisitingScheduleRepository.createVisitingSchedule(context, visitingSchedule);
     }
+
+
 
 }

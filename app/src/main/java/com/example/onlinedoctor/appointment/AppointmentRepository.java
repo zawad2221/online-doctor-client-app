@@ -6,6 +6,9 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.onlinedoctor.R;
+import com.example.onlinedoctor.doctor.api.DaggerDoctorApiComponent;
+import com.example.onlinedoctor.doctor.api.DoctorApiComponent;
+import com.example.onlinedoctor.doctor.api.DoctorApiModule;
 import com.example.onlinedoctor.model.Appointment;
 
 import java.util.List;
@@ -94,5 +97,32 @@ public class AppointmentRepository {
             }
         });
         return patientAppointment;
+    }
+
+    public MutableLiveData<List<Appointment>> updateAppointment(Context context, List<Appointment> appointments){
+        MutableLiveData<List<Appointment>> appointmentList = new MutableLiveData<>();
+        AppointmentApi appointmentApi = getAppointmentApi(context);
+        Call<List<Appointment>> call = appointmentApi.updateAppointment(appointments);
+        call.enqueue(new Callback<List<Appointment>>() {
+            @Override
+            public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
+                if(response.isSuccessful()){
+                    appointmentList.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Appointment>> call, Throwable t) {
+
+            }
+        });
+        return appointmentList;
+    }
+
+    private AppointmentApi getAppointmentApi(Context context){
+        AppointmentApiComponent appointmentApiComponent = DaggerAppointmentApiComponent.builder()
+                .appointmentApiModule(new AppointmentApiModule(context))
+                .build();
+        return appointmentApiComponent.getAppointmentApi();
     }
 }

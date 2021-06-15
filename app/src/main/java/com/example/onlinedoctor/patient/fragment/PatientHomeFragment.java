@@ -28,8 +28,10 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import com.example.onlinedoctor.model.Chamber;
 import com.example.onlinedoctor.model.Specialization;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.patient.ChamberVisitingScheduleForPatientActivity;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.patient.adapter.SpecializationSearchRecyclerViewAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModelFactory;
@@ -549,15 +552,7 @@ public class PatientHomeFragment extends Fragment {
 
     }
 
-    private void onProfileClick(){
-        mFragmentPatientHomeBinding.profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User.profileClick(getActivity());
 
-            }
-        });
-    }
     private void showLoadingSpecializationDataProgressDialog(){
         loadingSpecializationDataProgressDialog = new ProgressDialog(getContext(), android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         loadingSpecializationDataProgressDialog.setIndeterminate(true);
@@ -567,6 +562,56 @@ public class PatientHomeFragment extends Fragment {
     }
     private void dismissLoadingSpecializationDataProgressDialog(){
         loadingSpecializationDataProgressDialog.dismiss();
+    }
+    private void onProfileClick(){
+        mFragmentPatientHomeBinding.profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(User.loginUser==null || User.loginUser.getUserId()==null){
+                    showLoginMenu(v,R.menu.login_menu);
+                }
+                else {
+                    showLogoutMenu(v,R.menu.logout_menu);
+                }
+
+            }
+        });
+    }
+    private void showLogoutMenu(View view, int menuRes){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
+            switch (item.getItemId()){
+                case R.id.logoutOption:
+                    logout();
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
+    private void showLoginMenu(View view, int menuRes){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
+            switch (item.getItemId()){
+                case R.id.loginOption:
+                    User.profileClick(getActivity());
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+    private void logout(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_USER_FILE_NAME), Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
+        redirectToHomePage();
+    }
+    private void redirectToHomePage(){
+        getActivity().finish();
+        startActivity(new Intent(this.getContext(), MainActivity.class));
     }
 
 

@@ -1,5 +1,9 @@
 package com.example.onlinedoctor.doctor.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,16 +16,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import com.example.onlinedoctor.DateAndTime;
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentDoctorHomeBinding;
+import com.example.onlinedoctor.doctor.activity.DoctorMainActivity;
 import com.example.onlinedoctor.doctor.adapter.DoctorVisitingScheduleAdapter;
 import com.example.onlinedoctor.doctor.view_model.DoctorMainViewModel;
 import com.example.onlinedoctor.model.User;
 import com.example.onlinedoctor.model.VisitingSchedule;
+import com.example.onlinedoctor.patient.MainActivity;
 
 import java.util.List;
 
@@ -58,6 +66,7 @@ public class DoctorHomeFragment extends Fragment {
         mDoctorHomeBinding.createScheduleButton.setOnClickListener(v -> {
             showCreateSchedulePage();
         });
+
     }
 
     private void showCreateSchedulePage(){
@@ -100,4 +109,6 @@ public class DoctorHomeFragment extends Fragment {
     private void initNavController(){
         navController = ((NavHostFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.doctorHomeFragmentHolder)).getNavController();
     }
+
+
 }

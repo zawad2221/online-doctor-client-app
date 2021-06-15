@@ -1,8 +1,12 @@
 package com.example.onlinedoctor.doctor.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.onlinedoctor.databinding.ActivityDoctorMainBinding;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -14,7 +18,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import com.example.onlinedoctor.R;
 
@@ -29,6 +35,10 @@ public class DoctorMainActivity extends AppCompatActivity {
         setContentView(activityDoctorMainBinding.getRoot());
         initNavController();
         navControllerDestinationListener();
+
+        activityDoctorMainBinding.profileButton.setOnClickListener(v -> {
+            showLogoutMenu(v,R.menu.logout_menu);
+        });
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -61,5 +71,28 @@ public class DoctorMainActivity extends AppCompatActivity {
 
     private void initNavController(){
         navController = ((NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.doctorHomeFragmentHolder)).getNavController();
+    }
+
+    private void showLogoutMenu(View view, int menuRes){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
+            switch (item.getItemId()){
+                case R.id.logoutOption:
+                    logout();
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+    private void logout(){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.LOGIN_USER_FILE_NAME), Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
+        redirectToHomePage();
+    }
+    private void redirectToHomePage(){
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

@@ -1,7 +1,9 @@
 package com.example.onlinedoctor.patient.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -13,16 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.FragmentAskedQueryListBinding;
 import com.example.onlinedoctor.login.LoginActivity;
 import com.example.onlinedoctor.model.User;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.patient.adapter.AskedQueryRecyclerAdapter;
 import com.example.onlinedoctor.patient.view_model.PatientHomeViewModel;
 import com.google.android.material.chip.ChipGroup;
@@ -70,6 +75,7 @@ public class AskedQueryListFragment extends Fragment {
         answeredFilterListener();
         mPatientHomeViewModel.getAskedQueryList(getContext(), getLoggedInPatientUserId());
         askedQueryListObserver();
+        onProfileClick();
 
     }
 
@@ -163,6 +169,40 @@ public class AskedQueryListFragment extends Fragment {
         parent.setGravity(Gravity.CENTER_HORIZONTAL);
         View leftSpacer = parent.getChildAt(1);
         leftSpacer.setVisibility(View.GONE);
+    }
+    private void onProfileClick(){
+        mFragmentAskedQueryListBinding.profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showLogoutMenu(v,R.menu.logout_menu);
+
+
+            }
+        });
+    }
+    private void showLogoutMenu(View view, int menuRes){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        popupMenu.getMenuInflater().inflate(menuRes,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener((MenuItem item) -> {
+            switch (item.getItemId()){
+                case R.id.logoutOption:
+                    logout();
+                    break;
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
+    private void logout(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.LOGIN_USER_FILE_NAME), Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().commit();
+        redirectToHomePage();
+    }
+    private void redirectToHomePage(){
+        getActivity().finish();
+        startActivity(new Intent(this.getContext(), MainActivity.class));
     }
 
 

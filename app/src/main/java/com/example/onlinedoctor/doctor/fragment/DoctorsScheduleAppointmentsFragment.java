@@ -1,5 +1,6 @@
 package com.example.onlinedoctor.doctor.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -39,6 +40,7 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
     DoctorMainViewModel doctorMainViewModel;
     DoctorScheduleAppointmentRecyclerAdapter doctorScheduleAppointmentRecyclerAdapter;
     private NavController navController;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -74,6 +76,7 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
         });
         initAppointmentList();
         appointmentListObserver();
+        showLoadingProgressDialog();
         fragmentDoctorsScheduleAppointmentsBinding.closeButton.setOnClickListener(v -> {
             getActivity().onBackPressed();
         });
@@ -125,6 +128,7 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
             @Override
             public void onChanged(List<Appointment> appointments) {
                 initAppointmentRecyclerView();
+                dismissProgressDialog();
             }
         });
     }
@@ -153,11 +157,35 @@ public class DoctorsScheduleAppointmentsFragment extends Fragment {
                     @Override
                     public void onItemStatusChangeMenuClick(int position, int menuItem) {
                         Log.d(getString(R.string.DEBUGING_TAG),"on item status menu change: "+position);
+                        updateAppointment(position, menuItem);
+                        showLoadingProgressDialog();
+                        appointmentListObserver();
                     }
                 }
         );
     }
+    private void updateAppointment(int position, int menuItem){
+        if(menuItem==R.id.cancel_option){
+            doctorMainViewModel.getAppointmentList().getValue().get(position).setAppointmentIsCanceled(true);
+        }
+        else if(menuItem==R.id.confirm_option){
+            doctorMainViewModel.getAppointmentList().getValue().get(position).setAppointmentIsConfirmed(true);
+        }
+        doctorMainViewModel.updateAppointment(getContext(),doctorMainViewModel.getAppointmentList().getValue());
+    }
     private void initNavController(){
         navController = ((NavHostFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.doctorHomeFragmentHolder)).getNavController();
     }
+    private void showLoadingProgressDialog(){
+        progressDialog = new ProgressDialog(getContext(),android.app.AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        progressDialog.setCancelable(true);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading.....");
+        progressDialog.show();
+    }
+    private void dismissProgressDialog(){
+        progressDialog.dismiss();
+    }
+
+
 }

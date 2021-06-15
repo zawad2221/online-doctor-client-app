@@ -468,7 +468,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
                 .setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        requireActivity().getOnBackPressedDispatcher().onBackPressed();
                     }
                 })
                 .setCancelable(false)
@@ -477,6 +477,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
 
         //set positive button in center
         final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setTextColor(getResources().getColor(R.color.black));
         LinearLayout parent = (LinearLayout) positiveButton.getParent();
         parent.setGravity(Gravity.CENTER_HORIZONTAL);
         View leftSpacer = parent.getChildAt(1);
