@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.onlinedoctor.R;
 import com.example.onlinedoctor.databinding.ActivityRegisterBinding;
 import com.example.onlinedoctor.login.LoginActivity;
+import com.example.onlinedoctor.patient.MainActivity;
 import com.example.onlinedoctor.registration.fragment.ChamberRegisterFormFragment;
 import com.example.onlinedoctor.registration.fragment.DoctorRegisterFormFragment;
 import com.example.onlinedoctor.registration.fragment.PathologyRegisterFormFragment;
@@ -80,6 +81,11 @@ public class RegisterActivity extends AppCompatActivity {
         previousPageOnButtonOnClick();
 
         signInOptionOnClick();
+
+        mActivityRegisterBinding.closeRegisterButton.setOnClickListener(v -> {
+            finish();
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        });
 
 
     }

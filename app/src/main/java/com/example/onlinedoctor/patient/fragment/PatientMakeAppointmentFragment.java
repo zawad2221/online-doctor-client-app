@@ -164,6 +164,7 @@ public class PatientMakeAppointmentFragment extends Fragment {
         setScheduleAdditionalInfoInView();
         setDoctorNameInView();
         setDoctorSpecializationInView();
+        setBmdcIdOnView();
         setScheduleTimeDataInView(getScheduleTime());
         saveAppointmentDate();
 
@@ -196,6 +197,17 @@ public class PatientMakeAppointmentFragment extends Fragment {
                 getCurrentSelectedVisitingSchedule()
                         .getAppointmentDate()
         );
+    }
+
+    private void setBmdcIdOnView(){
+        mFragmentPatientMakeAppointmentBinding
+                .makeAppointmentLayout
+                .bmdcId
+                .setText(
+                        ("BMDC ID: "+getCurrentSelectedVisitingSchedule()
+                        .getVisitingScheduleDoctor()
+                        .getDoctorBmdcId())
+                );
     }
 
     private void saveAppointmentDate() {

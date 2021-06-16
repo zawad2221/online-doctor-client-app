@@ -46,10 +46,12 @@ public class LoginActivity extends AppCompatActivity {
         mActivityLoginBinding.loginForm.signUpLinkTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
         mActivityLoginBinding.closeActivity.setOnClickListener(v -> {
+            finish();
             startMainActivity();
         });
         
